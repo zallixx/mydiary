@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import React from 'react';
+import { ClerkProvider } from '@clerk/nextjs';
 
-const inter = Inter({ subsets: ["latin"] });
+const nextFont = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "MyDiary",
@@ -10,13 +12,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
+    children,
+}: {
+    readonly children: Readonly<React.ReactNode>;
+}) {
+    return (
+        <ClerkProvider>
+            <html lang="en">
+                <body className={nextFont.className}>{children}</body>
+            </html>
+        </ClerkProvider>
+    );
 }
