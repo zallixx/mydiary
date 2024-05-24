@@ -21,5 +21,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args:
-            -Dsonar.projectKey=zallixx_DiaryDesign
-            -Dsonar.organization=zallixx
+            -Dsonar.projectKey=zallixx_mydiary
+            -Dsonar.organization=zallixx-1
