@@ -1,5 +1,10 @@
 {
   "name": "mydiary",
+  "author": {
+    "email": "almoroz08@gmail.com",
+    "name": "Морозов Алексей",
+    "url": "https://github.com/zallixx"
+  },
   "version": "0.0.0",
   "private": true,
   "main": "electron/main.js",
