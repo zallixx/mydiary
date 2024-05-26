@@ -23,7 +23,7 @@ export default async function SetupPage() {
     return (
         <div className="flex justify-items-center items-center justify-center h-screen flex-col select-none">
             <Image src={'/fault-in-the-search.png'} alt={'Ошибка при поиске учебного заведения'} className="pointer-events-none" width={250} height={250} />
-            <p className="text-black max-w-2xl text-center">
+            <p className="dark:text-white text-[#101025] max-w-2xl text-center">
                 В настоящее время информация о вашем зачислении в школу отсутствует.
                 Возможно, стоит немного подождать, пока данные будут обновлены в системе.
                 Если же по прошествии времени ситуация не изменится, рекомендуем вам

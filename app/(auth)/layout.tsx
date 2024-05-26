@@ -6,7 +6,7 @@ export default function AuthenticationLayout({
     readonly children: Readonly<React.ReactNode>;
 }) {
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-items-center items-center justify-center h-screen">
             {children}
         </div>
     );
