@@ -3,6 +3,7 @@ import db from '@/lib/db';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ModeToggle } from '@/components/theme-button';
 
 export default async function SetupPage() {
     const profile = await InitializeProfile();
@@ -30,6 +31,7 @@ export default async function SetupPage() {
                 информации и помощи или{' '}
                 <Link href={'/support'} className="text-blue-500">написать в поддержку сайта дневника.</Link>
             </p>
+            <ModeToggle />
         </div>
     );
 }
