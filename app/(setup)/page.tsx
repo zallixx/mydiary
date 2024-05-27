@@ -29,7 +29,7 @@ export default async function SetupPage() {
                 Если же по прошествии времени ситуация не изменится, рекомендуем вам
                 обратиться в службу поддержки школы для получения более подробной
                 информации и помощи или{' '}
-                <Link href={'/support'} className="text-blue-500">написать в поддержку сайта дневника.</Link>
+                <Link href={'/support'} className="text-blue-500 cursor-pointer">написать в поддержку сайта дневника.</Link>
             </p>
             <ModeToggle />
         </div>
