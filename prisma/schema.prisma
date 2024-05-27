@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Profile {
-  id String @id @default(cuid())
+  id String @id @default(uuid())
 
   name String
   email String @unique
@@ -23,6 +23,8 @@ model Profile {
 
   School School? @relation(fields: [schoolId], references: [id])
   schoolId String?
+
+  SupportMessages SupportMessage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -36,7 +38,7 @@ enum Role {
 }
 
 model School {
-  id String @id @default(cuid())
+  id String @id @default(uuid())
 
   name String @unique
   city String
@@ -53,7 +55,7 @@ model School {
 }
 
 model Filial {
-  id String @id @default(cuid())
+  id String @id @default(uuid())
 
   fullAddress String @unique
   shortAddress String @unique
@@ -61,6 +63,20 @@ model Filial {
 
   school School @relation(fields: [schoolId], references: [id])
   schoolId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SupportMessage {
+  id String @id @default(uuid())
+
+  problemName String
+  message String
+  answer String?
+
+  profile Profile @relation(fields: [profileId], references: [id])
+  profileId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
