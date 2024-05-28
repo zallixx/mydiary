@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import React from 'react';
 import { ClerkProvider } from '@clerk/nextjs';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 const nextFont = Inter({ subsets: ["latin"] });
 
@@ -19,7 +21,17 @@ export default function RootLayout({
     return (
         <ClerkProvider>
             <html lang="en">
-                <body className={nextFont.className}>{children}</body>
+                <body className={nextFont.className}>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        {children}
+                        <Toaster richColors expand/>
+                    </ThemeProvider>
+                </body>
             </html>
         </ClerkProvider>
     );
