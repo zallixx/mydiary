@@ -71,8 +71,9 @@ model Filial {
 model SupportMessage {
   id String @id @default(uuid())
 
+  city String
   problemName String
-  message String
+  problemDescription String
   answer String?
 
   profile Profile @relation(fields: [profileId], references: [id])

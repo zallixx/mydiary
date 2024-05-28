@@ -19,8 +19,8 @@ export default function SupportMessageFormComponent() {
     resolver: zodResolver(SupportMessageSchema),
     defaultValues: {
         city: "",
-        topic: "",
-        description: "",
+        problemName: "",
+        problemDescription: "",
     }
 });
 
@@ -40,7 +40,7 @@ export default function SupportMessageFormComponent() {
                     )}/>
                 </div>
                 <div>
-                    <FormField name={"topic"} control={DefinedSupportForm.control}
+                    <FormField name={"problemName"} control={DefinedSupportForm.control}
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Тема проблемы</FormLabel>
@@ -52,7 +52,7 @@ export default function SupportMessageFormComponent() {
                     )}/>
                 </div>
                 <div>
-                    <FormField name={"description"} control={DefinedSupportForm.control}
+                    <FormField name={"problemDescription"} control={DefinedSupportForm.control}
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Описание проблемы</FormLabel>

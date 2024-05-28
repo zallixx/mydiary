@@ -16,15 +16,16 @@ export async function POST(request: Request) {
 
     const payload = await request.json();
 
-    if(!payload.city || !payload.topic || !payload.description) {
+    if(!payload.city || !payload.problemName || !payload.problemDescription) {
         return NextResponse.json('Missing required fields', { status: 400 });
     }
 
     const SupportMessage = await db.supportMessage.create({
         data: {
             profileId: profile.id,
-            problemName: payload.topic,
-            message: payload.description
+            city: payload.city,
+            problemName: payload.problemName,
+            problemDescription: payload.problemDescription
         }
     });
 
