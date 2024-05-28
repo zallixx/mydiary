@@ -9,7 +9,7 @@ export default async function SetupPage() {
     const profile = await InitializeProfile();
 
     if(profile.schoolId !== null) {
-        const school = await db().school.findUnique({
+        const school = await db.school.findUnique({
             where: {
                 id: profile.schoolId
             }
