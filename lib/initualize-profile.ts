@@ -6,7 +6,7 @@ export default async function InitializeProfile() {
     const user = await currentUser();
 
     if (user) {
-        const profile = await db().profile.findUnique({
+        const profile = await db.profile.findUnique({
             where: {
                 id: user.id
             }
@@ -16,7 +16,7 @@ export default async function InitializeProfile() {
             return profile;
         }
 
-        return db().profile.create({
+        return db.profile.create({
             data: {
                 id: user.id,
                 name: user.firstName + ' ' + user.lastName,

@@ -7,5 +7,19 @@ export const SupportMessageSchema = z.object({
 });
 
 export function SupportMessageFormOnSubmit(values: z.infer<typeof SupportMessageSchema>) {
-    console.log(values);
+    const fetchMessage = async () => {
+        const response = await fetch('/api/support/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+        return data;
+    };
+    return fetchMessage();
 }
