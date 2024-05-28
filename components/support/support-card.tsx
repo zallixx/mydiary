@@ -9,18 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { SupportMessage } from '@prisma/client';
 import SupportModal from '@/components/modals/support-modal';
 import { useState } from 'react';
+import { DataTable } from '@/components/data-tables/support/data-table';
+import { columns } from '@/components/data-tables/support/columns';
 
 export default function SupportCard({SupportMessages}: {SupportMessages: SupportMessage[]}) {
     const router = useRouter();
@@ -47,22 +41,7 @@ export default function SupportCard({SupportMessages}: {SupportMessages: Support
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-auto max-w-3xl">Название проблемы</TableHead>
-                                <TableHead className="text-right">Статус</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {SupportMessages.map((message: SupportMessage) => (
-                                <TableRow key={message.id}>
-                                    <TableCell className="font-medium">{message.problemName}</TableCell>
-                                    <TableCell className="text-right">{message.answer ? 'Отвечено' : 'Не отвечено'}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                    <DataTable columns={columns} data={SupportMessages} />
                 </CardContent>
                 {isModalOpened && (
                     <SupportModal isOpened={isModalOpened} onClose={handleModalClose}/>
