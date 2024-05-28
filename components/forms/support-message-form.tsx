@@ -63,7 +63,7 @@ export default function SupportMessageFormComponent() {
                         </FormItem>
                     )}/>
                 </div>
-                <Button className="mt-3 ml-auto flex" type="submit">Отправить</Button>
+                <Button className="mt-3 ml-auto flex" type="submit" disabled={DefinedSupportForm.formState.isSubmitSuccessful || DefinedSupportForm.formState.isSubmitting}>Отправить</Button>
             </form>
         </Form>
     );

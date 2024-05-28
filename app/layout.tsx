@@ -4,6 +4,7 @@ import './globals.css';
 import React from 'react';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 const nextFont = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
                         disableTransitionOnChange
                     >
                         {children}
+                        <Toaster richColors expand/>
                     </ThemeProvider>
                 </body>
             </html>

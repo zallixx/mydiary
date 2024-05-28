@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { toast } from 'sonner';
 
 export const SupportMessageSchema = z.object({
     city: z.string().min(1, { message: "Поле не может быть пустым" }).max(50, { message: "Максимальная длина 50 символов" }).optional(),
@@ -6,7 +7,7 @@ export const SupportMessageSchema = z.object({
     problemDescription: z.string().min(1, { message: "Поле не может быть пустым" }).max(450, { message: "Максимальная длина 450 символов" }).optional(),
 });
 
-export function SupportMessageFormOnSubmit(values: z.infer<typeof SupportMessageSchema>) {
+export async function SupportMessageFormOnSubmit(values: z.infer<typeof SupportMessageSchema>) {
     const fetchMessage = async () => {
         const response = await fetch('/api/support/', {
             method: 'POST',
@@ -21,5 +22,5 @@ export function SupportMessageFormOnSubmit(values: z.infer<typeof SupportMessage
         }
         return data;
     };
-    return fetchMessage();
+    return fetchMessage().then(() => toast.success("Сообщение отправлено!")).catch(() => toast.error("Что-то пошло не так."));
 }

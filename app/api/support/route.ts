@@ -33,5 +33,5 @@ export async function POST(request: Request) {
         return NextResponse.json('Something went wrong', { status: 500 });
     }
 
-    return NextResponse.json(SupportMessage, { status: 200 });
+    return NextResponse.json('OK', { status: 200 });
 }
