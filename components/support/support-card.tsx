@@ -15,7 +15,11 @@ import { DataTable } from '@/components/data-tables/support/data-table';
 import { columns } from '@/components/data-tables/support/columns';
 import Link from 'next/link';
 
-export default function SupportCard({SupportMessages}: {SupportMessages: SupportMessage[]}) {
+interface SupportCardProps {
+    readonly SupportMessages: SupportMessage[];
+}
+
+export default function SupportCard(params: SupportCardProps) {
     const [isModalOpened, setIsModalOpened] = useState(false);
 
     const handleModalClose = () => {
@@ -39,7 +43,7 @@ export default function SupportCard({SupportMessages}: {SupportMessages: Support
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <DataTable columns={columns} data={SupportMessages} />
+                    <DataTable columns={columns} data={params.SupportMessages} />
                 </CardContent>
                 {isModalOpened && (
                     <SupportModal isOpened={isModalOpened} onClose={handleModalClose}/>
