@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import {
   Card,
   CardContent,
@@ -15,9 +13,9 @@ import SupportModal from '@/components/modals/support-modal';
 import { useState } from 'react';
 import { DataTable } from '@/components/data-tables/support/data-table';
 import { columns } from '@/components/data-tables/support/columns';
+import Link from 'next/link';
 
 export default function SupportCard({SupportMessages}: {SupportMessages: SupportMessage[]}) {
-    const router = useRouter();
     const [isModalOpened, setIsModalOpened] = useState(false);
 
     const handleModalClose = () => {
@@ -34,7 +32,7 @@ export default function SupportCard({SupportMessages}: {SupportMessages: Support
                             <CardDescription>
                                 Здесь вы можете посмотреть статус своих обращений, написать новое обращение.{' '}
                                 <br/>
-                                <span onClick={() => router.back()} className="text-blue-500 cursor-pointer">Нажмите сюда, чтобы вернуться назад.</span>
+                                <Link className="text-blue-500 cursor-pointer" href={'/'}>Нажмите сюда, чтобы вернуться в дневник</Link>
                             </CardDescription>
                         </div>
                         <Button className="ml-auto" onClick={() => setIsModalOpened(true)}>Создать новое обращение</Button>
