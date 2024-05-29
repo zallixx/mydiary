@@ -6,26 +6,24 @@ interface SupportMessageCardProps {
     SupportMessage: SupportMessage;
 }
 
-export default async function SupportMessageCard(params: SupportMessageCardProps) {
+export default async function SupportMessageCard(params: Readonly<SupportMessageCardProps>) {
     return (
-        <>
-            <Card className="w-full">
-                <CardHeader className="flex justify-between">
-                    <div className="flex">
-                        <div>
-                            <CardTitle>Ваше обращение от {params.SupportMessage.createdAt.toLocaleString('ru-RU')}</CardTitle>
-                            <CardDescription>
-                                Здесь можно ознакомиться с вашим обращением.{' '}
-                                <br/>
-                                <Link className="text-blue-500 cursor-pointer" href={'/'}>Нажмите сюда, чтобы вернуться в дневник</Link>
-                            </CardDescription>
-                        </div>
+        <Card className="w-full">
+            <CardHeader className="flex justify-between">
+                <div className="flex">
+                    <div>
+                        <CardTitle>Ваше обращение от {params.SupportMessage.createdAt.toLocaleString('ru-RU')}</CardTitle>
+                        <CardDescription>
+                            Здесь можно ознакомиться с вашим обращением.{' '}
+                            <br/>
+                            <Link className="text-blue-500 cursor-pointer" href={'/'}>Нажмите сюда, чтобы вернуться в дневник</Link>
+                        </CardDescription>
                     </div>
-                </CardHeader>
-                <CardContent>
+                </div>
+            </CardHeader>
+            <CardContent>
 
-                </CardContent>
-            </Card>
-        </>
+            </CardContent>
+        </Card>
     );
 }

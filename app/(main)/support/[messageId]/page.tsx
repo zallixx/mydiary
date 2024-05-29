@@ -5,11 +5,13 @@ import { redirect } from 'next/navigation';
 import SupportMessageCard from '@/components/cards/support-message-card';
 
 interface SupportMessagePageProps {
-    readonly messageId: string;
+    params: {
+        messageId: string
+    }
 }
 
-export default async function SupportMessagePage({ params }: { params: SupportMessagePageProps }) {
-    const profile = CurrentProfile();
+export default async function SupportMessagePage({ params }: Readonly<SupportMessagePageProps>) {
+    const profile = await CurrentProfile();
     const { messageId } = params;
 
     if (!profile) {

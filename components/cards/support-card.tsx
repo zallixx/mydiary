@@ -16,10 +16,10 @@ import { columns } from '@/components/data-tables/support/columns';
 import Link from 'next/link';
 
 interface SupportCardProps {
-    readonly SupportMessages: SupportMessage[];
+    SupportMessages: SupportMessage[];
 }
 
-export default function SupportCard(params: SupportCardProps) {
+export default function SupportCard(params: Readonly<SupportCardProps>) {
     const [isModalOpened, setIsModalOpened] = useState(false);
 
     const handleModalClose = () => {
@@ -27,28 +27,26 @@ export default function SupportCard(params: SupportCardProps) {
     };
 
     return (
-        <>
-            <Card className="w-full">
-                <CardHeader className="flex justify-between">
-                    <div className="flex">
-                        <div>
-                            <CardTitle>Ваши обращения в техническую поддержку</CardTitle>
-                            <CardDescription>
-                                Здесь вы можете посмотреть статус своих обращений, написать новое обращение.{' '}
-                                <br/>
-                                <Link className="text-blue-500 cursor-pointer" href={'/'}>Нажмите сюда, чтобы вернуться в дневник</Link>
-                            </CardDescription>
-                        </div>
-                        <Button className="ml-auto" onClick={() => setIsModalOpened(true)}>Создать новое обращение</Button>
+        <Card className="w-full">
+            <CardHeader className="flex justify-between">
+                <div className="flex">
+                    <div>
+                        <CardTitle>Ваши обращения в техническую поддержку</CardTitle>
+                        <CardDescription>
+                            Здесь вы можете посмотреть статус своих обращений, написать новое обращение.{' '}
+                            <br/>
+                            <Link className="text-blue-500 cursor-pointer" href={'/'}>Нажмите сюда, чтобы вернуться в дневник</Link>
+                        </CardDescription>
                     </div>
-                </CardHeader>
-                <CardContent>
-                    <DataTable columns={columns} data={params.SupportMessages} />
-                </CardContent>
-                {isModalOpened && (
-                    <SupportModal isOpened={isModalOpened} onClose={handleModalClose}/>
-                )}
-            </Card>
-        </>
+                    <Button className="ml-auto" onClick={() => setIsModalOpened(true)}>Создать новое обращение</Button>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <DataTable columns={columns} data={params.SupportMessages} />
+            </CardContent>
+            {isModalOpened && (
+                <SupportModal isOpened={isModalOpened} onClose={handleModalClose}/>
+            )}
+        </Card>
     )
 }

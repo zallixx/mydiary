@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
     data: TData[];
 }
 
-export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, }: Readonly<DataTableProps<TData, TValue>>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const router = useRouter();
 
