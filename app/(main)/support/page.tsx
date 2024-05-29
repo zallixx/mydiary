@@ -16,6 +16,8 @@ export default async function SupportPage() {
     });
 
     return (
-        <SupportCard SupportMessages={SupportMessages}/>
+        <div className="flex justify-items-center items-center justify-center h-screen select-none w-full max-w-screen-xl">
+            <SupportCard SupportMessages={SupportMessages}/>
+        </div>
     );
 }

@@ -27,7 +27,7 @@ export default function SupportCard(params: SupportCardProps) {
     };
 
     return (
-        <div className="flex justify-items-center items-center justify-center h-screen select-none w-full max-w-screen-xl">
+        <>
             <Card className="w-full">
                 <CardHeader className="flex justify-between">
                     <div className="flex">
@@ -49,6 +49,6 @@ export default function SupportCard(params: SupportCardProps) {
                     <SupportModal isOpened={isModalOpened} onClose={handleModalClose}/>
                 )}
             </Card>
-        </div>
+        </>
     )
 }
