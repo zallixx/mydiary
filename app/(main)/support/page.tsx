@@ -1,4 +1,4 @@
-import SupportCard from '@/components/support/support-card';
+import SupportCard from '@/components/cards/support-card';
 import db from '@/lib/db';
 import { SupportMessage } from '@prisma/client';
 import CurrentProfile from '@/lib/current-profile';
