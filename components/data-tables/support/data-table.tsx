@@ -67,13 +67,13 @@ export function DataTable<TData, TValue>({ columns, data, }: Readonly<DataTableP
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (table.getRowModel().rows.map((row) => (
+                        {table.getRowModel().rows?.length ? (table.getRowModel().rows.map((row: any) => (
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
                                 onClick={() => router.push(`/support/${row.original.id}`)}
                             >
-                                {row.getVisibleCells().map((cell) => (
+                                {row.getVisibleCells().map((cell: any) => (
                                     <TableCell key={cell.id}>
                                         {cell.column.id === "answer" ? (
                                             // @ts-ignore
