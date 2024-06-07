@@ -9,9 +9,14 @@ import {
 } from '@/components/ui/dialog';
 import SupportMessageFormComponent from '@/components/forms/support-message-form';
 
-export default function SupportModal({ isOpened, onClose }: { isOpened:boolean, onClose?: () => void }) {
+interface SupportModalProps {
+    readonly isOpened: boolean;
+    readonly onClose?: () => void;
+}
+
+export default function SupportModal(params: SupportModalProps) {
     return (
-        <Dialog open={isOpened} onOpenChange={onClose}>
+        <Dialog open={params.isOpened} onOpenChange={params.onClose}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Новое обращение в техническую поддержку</DialogTitle>

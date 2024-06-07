@@ -1,4 +1,4 @@
-import SupportCard from '@/components/support/support-card';
+import SupportCard from '@/components/cards/support-card';
 import db from '@/lib/db';
 import { SupportMessage } from '@prisma/client';
 import CurrentProfile from '@/lib/current-profile';
@@ -16,6 +16,8 @@ export default async function SupportPage() {
     });
 
     return (
-        <SupportCard SupportMessages={SupportMessages}/>
+        <div className="flex justify-items-center items-center justify-center h-screen select-none w-full max-w-screen-xl">
+            <SupportCard SupportMessages={SupportMessages}/>
+        </div>
     );
 }

@@ -5,7 +5,7 @@ import db from '@/lib/db';
 
 export async function POST(request: Request) {
     if(request.method !== 'POST') {
-        return new Response('Method not allowed', { status: 405 });
+        return NextResponse.json('Method not allowed', { status: 405 });
     }
 
     const profile = await CurrentProfile();

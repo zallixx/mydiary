@@ -15,8 +15,10 @@ export default async function SetupPage() {
             }
         });
 
+        const date = new Date().toLocaleDateString('ru-RU');
+
         if (school) {
-            redirect('/diary');
+            redirect(`/diary/${date}`);
         }
     }
 

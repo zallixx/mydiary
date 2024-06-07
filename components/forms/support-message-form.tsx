@@ -1,4 +1,4 @@
-import { SupportMessageFormOnSubmit, SupportMessageSchema } from '@/components/forms/schemas/support-schema';
+import { SupportMessageFormOnSubmit, SupportMessageSchema } from '@/components/zod-schemas/forms/support-schema';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
