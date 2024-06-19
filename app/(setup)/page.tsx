@@ -8,16 +8,16 @@ import SupportModal from '@/components/modals/support-modal';
 export default async function SetupPage() {
     const profile = await InitializeProfile();
 
-    if(profile.schoolId !== null) {
-        const school = await db.school.findUnique({
+    if(profile.classId !== null) {
+        const Schoolclass = await db.class.findUnique({
             where: {
-                id: profile.schoolId
+                id: profile.classId
             }
         });
 
         const date = new Date().toLocaleDateString('ru-RU');
 
-        if (school) {
+        if (Schoolclass) {
             redirect(`/diary/${date.split('.').join('-')}`);
         }
     }

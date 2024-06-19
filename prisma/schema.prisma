@@ -16,15 +16,78 @@ datasource db {
 model Profile {
   id String @id @default(uuid())
 
-  name String
+  name  String
   email String @unique
   image String
-  role Role @default(STUDENT)
+  role  Role   @default(STUDENT)
 
-  School School? @relation(fields: [schoolId], references: [id])
-  schoolId String?
+  class   Class?  @relation(fields: [classId], references: [id])
+  classId String?
+
+  schedule StudentSchedule?
+
+  assessments Assessment[]
 
   SupportMessages SupportMessage[]
+
+  Notifications Notification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StudentSchedule {
+  id String @id @default(uuid())
+
+  student   Profile @relation(fields: [studentId], references: [id])
+  studentId String  @unique
+
+  scheduleItems ScheduleItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ScheduleItem {
+  id String @id @default(uuid())
+
+  studentSchedule   StudentSchedule @relation(fields: [studentScheduleId], references: [id])
+  studentScheduleId String
+  subject           Subject         @relation(fields: [subjectId], references: [id])
+  subjectId         String
+
+  date DateTime
+
+  startTime String
+  endTime   String
+  homework  String
+
+  assessments Assessment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subject {
+  id   String @id @default(uuid())
+  name String
+
+  scheduleItems ScheduleItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Assessment {
+  id String @id @default(uuid())
+
+  student        Profile      @relation(fields: [studentId], references: [id])
+  studentId      String
+  scheduleItem   ScheduleItem @relation(fields: [scheduleItemId], references: [id])
+  scheduleItemId String
+
+  grade Float
+  date  DateTime
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,15 +103,13 @@ enum Role {
 model School {
   id String @id @default(uuid())
 
-  name String @unique
-  city String
-  phone String @unique
+  name       String @unique
+  city       String
+  phone      String @unique
   websiteUrl String @unique
-  email String @unique
+  email      String @unique
 
   Filials Filial[]
-
-  Members Profile[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -57,12 +118,27 @@ model School {
 model Filial {
   id String @id @default(uuid())
 
-  fullAddress String @unique
+  fullAddress  String @unique
   shortAddress String @unique
-  role String
+  role         String
 
-  school School @relation(fields: [schoolId], references: [id])
-  schoolId String
+  school   School? @relation(fields: [schoolId], references: [id])
+  schoolId String?
+
+  Classes Class[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Class {
+  id String @id @default(uuid())
+
+  name     String
+  filial   Filial? @relation(fields: [filialId], references: [id])
+  filialId String?
+
+  students Profile[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,12 +147,25 @@ model Filial {
 model SupportMessage {
   id String @id @default(uuid())
 
-  city String
-  problemName String
+  city               String
+  problemName        String
   problemDescription String
-  answer String?
+  answer             String?
 
-  profile Profile @relation(fields: [profileId], references: [id])
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id String @id @default(uuid())
+
+  message String
+  isRead  Boolean @default(false)
+
+  profile   Profile @relation(fields: [profileId], references: [id])
   profileId String
 
   createdAt DateTime @default(now())
