@@ -22,6 +22,9 @@ export default async function SupportMessagePage({ params }: Readonly<SupportMes
         where: {
             id: messageId
         },
+        include: {
+            profile: true
+        }
     });
 
     if (!SupportMessage) {

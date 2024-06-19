@@ -122,7 +122,7 @@ export default function MainHeader({profile}: {profile: Profile}) {
             <NavigationMenu className="bg-white dark:bg-[#17171a] rounded-md px-2 py-0.5 z-10 fixed top-0 left-[50%] translate-x-[-50%]">
                 <NavigationMenuList>
                     <NavigationMenuItem>
-                        <Link href={`/diary/${date}`} legacyBehavior passHref>
+                        <Link href={`/diary/${date.split('.').join('-')}`} legacyBehavior passHref>
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                 Расписание
                             </NavigationMenuLink>

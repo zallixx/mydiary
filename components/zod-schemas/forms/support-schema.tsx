@@ -24,3 +24,27 @@ export async function SupportMessageFormOnSubmit(values: z.infer<typeof SupportM
     };
     return fetchMessage().then(() => toast.success("Сообщение отправлено!")).catch(() => toast.error("Что-то пошло не так."));
 }
+
+export const SupportMessageAnswerSchema = z.object({
+    answer: z.string().min(1, { message: "Поле не может быть пустым" }).optional(),
+    supportMessageId: z.string().min(1, { message: "Поле не может быть пустым" }).optional(),
+    profileEmail: z.string().min(1, { message: "Поле не может быть пустым" }).optional(),
+});
+
+export async function SupportMessageAnswerFormOnSubmit(values: z.infer<typeof SupportMessageAnswerSchema>) {
+    const fetchMessage = async () => {
+        const response = await fetch('/api/support/send-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+        return data;
+    };
+    return fetchMessage().then(() => toast.success("Ответ отправлен!")).catch(() => toast.error("Что-то пошло не так."));
+}

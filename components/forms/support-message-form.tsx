@@ -16,13 +16,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function SupportMessageFormComponent() {
     const DefinedSupportForm = useForm<z.infer<typeof SupportMessageSchema>>({
-    resolver: zodResolver(SupportMessageSchema),
-    defaultValues: {
-        city: "",
-        problemName: "",
-        problemDescription: "",
-    }
-});
+        resolver: zodResolver(SupportMessageSchema),
+        defaultValues: {
+            city: "",
+            problemName: "",
+            problemDescription: "",
+        }
+    });
 
     return (
         <Form {...DefinedSupportForm}>
