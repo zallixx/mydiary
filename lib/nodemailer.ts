@@ -1,3 +1,4 @@
+// @ts-ignore
 import nodemailer from 'nodemailer';
 
 const email = process.env.EMAIL;

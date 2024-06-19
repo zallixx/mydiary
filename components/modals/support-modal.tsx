@@ -27,7 +27,7 @@ export default function SupportModal() {
                         <DialogDescription>
                             Постарайтесь как можно подробнее описать вашу проблему.
                         </DialogDescription>
-                        <SupportMessageFormComponent />
+                        <SupportMessageFormComponent handleChange={handleChange}/>
                     </DialogHeader>
                 </DialogContent>
             </Dialog>

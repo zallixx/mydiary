@@ -14,13 +14,18 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-export default function SupportMessageFormComponent() {
+interface SupportMessageFormComponentProps {
+    handleChange: () => void;
+}
+
+export default function SupportMessageFormComponent({handleChange}: SupportMessageFormComponentProps) {
     const DefinedSupportForm = useForm<z.infer<typeof SupportMessageSchema>>({
         resolver: zodResolver(SupportMessageSchema),
         defaultValues: {
             city: "",
             problemName: "",
             problemDescription: "",
+            handleChange: handleChange,
         }
     });
 
