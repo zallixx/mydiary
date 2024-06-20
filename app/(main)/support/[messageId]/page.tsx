@@ -5,35 +5,37 @@ import { redirect } from 'next/navigation';
 import SupportMessageCard from '@/components/cards/support-message-card';
 
 interface SupportMessagePageProps {
-    params: {
-        messageId: string
-    }
+	params: {
+		messageId: string;
+	};
 }
 
-export default async function SupportMessagePage({ params }: Readonly<SupportMessagePageProps>) {
-    const profile = await CurrentProfile();
-    const { messageId } = params;
+export default async function SupportMessagePage({
+	params,
+}: Readonly<SupportMessagePageProps>) {
+	const profile = await CurrentProfile();
+	const { messageId } = params;
 
-    if (!profile) {
-        return auth().redirectToSignIn();
-    }
+	if (!profile) {
+		return auth().redirectToSignIn();
+	}
 
-    const SupportMessage = await db.supportMessage.findUnique({
-        where: {
-            id: messageId
-        },
-        include: {
-            profile: true
-        }
-    });
+	const SupportMessage = await db.supportMessage.findUnique({
+		where: {
+			id: messageId,
+		},
+		include: {
+			profile: true,
+		},
+	});
 
-    if (!SupportMessage) {
-        return redirect('/');
-    }
+	if (!SupportMessage) {
+		return redirect('/');
+	}
 
-    return (
-        <div className="flex justify-items-center items-center justify-center h-screen select-none w-full max-w-screen-xl">
-            <SupportMessageCard SupportMessage={SupportMessage}/>
-        </div>
-    );
+	return (
+		<div className='flex h-screen w-full max-w-screen-xl select-none items-center justify-center justify-items-center'>
+			<SupportMessageCard SupportMessage={SupportMessage} />
+		</div>
+	);
 }

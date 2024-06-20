@@ -6,34 +6,40 @@ import { ModeToggle } from '@/components/theme-button';
 import SupportModal from '@/components/modals/support-modal';
 
 export default async function SetupPage() {
-    const profile = await InitializeProfile();
+	const profile = await InitializeProfile();
 
-    if(profile.classId !== null) {
-        const Schoolclass = await db.class.findUnique({
-            where: {
-                id: profile.classId
-            }
-        });
+	if (profile.classId !== null) {
+		const Schoolclass = await db.class.findUnique({
+			where: {
+				id: profile.classId,
+			},
+		});
 
-        const date = new Date().toLocaleDateString('ru-RU');
+		const date = new Date().toLocaleDateString('ru-RU');
 
-        if (Schoolclass) {
-            redirect(`/diary/${date.split('.').join('-')}`);
-        }
-    }
+		if (Schoolclass) {
+			redirect(`/diary/${date.split('.').join('-')}`);
+		}
+	}
 
-    return (
-        <div className="flex justify-items-center items-center justify-center h-screen flex-col select-none">
-            <Image src={'/fault-in-the-search.png'} alt={'Ошибка при поиске учебного заведения'} className="pointer-events-none" width={250} height={250} />
-            <p className="dark:text-white text-[#101025] max-w-2xl text-center">
-                В настоящее время информация о вашем зачислении в школу отсутствует.
-                Возможно, стоит немного подождать, пока данные будут обновлены в системе.
-                Если же по прошествии времени ситуация не изменится, рекомендуем вам
-                обратиться в службу поддержки школы для получения более подробной
-                информации и помощи или{' '}
-                <SupportModal />
-            </p>
-            <ModeToggle />
-        </div>
-    );
+	return (
+		<div className='flex h-screen select-none flex-col items-center justify-center justify-items-center'>
+			<Image
+				src={'/fault-in-the-search.png'}
+				alt={'Ошибка при поиске учебного заведения'}
+				className='pointer-events-none'
+				width={250}
+				height={250}
+			/>
+			<p className='max-w-2xl text-center text-[#101025] dark:text-white'>
+				В настоящее время информация о вашем зачислении в школу
+				отсутствует. Возможно, стоит немного подождать, пока данные
+				будут обновлены в системе. Если же по прошествии времени
+				ситуация не изменится, рекомендуем вам обратиться в службу
+				поддержки школы для получения более подробной информации и
+				помощи или <SupportModal />
+			</p>
+			<ModeToggle />
+		</div>
+	);
 }

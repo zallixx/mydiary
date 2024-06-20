@@ -5,24 +5,24 @@ import CurrentProfile from '@/lib/current-profile';
 import { redirect } from 'next/navigation';
 
 export default async function SupportPage() {
-    const profile = await CurrentProfile();
+	const profile = await CurrentProfile();
 
-    if (profile.role !== 'ADMIN' && profile.role !== 'DEVELOPER') {
-        return redirect('/');
-    }
+	if (profile.role !== 'ADMIN' && profile.role !== 'DEVELOPER') {
+		return redirect('/');
+	}
 
-    const SupportMessages: SupportMessage[] = await db.supportMessage.findMany({
-        where: {
-            answer: null,
-        },
-        orderBy: {
-            createdAt: 'desc'
-        }
-    });
+	const SupportMessages: SupportMessage[] = await db.supportMessage.findMany({
+		where: {
+			answer: null,
+		},
+		orderBy: {
+			createdAt: 'desc',
+		},
+	});
 
-    return (
-        <div className="flex justify-items-center items-center justify-center h-screen select-none w-full max-w-screen-xl">
-            <SupportCard SupportMessages={SupportMessages}/>
-        </div>
-    );
+	return (
+		<div className='flex h-screen w-full max-w-screen-xl select-none items-center justify-center justify-items-center'>
+			<SupportCard SupportMessages={SupportMessages} />
+		</div>
+	);
 }

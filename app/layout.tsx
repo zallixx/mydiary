@@ -6,33 +6,33 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 
-const nextFont = Inter({ subsets: ["latin"] });
+const nextFont = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "MyDiary",
-  description: "",
+	title: 'MyDiary',
+	description: '',
 };
 
 export default function RootLayout({
-    children,
+	children,
 }: {
-    readonly children: Readonly<React.ReactNode>;
+	readonly children: Readonly<React.ReactNode>;
 }) {
-    return (
-        <ClerkProvider>
-            <html lang="en">
-                <body className={nextFont.className}>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        {children}
-                        <Toaster richColors expand/>
-                    </ThemeProvider>
-                </body>
-            </html>
-        </ClerkProvider>
-    );
+	return (
+		<ClerkProvider>
+			<html lang='en'>
+				<body className={nextFont.className}>
+					<ThemeProvider
+						attribute='class'
+						defaultTheme='system'
+						enableSystem
+						disableTransitionOnChange
+					>
+						{children}
+						<Toaster richColors expand />
+					</ThemeProvider>
+				</body>
+			</html>
+		</ClerkProvider>
+	);
 }
