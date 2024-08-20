@@ -6,11 +6,12 @@ export default async function BaseLayout({
 	children,
 }: {
 	readonly children: Readonly<React.ReactNode>;
+
 }) {
 	const profile = await CurrentProfile();
 
 	return (
-		<div className='flex h-screen items-center justify-center justify-items-center'>
+		<div>
 			<MainHeader profile={profile} />
 			{children}
 		</div>

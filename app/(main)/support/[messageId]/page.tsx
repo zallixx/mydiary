@@ -1,5 +1,4 @@
 import CurrentProfile from '@/lib/current-profile';
-import { auth } from '@clerk/nextjs/server';
 import db from '@/lib/db';
 import { redirect } from 'next/navigation';
 import SupportMessageCard from '@/components/cards/support-message-card';
@@ -17,7 +16,7 @@ export default async function SupportMessagePage({
 	const { messageId } = params;
 
 	if (!profile) {
-		return auth().redirectToSignIn();
+		return redirect('/');
 	}
 
 	const SupportMessage = await db.supportMessage.findUnique({
