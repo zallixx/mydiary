@@ -5,6 +5,8 @@ import React from 'react';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
+import { ruRU } from '@clerk/localizations';
+import {TooltipProvider} from "@/components/ui/tooltip";
 
 const nextFont = Inter({ subsets: ['latin'] });
 
@@ -19,20 +21,22 @@ export default function RootLayout({
 	readonly children: Readonly<React.ReactNode>;
 }) {
 	return (
-		<ClerkProvider>
-			<html lang='en'>
-				<body className={nextFont.className}>
-					<ThemeProvider
-						attribute='class'
-						defaultTheme='system'
-						enableSystem
-						disableTransitionOnChange
-					>
-						{children}
-						<Toaster richColors expand />
-					</ThemeProvider>
-				</body>
-			</html>
+		<ClerkProvider localization={ruRU}>
+			<TooltipProvider>
+				<html lang='en'>
+					<body className={nextFont.className}>
+						<ThemeProvider
+							attribute='class'
+							defaultTheme='system'
+							enableSystem
+							disableTransitionOnChange
+						>
+							{children}
+							<Toaster richColors expand />
+						</ThemeProvider>
+					</body>
+				</html>
+			</TooltipProvider>
 		</ClerkProvider>
 	);
 }

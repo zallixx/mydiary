@@ -18,7 +18,7 @@ export default async function SetupPage() {
 		const date = new Date().toLocaleDateString('ru-RU');
 
 		if (Schoolclass) {
-			redirect(`/diary/${date.split('.').join('-')}`);
+			redirect(`/diary/schedule/${date.split('.').join('-')}`);
 		}
 	}
 
