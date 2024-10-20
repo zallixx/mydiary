@@ -12,6 +12,9 @@ export default async function CurrentProfile() {
 		where: {
 			id: user.id,
 		},
+		include: {
+			groups: true,
+		}
 	});
 
 	if (!profile) {

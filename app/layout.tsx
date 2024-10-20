@@ -27,9 +27,7 @@ export default function RootLayout({
 					<body className={nextFont.className}>
 						<ThemeProvider
 							attribute='class'
-							defaultTheme='system'
-							enableSystem
-							disableTransitionOnChange
+							defaultTheme='white'
 						>
 							{children}
 							<Toaster richColors expand />

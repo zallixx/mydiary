@@ -1,5 +1,4 @@
 import InitializeProfile from '@/lib/initualize-profile';
-import db from '@/lib/db';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import { ModeToggle } from '@/components/theme-button';
@@ -8,18 +7,9 @@ import SupportModal from '@/components/modals/support-modal';
 export default async function SetupPage() {
 	const profile = await InitializeProfile();
 
-	if (profile.classId !== null) {
-		const Schoolclass = await db.class.findUnique({
-			where: {
-				id: profile.classId,
-			},
-		});
-
+	if (profile.groups.length > 0) {
 		const date = new Date().toLocaleDateString('ru-RU');
-
-		if (Schoolclass) {
-			redirect(`/diary/schedule/${date.split('.').join('-')}`);
-		}
+		redirect(`/diary/schedule/${date.split('.').join('-')}`);
 	}
 
 	return (

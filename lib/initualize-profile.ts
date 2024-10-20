@@ -9,6 +9,9 @@ export default async function InitializeProfile() {
 			where: {
 				id: user.id,
 			},
+			include: {
+				groups: true,
+			}
 		});
 
 		if (profile) {
