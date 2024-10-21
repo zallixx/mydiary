@@ -13,6 +13,7 @@ const nextFont = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
 	title: 'MyDiary',
 	description: '',
+	manifest: '/manifest.json',
 };
 
 export default function RootLayout({
