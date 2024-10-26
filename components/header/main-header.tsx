@@ -126,7 +126,7 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 										</TooltipTrigger>
 										<TooltipContent className="w-64">
 											<div className="flex flex-col items-center p-2 border-b border-gray-200">
-												<img src={profile.image.toString()} alt={profile.name} width={60} height={60} className="rounded-full"/>
+												<img src={profile.image!.toString()} alt={profile.name} width={60} height={60} className="rounded-full"/>
 												<Label className="text-center text-base">
 													{profile.name}
 												</Label>
