@@ -52,7 +52,11 @@ export default async function DiaryPage({
 		},
 		include: {
 			subject: true,
-			assessments: true,
+			assessments: {
+				where: {
+					profileId: profile.id,
+				}
+			},
 			homework: true,
 		},
 	});
