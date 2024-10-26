@@ -110,9 +110,10 @@ return (
 												<div className="flex flex-col">
 													{item.assessments.slice(0, 1).map((assessment) => (
 														<div
-															className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[42px] h-[42px] font-semibold ${setPropForItem(assessment.gradeType)}`}>
+															className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(assessment.gradeType)}`}>
 																<span>
 																	{assessment.grade}
+																	<sub className="text-[10px] align-baseline">{setIndexForGrade(assessment.gradeType)}</sub>
 																</span>
 														</div>
 													))}
@@ -122,7 +123,7 @@ return (
 															</span>
 													)}
 												</div>
-												<div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[42px] h-[42px] font-semibold ${setPropForItem(item.absenceType)}`}>
+												<div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(item.absenceType)}`}>
 													<span>
 														Н
 													</span>
@@ -133,7 +134,7 @@ return (
 												<div className="flex flex-row">
 													{item.assessments.slice(0, 2).map((assessment) => (
 														<div
-															className={`flex items-center justify-items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[42px] h-[42px] font-semibold ${setPropForItem(assessment.gradeType)}`}>
+															className={`flex items-center justify-items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(assessment.gradeType)}`}>
 															<span>
 																{assessment.grade}
 																<sub className="text-[10px] align-baseline">{setIndexForGrade(assessment.gradeType)}</sub>
