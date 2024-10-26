@@ -3,10 +3,16 @@ import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import { ModeToggle } from '@/components/theme-button';
 import SupportModal from '@/components/modals/support-modal';
+import { auth } from '@clerk/nextjs/server';
 
 export default async function SetupPage() {
 	const profile = await InitializeProfile();
 
+	if (!profile) {
+		redirect(auth().redirectToSignIn());
+	}
+
+	// @ts-ignore
 	if (profile.groups.length > 0) {
 		const date = new Date().toLocaleDateString('ru-RU');
 		redirect(`/diary/schedule/${date.split('.').join('-')}`);
