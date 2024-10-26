@@ -30,36 +30,45 @@ export default async function DiaryPage({
 	}
 
 	const [day, month, year] = params.diaryDay.split('-').map(Number);
-	const startOfDay = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
-	const endOfDay = new Date(Date.UTC(year, month - 1, day, 23, 59, 59));
+	const currentDate = new Date(Date.UTC(year, month - 1, day));
 
-	const scheduleForDay = await db.scheduleItem.findMany({
+	const scheduleForDay = await db.groupScheduleItem.findMany({
 		where: {
-			groupSchedule: {
-				group: {
-					id: {
-						in: profile.groups.map((group) => group.id),
-					},
+			group: {
+				id: {
+					in: profile.groups.map((group) => group.id),
 				},
 			},
-			date: {
-				lt: endOfDay,
-				gt: startOfDay,
+			baseScheduleItem: {
+				dayOfWeek: currentDate.getDay(),
 			},
 		},
 		orderBy: {
-			date: 'asc',
+			baseScheduleItem: {
+				date: 'asc',
+			},
 		},
 		include: {
-			subject: true,
+			baseScheduleItem: {
+				include: {
+					subject: true,
+				}
+			},
+			homework: true,
 			assessments: {
 				where: {
 					profileId: profile.id,
 				}
 			},
-			homework: true,
+			absence: {
+				where: {
+					profileId: profile.id,
+				}
+			},
 		},
 	});
+
+	console.log(scheduleForDay);
 
 	const setPropForItem = (item: string) => {
 		switch (item) {
@@ -94,22 +103,22 @@ return (
 				{scheduleForDay.map((item, index) => (
 					<div className="flex flex-col border-b rounded-2xl min-h-32 h-auto bg-white py-2 space-y-2" key={item.id}>
 						<div className="flex flex-row">
-							<div className={`h-11 w-1.5 rounded-r-full mt-1 mr-2 ${currentTimeInItemRange(item.date) ? 'bg-[#16a3f5]' : 'bg-[#e8e8ef]'}`}></div>
+							<div className={`h-11 w-1.5 rounded-r-full mt-1 mr-2 ${currentTimeInItemRange(item.baseScheduleItem.date) ? 'bg-[#16a3f5]' : 'bg-[#e8e8ef]'}`}></div>
 							<div className="flex flex-col">
 								<div className="flex flex-row items-center">
-									<span className="text-base font-medium">{item.subject.name}</span>
+									<span className="text-base font-medium">{item.baseScheduleItem.subject.name}</span>
 									<span className="text-sm ml-1">{index + 1 + ' урок'}</span>
 								</div>
 								<div>
 									<span className="text-sm">
-										{item.date.getUTCHours().toString().padStart(2, '0') + ':' + item.date.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(item.date.getTime() + item.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.date.getTime() + item.duration * 60000).getUTCMinutes().toString().padStart(2, '0')}
+										{item.baseScheduleItem.date.getUTCHours().toString().padStart(2, '0') + ':' + item.baseScheduleItem.date.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(item.baseScheduleItem.date.getTime() + item.baseScheduleItem.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.baseScheduleItem.date.getTime() + item.baseScheduleItem.duration * 60000).getUTCMinutes().toString().padStart(2, '0')}
 									</span>
 								</div>
 							</div>
 							<div className="ml-auto max-h-12">
 								{item.assessments && (
 									<div className="flex flex-row">
-										{item.absenceType !== "NONE" ? (
+										{item.absence[0] !== undefined ? (
 											<>
 												<div className="flex flex-col">
 													{item.assessments.slice(0, 1).map((assessment) => (
@@ -127,7 +136,7 @@ return (
 															</span>
 													)}
 												</div>
-												<div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(item.absenceType)}`}>
+												<div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(item.absence[0]?.type)}`}>
 													<span>
 														Н
 													</span>

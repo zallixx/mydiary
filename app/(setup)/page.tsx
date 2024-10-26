@@ -13,7 +13,7 @@ export default async function SetupPage() {
 	}
 
 	// @ts-ignore
-	if (profile.groups.length > 0) {
+	if (profile.groups && profile.groups.length > 0) {
 		const date = new Date().toLocaleDateString('ru-RU');
 		redirect(`/diary/schedule/${date.split('.').join('-')}`);
 	}

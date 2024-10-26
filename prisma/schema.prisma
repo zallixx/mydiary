@@ -26,7 +26,9 @@ model Profile {
   marks Assessment[]
 
   teacherGroups   Group[]        @relation(name: "teacherGroups")
-  teacherSchedule ScheduleItem[] @relation(name: "teacherLessons")
+  teacherSchedule BaseScheduleItem[] @relation(name: "teacherLessons")
+
+  absence Absence[]
 
   SupportMessages SupportMessage[]
 
@@ -36,76 +38,58 @@ model Profile {
   updatedAt DateTime @updatedAt
 }
 
-enum Role {
-  STUDENT
-  TEACHER
-  ADMIN
-  DEVELOPER
-}
-
-enum gradeCategory {
-  BASIC
-  ADVANCED
-}
-
-enum absenceType {
-  NONE
-  UNAUTHORIZED
-  AUTHORIZED
-  SICK
-  EXEMPT
-}
-
-enum itemScheduleType {
-  NONE
-  REPLACEMENT
-  ONLINE
-  CANCELED
-  TEST
-}
-
-enum studyResourcesType {
-  TEST
-  VIDEO
-  THEORY
-  PRESENTATION
-}
-
-model groupSchedule {
+model BaseScheduleItem {
   id String @id @default(uuid())
 
-  group Group? @relation(fields: [groupId], references: [id])
-  groupId String @unique
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
 
-  ItemSchedule ScheduleItem[]
+  teacher   Profile @relation(fields: [teacherId], references: [id], name: "teacherLessons")
+  teacherId String
+
+  dayOfWeek Int @default(0)
+
+  date DateTime
+  duration Int @default(45)
+
+  type itemScheduleType @default(BASIC)
+
+  groupSchedules GroupScheduleItem[]
+}
+
+model GroupScheduleItem {
+  id String @id @default(uuid())
+
+  homework Homework[]
+
+  countResourcesTheory Int @default(0)
+  countResourcesTest Int @default(0)
+  countFiles Int @default(0)
+
+  absence Absence[]
+
+  assessments Assessment[]
+
+  baseScheduleItem BaseScheduleItem @relation(fields: [baseScheduleItemId], references: [id])
+  baseScheduleItemId String
+
+  group Group @relation(fields: [groupId], references: [id])
+  groupId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model ScheduleItem {
+model Absence {
   id String @id @default(uuid())
 
-  teacher   Profile @relation(fields: [teacherId], references: [id], name: "teacherLessons")
-  teacherId String
+  type absenceType @default(UNAUTHORIZED)
 
-  date DateTime
+  profile Profile @relation(fields: [profileId], references: [id])
+  profileId String
 
-  duration Int @default(45)
-
-  type itemScheduleType @default(NONE)
-
-  homework Homework[]
-
-  groupSchedule   groupSchedule @relation(fields: [groupScheduleId], references: [id])
-  groupScheduleId String
-
-  subject   Subject @relation(fields: [subjectId], references: [id])
-  subjectId String
-
-  absenceType absenceType @default(NONE)
-
-  assessments Assessment[]
+  groupScheduleItem GroupScheduleItem @relation(fields: [groupScheduleItemId], references: [id])
+  groupScheduleItemId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -122,8 +106,8 @@ model Homework {
 
   fileAtachments FileAtachments[]
 
-  itemSchedule   ScheduleItem @relation(fields: [itemScheduleId], references: [id])
-  itemScheduleId String
+  groupScheduleItem   GroupScheduleItem @relation(fields: [groupScheduleItemId], references: [id])
+  groupScheduleItemId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -172,8 +156,8 @@ model Assessment {
 
   comment String?
 
-  itemSchedule   ScheduleItem @relation(fields: [itemScheduleId], references: [id])
-  itemScheduleId String
+  groupScheduleItem   GroupScheduleItem @relation(fields: [groupScheduleItemId], references: [id])
+  groupScheduleItemId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -184,7 +168,7 @@ model Subject {
 
   name String @unique
 
-  ItemSchedule ScheduleItem[]
+  baseScheduleItem BaseScheduleItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -230,7 +214,7 @@ model Group {
   filial   Filial? @relation(fields: [filialId], references: [id])
   filialId String?
 
-  groupSchedule groupSchedule?
+  groupSchedule GroupScheduleItem[]
 
   students Profile[]
 
@@ -265,4 +249,39 @@ model Notification {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  DEVELOPER
+}
+
+enum gradeCategory {
+  BASIC
+  ADVANCED
+}
+
+enum absenceType {
+  NONE
+  UNAUTHORIZED
+  AUTHORIZED
+  SICK
+  EXEMPT
+}
+
+enum itemScheduleType {
+  BASIC
+  REPLACEMENT
+  ONLINE
+  CANCELED
+  TEST
+}
+
+enum studyResourcesType {
+  TEST
+  VIDEO
+  THEORY
+  PRESENTATION
 }
