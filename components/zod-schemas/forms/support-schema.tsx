@@ -37,8 +37,9 @@ export async function SupportMessageFormOnSubmit(
 		}
 		return data;
 	};
-	// @ts-ignore
+
 	return fetchMessage().then(
+		// @ts-ignore
 		() => toast.success('Сообщение отправлено!') && values.handleChange()
 		).catch(() => toast.error('Что-то пошло не так.'));
 }

@@ -6,7 +6,7 @@ export default async function DiaryPage() {
 
 	if (!profile) {
 		return redirect('/');
-	} else if (profile.classId === null) {
+	} else if (profile.groups.length === 0) {
 		return redirect('/');
 	}
 
