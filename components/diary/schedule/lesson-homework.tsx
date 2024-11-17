@@ -11,7 +11,7 @@ export default function LessonHomework({item}: {item: itemProps}) {
                         <div className="flex flex-row">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                  fill="none"
-                                 className={`flex-none ml-2.5 mr-1 relative ${(item.homework[0]?.completions[0]?.isCompleted || (item.specificAssignment[0] && !item.homework[0]) || (!item.homework[0] && !item.specificAssignment[0])) ? 'text-green-600' : 'text-gray-700'}`}>
+                                 className={`flex-none ml-2.5 mr-1 relative ${item.homework[0].completions[0].isCompleted ? 'text-green-600' : 'text-gray-700'}`}>
                                 <path fill="currentColor"
                                       d="M13.167 14.333h-3a.833.833 0 0 1-.834-.833v-3a.666.666 0 0 0-.666-.667H7.333a.666.666 0 0 0-.666.667v3c0 .46-.373.833-.834.833h-3A.833.833 0 0 1 2 13.5V7.138a2.5 2.5 0 0 1 .953-1.965L7.69 1.44a.5.5 0 0 1 .62 0l4.737 3.733A2.5 2.5 0 0 1 14 7.137V13.5c0 .46-.373.833-.833.833"></path>
                             </svg>
@@ -23,7 +23,7 @@ export default function LessonHomework({item}: {item: itemProps}) {
                                 <div className="flex flex-row mt-1">
                                     <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
                                          viewBox="0 0 512 512" height="16px" width="16px"
-                                         className={`flex-none ml-2.5 mr-1 ${(item.homework[0]?.completions[0]?.isCompleted || (item.specificAssignment[0] && !item.homework[0]) || (!item.homework[0] && !item.specificAssignment[0])) ? 'text-green-600' : 'text-gray-700'}`}
+                                         className={`flex-none ml-2.5 mr-1 ${item.specificAssignment[0].homeworkCompletion[0].isCompleted ? 'text-green-600' : 'text-gray-700'}`}
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path fill="none" strokeLinecap="round"
                                               strokeLinejoin="round" strokeWidth="32"
@@ -42,7 +42,7 @@ export default function LessonHomework({item}: {item: itemProps}) {
                     <div className="flex flex-row">
                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
                              viewBox="0 0 512 512" height="16px" width="16px"
-                             className={`flex-none ml-2.5 mr-1 ${(item.homework[0]?.completions[0]?.isCompleted || (item.specificAssignment[0] && !item.homework[0] && item.specificAssignment[0]?.homeworkCompletion[0]?.isCompleted) || (!item.homework[0] && !item.specificAssignment[0])) ? 'text-green-600' : 'text-gray-700'}`}
+                             className={`flex-none ml-2.5 mr-1 ${item.specificAssignment[0].homeworkCompletion[0].isCompleted ? 'text-green-600' : 'text-gray-700'}`}
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill="none" strokeLinecap="round"
                                   strokeLinejoin="round" strokeWidth="32"
@@ -57,7 +57,7 @@ export default function LessonHomework({item}: {item: itemProps}) {
                 ) : (
                     <div className="flex flex-row">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
-                             className={`flex-none ml-2.5 mr-1 relative ${(item.homework[0]?.completions[0]?.isCompleted || (item.specificAssignment[0] && !item.homework[0]) || (!item.homework[0] && !item.specificAssignment[0])) ? 'text-green-600' : 'text-gray-700'}`}>
+                             className="flex-none ml-2.5 mr-1 relative text-green-600">
                             <path fill="currentColor"
                                   d="M13.167 14.333h-3a.833.833 0 0 1-.834-.833v-3a.666.666 0 0 0-.666-.667H7.333a.666.666 0 0 0-.666.667v3c0 .46-.373.833-.834.833h-3A.833.833 0 0 1 2 13.5V7.138a2.5 2.5 0 0 1 .953-1.965L7.69 1.44a.5.5 0 0 1 .62 0l4.737 3.733A2.5 2.5 0 0 1 14 7.137V13.5c0 .46-.373.833-.833.833"></path>
                         </svg>

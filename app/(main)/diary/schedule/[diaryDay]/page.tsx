@@ -31,7 +31,7 @@ export default async function DiaryPage({
 	const [day, month, year] = params.diaryDay.split('-').map(Number);
 	const startOfDay = new Date(Date.UTC(year, month - 1, day - 1, 23, 59, 59));
 	const endOfDay = new Date(Date.UTC(year, month - 1, day, 23, 59, 59));
-	const dayOfWeek = startOfDay.getDay();
+	const dayOfWeek = endOfDay.getDay();
 
 	const scheduleForDay = await db.weeklySchedule.findMany({
 		where: {
