@@ -1,39 +1,41 @@
 import InitializeProfile from '@/lib/initualize-profile';
-import db from '@/lib/db';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
 import { ModeToggle } from '@/components/theme-button';
+import SupportModal from '@/components/modals/support-modal';
+import { auth } from '@clerk/nextjs/server';
 
 export default async function SetupPage() {
-    const profile = await InitializeProfile();
+	const profile = await InitializeProfile();
 
-    if(profile.schoolId !== null) {
-        const school = await db.school.findUnique({
-            where: {
-                id: profile.schoolId
-            }
-        });
+	if (!profile) {
+		redirect(auth().redirectToSignIn());
+	}
 
-        const date = new Date().toLocaleDateString('ru-RU');
+	// @ts-ignore
+	if (profile.groups && profile.groups.length > 0) {
+		const date = new Date().toLocaleDateString('ru-RU');
+		redirect(`/diary/schedule/${date.split('.').join('-')}`);
+	}
 
-        if (school) {
-            redirect(`/diary/${date}`);
-        }
-    }
-
-    return (
-        <div className="flex justify-items-center items-center justify-center h-screen flex-col select-none">
-            <Image src={'/fault-in-the-search.png'} alt={'Ошибка при поиске учебного заведения'} className="pointer-events-none" width={250} height={250} />
-            <p className="dark:text-white text-[#101025] max-w-2xl text-center">
-                В настоящее время информация о вашем зачислении в школу отсутствует.
-                Возможно, стоит немного подождать, пока данные будут обновлены в системе.
-                Если же по прошествии времени ситуация не изменится, рекомендуем вам
-                обратиться в службу поддержки школы для получения более подробной
-                информации и помощи или{' '}
-                <Link href={'/support'} className="text-blue-500 cursor-pointer">написать в поддержку сайта дневника.</Link>
-            </p>
-            <ModeToggle />
-        </div>
-    );
+	return (
+		<div className='flex h-screen select-none flex-col items-center justify-center justify-items-center'>
+			<Image
+				src={'/fault-in-the-search.png'}
+				alt={'Ошибка при поиске учебного заведения'}
+				className='pointer-events-none'
+				width={250}
+				height={250}
+			/>
+			<p className='max-w-2xl text-center text-[#101025] dark:text-white'>
+				В настоящее время информация о вашем зачислении в школу
+				отсутствует. Возможно, стоит немного подождать, пока данные
+				будут обновлены в системе. Если же по прошествии времени
+				ситуация не изменится, рекомендуем вам обратиться в службу
+				поддержки школы для получения более подробной информации и
+				помощи или <SupportModal />
+			</p>
+			<ModeToggle />
+		</div>
+	);
 }
