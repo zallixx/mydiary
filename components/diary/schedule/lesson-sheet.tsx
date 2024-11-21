@@ -10,16 +10,35 @@ import { validateDate } from '@/components/diary/schedule/functions';
 import { ReactElement } from 'react';
 import { Checkbox } from "@/components/ui/checkbox"
 
+interface homeworkProps {
+    id: string;
+    date: Date;
+    groupId: string;
+    scheduleItemId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    description: string;
+    completions: {
+        isCompleted: boolean;
+    }[];
+}
+
+interface specificAssignmentsProps {
+    description: string;
+    homeworkCompletion: {
+        isCompleted: boolean;
+    }[];
+}
 
 export default function LessonSheet({ open, onOpenChange, item, params }: { open: boolean; onOpenChange: () => void; item: itemProps; params: { diaryDay: string; } }) {
-    const lessonComponents: { title: string; children: { sub_title?: string; svg?: ReactElement; description?: string; homeworkList?: {}[]; specificAssignments?: {}[]; }[] }[] = [
+    const lessonComponents: { title: string; children: { sub_title?: string; svg?: ReactElement; description?: string; homeworkList?: homeworkProps[]; specificAssignments?: specificAssignmentsProps[]; }[] }[] = [
         {
             title: item.event_type === 'LESSON' ? "Об уроке:" : "О мероприятии:",
             children: [
                 {
                     sub_title: "Тип мероприятия",
                     svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-info mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
-                    description: item.event_type + '',
+                    description: item.event_type,
                 },
                 {
                     sub_title: "Дата и время проведения",
@@ -29,7 +48,7 @@ export default function LessonSheet({ open, onOpenChange, item, params }: { open
                 {
                     sub_title: "Место проведения",
                     svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-map-pin mr-1"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>,
-                    description: item.place + '',
+                    description: item.place,
                 },
             ],
         },

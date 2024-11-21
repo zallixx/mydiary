@@ -12,10 +12,14 @@ import { useParams } from 'next/navigation';
 
 export interface itemProps {
     id: string;
+    place: string;
+    event_type: string;
     baseSchedule: {
         date: Date;
         duration: number;
-        teacher: {};
+        teacher: {
+            name: string;
+        };
         subject: {
             id: string;
             name: string;
