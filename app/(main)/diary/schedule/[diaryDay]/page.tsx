@@ -119,6 +119,7 @@ export default async function DiaryPage({
 				<ScheduleDayPicker />
 				<div className="min-h-96 h-auto pt-2 space-y-2">
 					{scheduleForDay.map((item, index) => (
+						// @ts-ignore
 						<LessonItem item={item} index={index} key={item.id} />
 					))}
 				</div>
