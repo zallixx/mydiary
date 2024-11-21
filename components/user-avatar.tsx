@@ -4,7 +4,7 @@ import { Profile } from '@prisma/client';
 export function UserAvatar({ profile }: { profile: Profile }) {
 	return (
 		<Avatar>
-			<AvatarImage src={profile.image} alt={'123'} />
+			<AvatarImage src={profile.image || ""} alt={'123'} />
 			<AvatarFallback delayMs={600}>{'123'}</AvatarFallback>
 		</Avatar>
 	);
