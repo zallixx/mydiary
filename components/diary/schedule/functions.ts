@@ -14,6 +14,8 @@ const validateDate = (date: string): string | boolean => {
 
         const dayDifference = Math.round((inputDate.getTime() - todayLocal.getTime()) / (24 * 60 * 60 * 1000));
 
+        const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+
         switch (dayDifference) {
             case -2:
                 return "Позавчера";
@@ -26,7 +28,7 @@ const validateDate = (date: string): string | boolean => {
             case 2:
                 return "Послезавтра";
             default:
-                return inputDate.toLocaleString("ru-RU", {month: "long", day: "numeric" });
+                return days[inputDate.getUTCDay()] + ' ' + inputDate.toLocaleString("ru-RU", {month: "short", day: "numeric" });
         }
     }
     return false;

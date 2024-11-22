@@ -8,12 +8,14 @@ import LessonMaterials from '@/components/diary/schedule/lesson-materials';
 import LessonSheet from '@/components/diary/schedule/lesson-sheet';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import LessonDrawer from '@/components/diary/schedule/lesson-drawer';
 
 
 export interface itemProps {
     id: string;
     place: string;
     event_type: string;
+    topic: string;
     baseSchedule: {
         date: Date;
         duration: number;
@@ -76,7 +78,7 @@ export default function LessonItem({ item, index }: { item: itemProps, index: nu
                         </div>
                         <div>
                             <span className="text-sm">
-                                { getLessonTime(item.baseSchedule.date, item.baseSchedule.duration) }
+                                {getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)}
                             </span>
                         </div>
                     </div>
@@ -84,12 +86,13 @@ export default function LessonItem({ item, index }: { item: itemProps, index: nu
                         <LessonMarks item={item} key={item.id} />
                     </div>
                 </div>
-                <div className="flex flex-row mt-2 mr-2">
+                <div className="flex flex-col mt-2 mr-2">
                     <LessonHomework item={item} key={item.id} />
                 </div>
                 <LessonMaterials item={item} key={item.id} />
             </div>
-            {isOpen && <LessonSheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} params={params}/>}
+            {isOpen && window.innerWidth > 1400 && <LessonSheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} params={params}/>}
+            {isOpen && window.innerWidth < 1400 && <LessonDrawer open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} params={params}/>}
         </>
     );
 };
