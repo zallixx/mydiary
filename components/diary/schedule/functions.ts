@@ -1,16 +1,16 @@
 import { Homework, studyResourcesType } from '@prisma/client';
 
+const today = new Date();
+const timezoneOffset = today.getTimezoneOffset()*60000;
+const todayLocal = new Date(today.getTime() - timezoneOffset);
+todayLocal.setUTCHours(0, 0, 0, 0);
+
 const validateDate = (date: string): string | boolean => {
     const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-([0-9]{4})$/;
+
     if(dateRegex.test(date)) {
         const [day, month, year] = date.split('-').map(Number);
         const inputDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
-
-        const today = new Date();
-        const timezoneOffset = today.getTimezoneOffset()*60000;
-
-        const todayLocal = new Date(today.getTime() - timezoneOffset);
-        todayLocal.setUTCHours(0, 0, 0, 0);
 
         const dayDifference = Math.round((inputDate.getTime() - todayLocal.getTime()) / (24 * 60 * 60 * 1000));
 
@@ -56,9 +56,12 @@ const setIndexForGrade = (item: string): string => {
     }
 };
 
-const currentTimeInItemRange = (itemDate: Date) => {
-    const currentTime = new Date();
-    return currentTime >= itemDate && currentTime < new Date(itemDate.getTime() + 45 * 60000);
+const currentTimeInItemRange = (itemDate: Date, duration: number) => {
+    return todayLocal >= itemDate && todayLocal < new Date(itemDate.getTime() + duration * 60000);
+};
+
+const getLessonTime = (itemDate: Date, duration: number) => {
+    return itemDate.getUTCHours().toString().padStart(2, '0') + ':' + itemDate.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(itemDate.getTime() + duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(itemDate.getTime() + duration * 60000).getUTCMinutes().toString().padStart(2, '0');
 };
 
 const countHomeworkWithParam = (homeworkList: Homework[], param: string) => {
@@ -79,4 +82,4 @@ const countHomeworkWithParam = (homeworkList: Homework[], param: string) => {
     }, 0);
 };
 
-export { validateDate, setPropForItem, setIndexForGrade, currentTimeInItemRange, countHomeworkWithParam };
+export { validateDate, setPropForItem, setIndexForGrade, currentTimeInItemRange, countHomeworkWithParam, getLessonTime };

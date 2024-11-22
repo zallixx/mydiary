@@ -6,7 +6,7 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 import { itemProps } from '@/components/diary/schedule/lesson-item';
-import { validateDate } from '@/components/diary/schedule/functions';
+import { validateDate, getLessonTime } from '@/components/diary/schedule/functions';
 import { ReactElement } from 'react';
 import { Checkbox } from "@/components/ui/checkbox"
 
@@ -88,8 +88,7 @@ export default function LessonSheet({ open, onOpenChange, item, params }: { open
                             {item.baseSchedule.subject.name}
                         </span>
                         <span className="flex text-gray-600">
-                            {/* TODO: обернуть в функцию + логика предстоящ/прощед */}
-                            {validateDate(params.diaryDay) + ' · ' +  item.baseSchedule.date.getUTCHours().toString().padStart(2, '0') + ':' + item.baseSchedule.date.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(item.baseSchedule.date.getTime() + item.baseSchedule.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.baseSchedule.date.getTime() + item.baseSchedule.duration * 60000).getUTCMinutes().toString().padStart(2, '0')}
+                            {validateDate(params.diaryDay) + ' · ' + getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)}
                         </span>
                     </SheetTitle>
                     <SheetDescription className="space-y-3.5 m-[16px]">
