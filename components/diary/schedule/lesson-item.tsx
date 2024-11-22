@@ -76,7 +76,7 @@ export default function LessonItem({ item, index }: { item: itemProps, index: nu
                         </div>
                         <div>
                             <span className="text-sm">
-                                getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)
+                                { getLessonTime(item.baseSchedule.date, item.baseSchedule.duration) }
                             </span>
                         </div>
                     </div>
