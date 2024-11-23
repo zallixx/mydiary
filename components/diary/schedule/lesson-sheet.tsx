@@ -6,9 +6,10 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 import { itemProps } from '@/components/diary/schedule/lesson-item';
-import { validateDate } from '@/components/diary/schedule/functions';
+import { validateDate, getLessonTime } from '@/components/diary/schedule/functions';
 import { ReactElement } from 'react';
 import { Checkbox } from "@/components/ui/checkbox"
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface homeworkProps {
     id: string;
@@ -80,7 +81,7 @@ export default function LessonSheet({ open, onOpenChange, item, params }: { open
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
-            <SheetContent className="lg:w-[25%] max-lg:hidden bg-[#f4f4f8]">
+            <SheetContent className="lg:w-[25%] bg-[#f4f4f8]">
                 <SheetHeader>
                     <SheetTitle
                         className="flex flex-col items-start justify-items-start content-start w-full bg-white pt-3 pl-2 h-[82px] shadow-lg">
@@ -88,50 +89,57 @@ export default function LessonSheet({ open, onOpenChange, item, params }: { open
                             {item.baseSchedule.subject.name}
                         </span>
                         <span className="flex text-gray-600">
-                            {/* TODO: обернуть в функцию + логика предстоящ/прощед */}
-                            {validateDate(params.diaryDay) + ' · ' +  item.baseSchedule.date.getUTCHours().toString().padStart(2, '0') + ':' + item.baseSchedule.date.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(item.baseSchedule.date.getTime() + item.baseSchedule.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.baseSchedule.date.getTime() + item.baseSchedule.duration * 60000).getUTCMinutes().toString().padStart(2, '0')}
+                            {validateDate(params.diaryDay) + ' · ' + getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)}
                         </span>
                     </SheetTitle>
-                    <SheetDescription className="space-y-3.5 m-[16px]">
-                        {lessonComponents.map((component, index) => (
-                            <div className="p-[24px] rounded-[16px] bg-white items-start justify-items-start content-start flex flex-col text-[#87879b]" key={index}>
-                                <span className="font-semibold text-lg text-black">{component.title}</span>
-                                {component.children.map((child, childIndex) => (
-                                    <div key={childIndex} className={`text-base w-full ${component.title === 'Преподаватель:' || component.title === 'Домашние задания:' || component.title === 'Личные задания:' ? '' : 'pl-1'} flex flex-col`}>
-                                        <span className="flex flex-row items-center">
-                                            {child.svg}
-                                            {child.sub_title}
-                                        </span>
-                                        <span className={`flex flex-row items-center text-black ${component.title === 'Преподаватель:' ? '' : 'pl-6'}`}>
-                                            {child.description}
-                                        </span>
-                                        {child.homeworkList && child.homeworkList.map((homework, homeworkIndex) => (
-                                            <div key={homeworkIndex} className="flex flex-col items-start">
-                                                <span className="flex flex-row items-center text-black">
-                                                    {homework.description}
-                                                </span>
-                                                <span className={`w-full mt-[16px] h-[48px] text-black p-[16px] rounded-[16px] flex items-center cursor-pointer ${homework.completions[0]?.isCompleted ? 'bg-[#e8f7ea]' : 'bg-[#f4f4f8]'}`}>
-                                                    <Checkbox className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]' }`} checked={homework.completions[0]?.isCompleted}/>
-                                                    {homework.completions[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
-                                                </span>
-                                            </div>
-                                        ))}
-                                        {child.specificAssignments && child.specificAssignments.map((assignment, assignmentIndex) => (
-                                            <div key={assignmentIndex} className="flex flex-col items-start">
-                                                <span className="flex flex-row items-center text-black">
-                                                    {assignment.description}
-                                                </span>
-                                                <span className={`w-full mt-[16px] h-[48px] p-[16px] rounded-[16px] flex items-center text-black cursor-pointer ${assignment.homeworkCompletion[0]?.isCompleted ? 'bg-[#e8f7ea]' : 'bg-[#f4f4f8]'}`}>
-                                                    <Checkbox className={`h-6 w-6 mr-3 ${assignment.homeworkCompletion[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]' }`} checked={assignment.homeworkCompletion[0]?.isCompleted} />
-                                                    {assignment.homeworkCompletion[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
-                                                </span>
+                    <ScrollArea className="h-[calc(100vh-82px)] overflow-y-auto">
+                        <SheetDescription className="space-y-3.5 m-[16px]">
+                            {lessonComponents.map((component, index) => {
+                                if (component.title === "Домашние задания:" && (!component.children[0].homeworkList || component.children[0].homeworkList.length === 0)) {
+                                    return null;
+                                }
+                                if (component.title === "Личные задания:" && (!component.children[0].specificAssignments || component.children[0].specificAssignments.length === 0)) {
+                                    return null;
+                                }
+                                return (
+                                    <div className="p-[24px] rounded-[16px] bg-white items-start justify-items-start content-start flex flex-col text-[#87879b]" key={index}>
+                                        <span className="font-semibold text-lg text-black">{component.title}</span>
+                                        {component.children.map((child, childIndex) => (
+                                            <div key={childIndex} className={`text-base w-full ${component.title === 'Преподаватель:' || component.title === 'Домашние задания:' || component.title === 'Личные задания:' ? '' : 'pl-1'} flex flex-col`}>
+                                            <span className="flex flex-row items-center">
+                                                {child.svg}
+                                                {child.sub_title}
+                                            </span>
+                                                <span className={`flex flex-row items-center text-black ${component.title === 'Преподаватель:' ? '' : 'pl-6'}`}>
+                                                {child.description}
+                                            </span>
+                                                {child.homeworkList && child.homeworkList.map((homework, homeworkIndex) => (
+                                                    <div key={homeworkIndex} className="flex flex-col items-start">
+                                                    <span className="flex flex-row items-center text-black">
+                                                        {homework.description}
+                                                    </span>
+                                                        <span className={`w-full mt-[16px] mb-2 h-[48px] text-black p-[16px] rounded-[16px] flex items-center cursor-pointer ${homework.completions[0]?.isCompleted ? 'bg-[#e8f7ea]' : 'bg-[#f4f4f8]'}`}>
+                                                        <Checkbox className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`} checked={homework.completions[0]?.isCompleted}/>{homework.completions[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
+                                                    </span>
+                                                    </div>
+                                                ))}
+                                                {child.specificAssignments && child.specificAssignments.map((assignment, assignmentIndex) => (
+                                                    <div key={assignmentIndex} className="flex flex-col items-start">
+                                                    <span className="flex flex-row items-center text-black">
+                                                        {assignment.description}
+                                                    </span>
+                                                        <span className={`w-full mt-[16px] h-[48px] p-[16px] rounded-[16px] flex items-center text-black cursor-pointer ${assignment.homeworkCompletion[0]?.isCompleted ? 'bg-[#e8f7ea]' : 'bg-[#f4f4f8]'}`}>
+                                                        <Checkbox className={`h-6 w-6 mr-3 ${assignment.homeworkCompletion[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`} checked={assignment.homeworkCompletion[0]?.isCompleted}/>{assignment.homeworkCompletion[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
+                                                    </span>
+                                                    </div>
+                                                ))}
                                             </div>
                                         ))}
                                     </div>
-                                ))}
-                            </div>
-                        ))}
-                    </SheetDescription>
+                                );
+                            })}
+                        </SheetDescription>
+                    </ScrollArea>
                 </SheetHeader>
             </SheetContent>
         </Sheet>

@@ -1,6 +1,6 @@
 'use client';
 
-import { currentTimeInItemRange } from '@/components/diary/schedule/functions';
+import { currentTimeInItemRange, getLessonTime } from '@/components/diary/schedule/functions';
 import { absenceType } from '@prisma/client';
 import LessonMarks from '@/components/diary/schedule/lesson-marks';
 import LessonHomework from '@/components/diary/schedule/lesson-homework';
@@ -8,12 +8,14 @@ import LessonMaterials from '@/components/diary/schedule/lesson-materials';
 import LessonSheet from '@/components/diary/schedule/lesson-sheet';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import LessonDrawer from '@/components/diary/schedule/lesson-drawer';
 
 
 export interface itemProps {
     id: string;
     place: string;
     event_type: string;
+    topic: string;
     baseSchedule: {
         date: Date;
         duration: number;
@@ -68,7 +70,7 @@ export default function LessonItem({ item, index }: { item: itemProps, index: nu
         <>
             <div className="flex flex-col border-b rounded-2xl h-auto bg-white py-2" key={item.id} onClick={handleClick}>
                 <div className="flex flex-row">
-                    <div className={`h-11 w-1.5 rounded-r-full mt-1 mr-2 ${currentTimeInItemRange(item.baseSchedule.date) ? 'bg-[#16a3f5]' : 'bg-[#e8e8ef]'}`}></div>
+                    <div className={`h-11 w-1.5 rounded-r-full mt-1 mr-2 ${currentTimeInItemRange(item.baseSchedule.date, item.baseSchedule.duration) ? 'bg-[#16a3f5]' : 'bg-[#e8e8ef]'}`}></div>
                     <div className="flex flex-col">
                         <div className="flex flex-row items-center">
                             <span className="text-base font-medium">{item.baseSchedule.subject.name}</span>
@@ -76,7 +78,7 @@ export default function LessonItem({ item, index }: { item: itemProps, index: nu
                         </div>
                         <div>
                             <span className="text-sm">
-                                {item.baseSchedule.date.getUTCHours().toString().padStart(2, '0') + ':' + item.baseSchedule.date.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(item.baseSchedule.date.getTime() + item.baseSchedule.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.baseSchedule.date.getTime() + item.baseSchedule.duration * 60000).getUTCMinutes().toString().padStart(2, '0')}
+                                {getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)}
                             </span>
                         </div>
                     </div>
@@ -84,12 +86,13 @@ export default function LessonItem({ item, index }: { item: itemProps, index: nu
                         <LessonMarks item={item} key={item.id} />
                     </div>
                 </div>
-                <div className="flex flex-row mt-2 mr-2">
+                <div className="flex flex-col mt-2 mr-2">
                     <LessonHomework item={item} key={item.id} />
                 </div>
                 <LessonMaterials item={item} key={item.id} />
             </div>
-            {isOpen && <LessonSheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} params={params}/>}
+            {isOpen && window.innerWidth > 1400 && <LessonSheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} params={params}/>}
+            {isOpen && window.innerWidth < 1400 && <LessonDrawer open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} params={params}/>}
         </>
     );
 };
