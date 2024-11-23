@@ -90,7 +90,7 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 					<div className="flex h-12 lg:h-14 justify-between">
 						<div className="flex px-2 lg:px-0">
 							<div className="flex flex-shrink-0 items-center max-[520px]:hidden">
-								<svg width="58" height="16" viewBox="0 0 58 16"><path d="M20.202 12.288l3.063-2.048c.847.96 2.02 1.6 3.324 1.6a3.95 3.95 0 002.215-.704c.652-.512 1.108-1.152 1.304-1.92h-4.692v-2.88h4.561a3.846 3.846 0 00-1.303-1.728c-.587-.448-1.369-.64-2.15-.64a4.48 4.48 0 00-3.259 1.408l-2.802-2.304c1.433-1.792 3.65-2.88 5.995-2.816 1.108 0 2.216.256 3.194.64.912.384 1.824.896 2.541 1.6 1.434 1.408 2.346 3.392 2.346 5.44 0 1.344-.39 2.624-1.108 3.84-.651 1.152-1.629 2.048-2.802 2.688-1.173.64-2.542 1.216-3.91 1.152-1.303.064-2.607-.448-3.78-.96-1.108-.64-2.02-1.408-2.737-2.368zM36.494.256h4.562v11.52h3.91V.256h4.562v11.52h3.91V.256H58v14.72H36.494M13.034.256l-4.171 5.76-3.65-5.76H0v14.72h4.562v-8.32c1.108 1.472 2.15 3.008 3.258 4.48h1.955c1.043-1.472 2.216-3.008 3.259-4.48v8.32h4.562V.256h-4.562z"></path></svg>
+								<Image width={100} height={150} src="/mai.svg" alt="Icon"/>
 							</div>
 							<nav className="hidden lg:ml-6 lg:flex lg:space-x-4 content-center items-center">
 								{mainComponents.map((item) => (
@@ -167,8 +167,11 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 															href={child.sub_href}
 															key={child.sub_title}
 															className={`inline-flex items-center rounded-md py-1 text-base ${currentPage.startsWith('/diary/' + child.sub_href.split('/')[2]) ? 'font-semibold' : ''}`}>
-															<span className="truncate max-w-xs transition duration-200 ease-in-out group-hover:-translate-y-1">{child.sub_title}</span>
-															{child.sub_children && (<ChevronDown className="ml-1 h-5 w-5 text-gray-400 transition duration-300 ease-in-out group-hover:-translate-y-0.5 group-hover:rotate-180" aria-hidden="true" />)}
+															<span
+																className="truncate max-w-xs transition duration-200 ease-in-out group-hover:-translate-y-1">{child.sub_title}</span>
+															{child.sub_children && (<ChevronDown
+																className="ml-1 h-5 w-5 text-gray-400 transition duration-300 ease-in-out group-hover:-translate-y-0.5 group-hover:rotate-180"
+																aria-hidden="true"/>)}
 														</Link>
 													</TooltipTrigger>
 													{child.sub_children && (
