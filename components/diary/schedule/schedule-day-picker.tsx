@@ -117,6 +117,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
         if (currentWeekIndex !== -1) {
             scrollToWeek(currentWeekIndex);
             setSelectedDay(todayString);
+            onDateChange && onDateChange(new Date(todayString));
         }
     };
 

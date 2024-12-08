@@ -43,7 +43,7 @@ interface specificAssignmentsProps {
     }[];
 }
 
-export default function LessonDrawer({ open, onOpenChange, item, params }: { open: boolean; onOpenChange: () => void; item: itemProps; params: { diaryDay: string; } }) {
+export default function LessonDrawer({ open, onOpenChange, item, date }: { open: boolean; onOpenChange: () => void; item: itemProps; date: Date }) {
     const [activeTab, setActiveTab] = React.useState('lesson');
     const [api, setApi] = React.useState<any>();
     const indicatorRef = React.useRef<HTMLDivElement>(null);
@@ -94,17 +94,17 @@ export default function LessonDrawer({ open, onOpenChange, item, params }: { ope
             children: [
                 {
                     sub_title: "Тип мероприятия",
-                    svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-info mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
+                    svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-info mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
                     description: item.event_type,
                 },
                 {
                     sub_title: "Дата и время проведения",
-                    svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-clock mr-1"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-                    description: params.diaryDay + ' ' + new Date(item.baseSchedule.date).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.baseSchedule.date).getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(new Date(item.baseSchedule.date).getTime() + item.baseSchedule.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(new Date(item.baseSchedule.date).getTime() + item.baseSchedule.duration * 60000).getUTCMinutes().toString().padStart(2, '0'),
+                    svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-clock mr-1"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+                    description: date.toISOString().split('T')[0] + ' ' + new Date(item.baseSchedule.date).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.baseSchedule.date).getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(new Date(item.baseSchedule.date).getTime() + item.baseSchedule.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(new Date(item.baseSchedule.date).getTime() + item.baseSchedule.duration * 60000).getUTCMinutes().toString().padStart(2, '0'),
                 },
                 {
                     sub_title: "Место проведения",
-                    svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-map-pin mr-1"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>,
+                    svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map-pin mr-1"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>,
                     description: item.place,
                 },
             ],
@@ -146,7 +146,7 @@ export default function LessonDrawer({ open, onOpenChange, item, params }: { ope
                         </DrawerTitle>
                         <DrawerDescription className="text-white flex flex-col items-center justify-center w-full">
                             <span>
-                                {validateDate(params.diaryDay) + ' ' + getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)}
+                                {validateDate(date) + ' ' + getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)}
                             </span>
                             <span className="mt-2 text-3xl font-semibold">
                                 {item.baseSchedule.subject.name}
