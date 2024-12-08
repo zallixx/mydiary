@@ -5,33 +5,25 @@ const timezoneOffset = today.getTimezoneOffset()*60000;
 const todayLocal = new Date(today.getTime() - timezoneOffset);
 todayLocal.setUTCHours(0, 0, 0, 0);
 
-const validateDate = (date: string): string | boolean => {
-    const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-([0-9]{4})$/;
+const validateDate = (inputDate: Date): string | boolean => {
+    const dayDifference = Math.round((inputDate.getTime() - todayLocal.getTime()) / (24 * 60 * 60 * 1000));
 
-    if(dateRegex.test(date)) {
-        const [day, month, year] = date.split('-').map(Number);
-        const inputDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+    const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
 
-        const dayDifference = Math.round((inputDate.getTime() - todayLocal.getTime()) / (24 * 60 * 60 * 1000));
-
-        const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-
-        switch (dayDifference) {
-            case -2:
-                return "Позавчера";
-            case -1:
-                return "Вчера";
-            case 0:
-                return "Сегодня";
-            case 1:
-                return "Завтра";
-            case 2:
-                return "Послезавтра";
-            default:
-                return days[inputDate.getUTCDay()] + ' ' + inputDate.toLocaleString("ru-RU", {month: "short", day: "numeric" });
-        }
+    switch (dayDifference) {
+        case -2:
+            return "Позавчера";
+        case -1:
+            return "Вчера";
+        case 0:
+            return "Сегодня";
+        case 1:
+            return "Завтра";
+        case 2:
+            return "Послезавтра";
+        default:
+            return days[inputDate.getUTCDay()] + ' ' + inputDate.toLocaleString("ru-RU", {month: "short", day: "numeric" });
     }
-    return false;
 };
 
 const setPropForItem = (item: string): string => {

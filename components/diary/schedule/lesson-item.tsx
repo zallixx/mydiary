@@ -7,7 +7,6 @@ import LessonHomework from '@/components/diary/schedule/lesson-homework';
 import LessonMaterials from '@/components/diary/schedule/lesson-materials';
 import LessonSheet from '@/components/diary/schedule/lesson-sheet';
 import { useState } from 'react';
-import { useParams } from 'next/navigation';
 import LessonDrawer from '@/components/diary/schedule/lesson-drawer';
 
 
@@ -58,9 +57,8 @@ export interface itemProps {
 }
 
 
-export default function LessonItem({ item, index }: { item: itemProps, index: number }) {
+export default function LessonItem({ item, index, date }: { item: itemProps, index: number, date: Date }) {
     const [isOpen, setIsOpen] = useState(false);
-    const params = useParams<{ diaryDay: string; }>();
 
     const handleClick = () => {
         setIsOpen(!isOpen);
@@ -91,8 +89,8 @@ export default function LessonItem({ item, index }: { item: itemProps, index: nu
                 </div>
                 <LessonMaterials item={item} key={item.id} />
             </div>
-            {isOpen && window.innerWidth > 1400 && <LessonSheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} params={params}/>}
-            {isOpen && window.innerWidth < 1400 && <LessonDrawer open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} params={params}/>}
+            {isOpen && window.innerWidth > 1400 && <LessonSheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} date={date} />}
+            {isOpen && window.innerWidth < 1400 && <LessonDrawer open={isOpen} onOpenChange={() => setIsOpen(!isOpen)} item={item} date={date} />}
         </>
     );
 };
