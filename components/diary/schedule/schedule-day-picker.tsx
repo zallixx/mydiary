@@ -18,8 +18,16 @@ import {
     CarouselNext
 } from '@/components/ui/carousel';
 
+const getTodayString = () => {
+    const today = new Date();
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+};
 
-export default function ScheduleDayPicker() {
+interface ScheduleDayPickerProps {
+    onDateChange?: (date: Date) => void
+}
+
+export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps) {
     const [currentWeek, setCurrentWeek] = React.useState("");
     const [selectedDay, setSelectedDay] = React.useState("");
     const [api, setApi] = React.useState<CarouselApi>();
@@ -56,8 +64,8 @@ export default function ScheduleDayPicker() {
                 const date = new Date(currentDate);
                 week.push({
                     short: dayNames[i],
-                    num: date.getDate().toString(),
-                    full: date.toISOString().split('T')[0],
+                    num: date.getDate().toString().padStart(2, '0'),
+                    full: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
                     month: date.getMonth(),
                     year: date.getFullYear()
                 });
@@ -66,7 +74,7 @@ export default function ScheduleDayPicker() {
             weeks.push(week);
         }
         return weeks;
-    }
+    };
 
     const currentYear = new Date().getFullYear();
     const startDate = new Date(currentYear, 8, 1); // 1 сентября
@@ -85,13 +93,13 @@ export default function ScheduleDayPicker() {
 
     React.useEffect(() => {
         if (weekOptions.length > 0) {
-            const today = new Date();
-            const todayString = today.toISOString().split('T')[0];
+            const today = getTodayString();
             const currentWeekIndex = weeks.findIndex(week =>
-                week.some(day => day.full === today.toISOString().split('T')[0])
+                week.some(day => day.full === today)
             );
             setCurrentWeek(currentWeekIndex.toString());
-            setSelectedDay(todayString);
+            setSelectedDay(today);
+            onDateChange && onDateChange(new Date(today));
             api?.scrollTo(currentWeekIndex);
         }
     }, [api]);
@@ -102,8 +110,7 @@ export default function ScheduleDayPicker() {
     };
 
     const handleTodayClick = () => {
-        const today = new Date();
-        const todayString = today.toISOString().split('T')[0];
+        const todayString = getTodayString();
         const currentWeekIndex = weeks.findIndex(week =>
             week.some(day => day.full === todayString)
         );
@@ -111,6 +118,11 @@ export default function ScheduleDayPicker() {
             scrollToWeek(currentWeekIndex);
             setSelectedDay(todayString);
         }
+    };
+
+    const handleDayClick = (day: string) => {
+        setSelectedDay(day);
+        onDateChange && onDateChange(new Date(day));
     };
 
     return (
@@ -160,7 +172,7 @@ export default function ScheduleDayPicker() {
                                         <CarouselItem key={weekIndex}>
                                             <div className="flex items-center justify-between px-4">
                                                 {week.map((day) => {
-                                                    const isToday = day.full === new Date().toISOString().split('T')[0];
+                                                    const isToday = day.full === getTodayString();
                                                     return (
                                                         <button
                                                             key={day.full}
@@ -169,7 +181,7 @@ export default function ScheduleDayPicker() {
                                                                     ? "border-[0.4px]"
                                                                     : "hover:text-accent-foreground hover:bg-[#f1f4ff]"
                                                             }`}
-                                                            onClick={() => setSelectedDay(day.full)}
+                                                            onClick={() => handleDayClick(day.full)}
                                                         >
                                                             <span className={`text-xs ${selectedDay === day.full ? '' : 'text-muted-foreground'}`}>
                                                                 {day.short}
@@ -212,7 +224,7 @@ export default function ScheduleDayPicker() {
                                                                 ? "border-[0.4px]"
                                                                 : "hover:text-accent-foreground hover:bg-[#f1f4ff]"
                                                         }`}
-                                                        onClick={() => setSelectedDay(day.full)}
+                                                        onClick={() => handleDayClick(day.full)}
                                                     >
                                                         <span className={`text-xs ${selectedDay === day.full ? '' : 'text-muted-foreground'}`}>
                                                             {day.short}

@@ -44,7 +44,7 @@ export default function LessonSheet({ open, onOpenChange, item, params }: { open
                 {
                     sub_title: "Дата и время проведения",
                     svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-clock mr-1"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-                    description: params.diaryDay + ' ' + item.baseSchedule.date.getUTCHours().toString().padStart(2, '0') + ':' + item.baseSchedule.date.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(item.baseSchedule.date.getTime() + item.baseSchedule.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.baseSchedule.date.getTime() + item.baseSchedule.duration * 60000).getUTCMinutes().toString().padStart(2, '0'),
+                    description: params.diaryDay + ' ' + new Date(item.baseSchedule.date).getUTCHours().toString().padStart(2, '0') + ':' + new Date(item.baseSchedule.date).getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(new Date(item.baseSchedule.date).getTime() + item.baseSchedule.duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(new Date(item.baseSchedule.date).getTime() + item.baseSchedule.duration * 60000).getUTCMinutes().toString().padStart(2, '0'),
                 },
                 {
                     sub_title: "Место проведения",

@@ -62,7 +62,8 @@ const currentTimeInItemRange = (itemDate: Date, duration: number) => {
     return todayLocal >= itemDate && todayLocal < new Date(itemDate.getTime() + duration * 60000);
 };
 
-const getLessonTime = (itemDate: Date, duration: number) => {
+const getLessonTime = (date: Date, duration: number) => {
+    const itemDate = new Date(date);
     return itemDate.getUTCHours().toString().padStart(2, '0') + ':' + itemDate.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(itemDate.getTime() + duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(itemDate.getTime() + duration * 60000).getUTCMinutes().toString().padStart(2, '0');
 };
 
