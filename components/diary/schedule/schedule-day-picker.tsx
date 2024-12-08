@@ -23,7 +23,11 @@ const getTodayString = () => {
     return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 };
 
-export default function ScheduleDayPicker() {
+interface ScheduleDayPickerProps {
+    onDateChange?: (date: Date) => void
+}
+
+export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps) {
     const [currentWeek, setCurrentWeek] = React.useState("");
     const [selectedDay, setSelectedDay] = React.useState("");
     const [api, setApi] = React.useState<CarouselApi>();
@@ -95,6 +99,7 @@ export default function ScheduleDayPicker() {
             );
             setCurrentWeek(currentWeekIndex.toString());
             setSelectedDay(today);
+            onDateChange && onDateChange(new Date(today));
             api?.scrollTo(currentWeekIndex);
         }
     }, [api]);
@@ -113,6 +118,11 @@ export default function ScheduleDayPicker() {
             scrollToWeek(currentWeekIndex);
             setSelectedDay(todayString);
         }
+    };
+
+    const handleDayClick = (day: string) => {
+        setSelectedDay(day);
+        onDateChange && onDateChange(new Date(day));
     };
 
     return (
@@ -171,7 +181,7 @@ export default function ScheduleDayPicker() {
                                                                     ? "border-[0.4px]"
                                                                     : "hover:text-accent-foreground hover:bg-[#f1f4ff]"
                                                             }`}
-                                                            onClick={() => setSelectedDay(day.full)}
+                                                            onClick={() => handleDayClick(day.full)}
                                                         >
                                                             <span className={`text-xs ${selectedDay === day.full ? '' : 'text-muted-foreground'}`}>
                                                                 {day.short}
@@ -214,7 +224,7 @@ export default function ScheduleDayPicker() {
                                                                 ? "border-[0.4px]"
                                                                 : "hover:text-accent-foreground hover:bg-[#f1f4ff]"
                                                         }`}
-                                                        onClick={() => setSelectedDay(day.full)}
+                                                        onClick={() => handleDayClick(day.full)}
                                                     >
                                                         <span className={`text-xs ${selectedDay === day.full ? '' : 'text-muted-foreground'}`}>
                                                             {day.short}
