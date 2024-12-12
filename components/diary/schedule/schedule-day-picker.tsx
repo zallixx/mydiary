@@ -129,7 +129,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
     return (
         <>
             {window.innerWidth > 1400 &&
-                <div className="w-full bg-white rounded-lg shadow-sm px-12">
+                <div className="w-full bg-white rounded-lg shadow-sm px-12 max-lg:hidden">
                     <div className="py-4 space-y-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
@@ -216,7 +216,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
                                     <CarouselItem key={weekIndex}>
                                         <div className="flex items-center justify-evenly">
                                             {week.map((day) => {
-                                                const isToday = day.full === new Date().toISOString().split('T')[0];
+                                                const isToday = day.full === getTodayString();
                                                 return (
                                                     <button
                                                         key={day.full}

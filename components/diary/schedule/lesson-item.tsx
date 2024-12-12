@@ -50,9 +50,10 @@ export interface itemProps {
         type: absenceType;
     }[];
     assessment: {
-        id: string;
-        grade: string;
+        grade: number;
         gradeType: string;
+        comment: string;
+        category: string;
     }[];
 }
 

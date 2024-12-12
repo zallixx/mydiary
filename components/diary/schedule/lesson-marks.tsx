@@ -11,8 +11,8 @@ export default function LessonMarks({item}: {item: itemProps}) {
                     {item.absence[0]?.type !== "NONE" && item.absence[0] ? (
                         <>
                             <div className="flex flex-col">
-                                {item.assessment.slice(0, 1).map((assessment) => (
-                                    <div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(assessment.gradeType)}`} key={assessment.id}>
+                                {item.assessment.slice(0, 1).map((assessment, assessmentIndex) => (
+                                    <div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(assessment.gradeType)}`} key={assessmentIndex}>
                                         <span>
                                             {assessment.grade}
                                             <sub className="text-[10px] align-baseline">{setIndexForGrade(assessment.gradeType)}</sub>
@@ -34,8 +34,8 @@ export default function LessonMarks({item}: {item: itemProps}) {
                     ) : (
                         <div className="flex flex-col">
                             <div className="flex flex-row">
-                                {item.assessment.slice(0, 2).map((assessment) => (
-                                    <div className={`flex items-center justify-items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(assessment.gradeType)}`} key={assessment.id}>
+                                {item.assessment.slice(0, 2).map((assessment, assessmentIndex) => (
+                                    <div className={`flex items-center justify-items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(assessment.gradeType)}`} key={assessmentIndex}>
                                         <span>
                                             {assessment.grade}
                                             <sub className="text-[10px] align-baseline">{setIndexForGrade(assessment.gradeType)}</sub>
