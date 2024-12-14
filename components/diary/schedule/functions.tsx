@@ -68,8 +68,8 @@ const setIndexForGrade = (item: string): string => {
     }
 };
 
-const currentTimeInItemRange = (itemDate: Date, duration: number): boolean => {
-    return todayLocal.getHours() >= itemDate.getHours() && todayLocal.getHours() < (itemDate.getHours() + duration * 60000);
+const currentTimeInItemRange = (itemTime: Date, itemDate: Date, duration: number): boolean => {
+    return (todayLocal.getHours() >= itemTime.getHours() && todayLocal.getHours() < (itemTime.getHours() + duration * 60000)) && todayLocal.getDate() === itemDate.getDate();
 };
 
 const getLessonTime = (date: Date, duration: number): string => {
