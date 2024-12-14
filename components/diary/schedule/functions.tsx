@@ -62,7 +62,7 @@ const setIndexForGrade = (item: string): string => {
 };
 
 const currentTimeInItemRange = (itemDate: Date, duration: number): boolean => {
-    return todayLocal >= itemDate && todayLocal < new Date(itemDate.getTime() + duration * 60000);
+    return todayLocal.getHours() >= itemDate.getHours() && todayLocal.getHours() < (itemDate.getHours() + duration * 60000);
 };
 
 const getLessonTime = (date: Date, duration: number): string => {
