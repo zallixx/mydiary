@@ -1,6 +1,6 @@
 'use client';
 
-import { itemProps } from '@/components/diary/schedule/lesson-item';
+import { itemProps } from '@/components/diary/schedule/interfaces';
 import { setIndexForGrade, setPropForItem } from '@/components/diary/schedule/functions';
 
 export default function LessonMarks({item}: {item: itemProps}) {

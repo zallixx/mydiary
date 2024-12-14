@@ -1,62 +1,13 @@
 'use client';
 
 import { currentTimeInItemRange, getLessonTime } from '@/components/diary/schedule/functions';
-import { absenceType } from '@prisma/client';
 import LessonMarks from '@/components/diary/schedule/lesson-marks';
 import LessonHomework from '@/components/diary/schedule/lesson-homework';
 import LessonMaterials from '@/components/diary/schedule/lesson-materials';
-import LessonSheet from '@/components/diary/schedule/lesson-sheet';
+import LessonSheet from '@/components/diary/schedule/lesson-sheet/lesson-sheet';
 import { useState } from 'react';
-import LessonDrawer from '@/components/diary/schedule/lesson-drawer';
-
-
-export interface itemProps {
-    id: string;
-    place: string;
-    event_type: string;
-    topic: string;
-    baseSchedule: {
-        date: Date;
-        duration: number;
-        teacher: {
-            name: string;
-        };
-        subject: {
-            id: string;
-            name: string;
-            createdAt: Date;
-            updatedAt: Date;
-        };
-    };
-    specificAssignment: {
-        description: string;
-        homeworkCompletion: {
-            isCompleted: boolean;
-        }[];
-    }[];
-    homework: {
-        id: string;
-        date: Date;
-        groupId: string;
-        scheduleItemId: string;
-        createdAt: Date;
-        updatedAt: Date;
-        description: string;
-        completions: {
-            isCompleted: boolean;
-        }[];
-    }[];
-    absence: {
-        type: absenceType;
-    }[];
-    assessment: {
-        grade: number;
-        gradeType: string;
-        comment: string;
-        category: string;
-    }[];
-}
-
+import LessonDrawer from '@/components/diary/schedule/lesson-drawer/lesson-drawer';
+import { itemProps } from '@/components/diary/schedule/interfaces';
 
 export default function LessonItem({ item, index, date }: { item: itemProps, index: number, date: Date }) {
     const [isOpen, setIsOpen] = useState(false);

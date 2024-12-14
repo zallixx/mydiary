@@ -27,12 +27,13 @@ export async function POST(request: Request) {
         const startOfDay = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()-1, 23, 59, 59));
         const endOfDay = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 23, 59, 59));
         const dayOfWeek = endOfDay.getUTCDay();
+        const groupIds = profile.groups.map((group) => group.id);
 
         const scheduleForDay = await db.weeklySchedule.findMany({
             where: {
                 dayOfWeek: dayOfWeek,
                 groupId: {
-                    in: profile.groups.map((group) => group.id),
+                    in: groupIds,
                 },
             },
             orderBy: {
@@ -116,7 +117,7 @@ export async function POST(request: Request) {
                 homework: {
                     where: {
                         groupId: {
-                            in: profile.groups.map((group) => group.id),
+                            in: groupIds,
                         },
                         date: {
                             gt: startOfDay,

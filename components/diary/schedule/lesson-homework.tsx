@@ -1,6 +1,6 @@
 'use client';
 
-import { itemProps } from '@/components/diary/schedule/lesson-item';
+import { itemProps } from '@/components/diary/schedule/interfaces';
 
 export default function LessonHomework({item}: {item: itemProps}) {
     return (
