@@ -1,62 +1,13 @@
 'use client';
 
 import { currentTimeInItemRange, getLessonTime } from '@/components/diary/schedule/functions';
-import { absenceType } from '@prisma/client';
 import LessonMarks from '@/components/diary/schedule/lesson-marks';
 import LessonHomework from '@/components/diary/schedule/lesson-homework';
 import LessonMaterials from '@/components/diary/schedule/lesson-materials';
-import LessonSheet from '@/components/diary/schedule/lesson-sheet';
+import LessonSheet from '@/components/diary/schedule/lesson-sheet/lesson-sheet';
 import { useState } from 'react';
-import LessonDrawer from '@/components/diary/schedule/lesson-drawer';
-
-
-export interface itemProps {
-    id: string;
-    place: string;
-    event_type: string;
-    topic: string;
-    baseSchedule: {
-        date: Date;
-        duration: number;
-        teacher: {
-            name: string;
-        };
-        subject: {
-            id: string;
-            name: string;
-            createdAt: Date;
-            updatedAt: Date;
-        };
-    };
-    specificAssignment: {
-        description: string;
-        homeworkCompletion: {
-            isCompleted: boolean;
-        }[];
-    }[];
-    homework: {
-        id: string;
-        date: Date;
-        groupId: string;
-        scheduleItemId: string;
-        createdAt: Date;
-        updatedAt: Date;
-        description: string;
-        completions: {
-            isCompleted: boolean;
-        }[];
-    }[];
-    absence: {
-        type: absenceType;
-    }[];
-    assessment: {
-        grade: number;
-        gradeType: string;
-        comment: string;
-        category: string;
-    }[];
-}
-
+import LessonDrawer from '@/components/diary/schedule/lesson-drawer/lesson-drawer';
+import { itemProps } from '@/components/diary/schedule/interfaces';
 
 export default function LessonItem({ item, index, date }: { item: itemProps, index: number, date: Date }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +20,7 @@ export default function LessonItem({ item, index, date }: { item: itemProps, ind
         <>
             <div className="flex flex-col border-b rounded-2xl h-auto bg-white py-2" key={item.id} onClick={handleClick}>
                 <div className="flex flex-row">
-                    <div className={`h-11 w-1.5 rounded-r-full mt-1 mr-2 ${currentTimeInItemRange(item.baseSchedule.date, item.baseSchedule.duration) ? 'bg-[#16a3f5]' : 'bg-[#e8e8ef]'}`}></div>
+                    <div className={`h-11 w-1.5 rounded-r-full mt-1 mr-2 ${currentTimeInItemRange(new Date(item.baseSchedule.date), date, item.baseSchedule.duration) ? 'bg-[#0a71d1]' : 'bg-[#e8e8ef]'}`}></div>
                     <div className="flex flex-col">
                         <div className="flex flex-row items-center">
                             <span className="text-base font-medium">{item.baseSchedule.subject.name}</span>

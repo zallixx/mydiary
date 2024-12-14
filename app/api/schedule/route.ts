@@ -27,12 +27,13 @@ export async function POST(request: Request) {
         const startOfDay = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()-1, 23, 59, 59));
         const endOfDay = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 23, 59, 59));
         const dayOfWeek = endOfDay.getUTCDay();
+        const groupIds = profile.groups.map((group) => group.id);
 
         const scheduleForDay = await db.weeklySchedule.findMany({
             where: {
                 dayOfWeek: dayOfWeek,
                 groupId: {
-                    in: profile.groups.map((group) => group.id),
+                    in: groupIds,
                 },
             },
             orderBy: {
@@ -57,12 +58,14 @@ export async function POST(request: Request) {
                         },
                     },
                     select: {
+                        id: true,
                         description: true,
                         homeworkCompletion: {
                             where: {
                                 profileId: profile.id,
                             },
                             select: {
+                                id: true,
                                 isCompleted: true,
                             },
                         },
@@ -116,7 +119,7 @@ export async function POST(request: Request) {
                 homework: {
                     where: {
                         groupId: {
-                            in: profile.groups.map((group) => group.id),
+                            in: groupIds,
                         },
                         date: {
                             gt: startOfDay,
@@ -124,6 +127,7 @@ export async function POST(request: Request) {
                         },
                     },
                     select: {
+                        id: true,
                         description: true,
                         fileAtachments: {
                             select: {
@@ -142,6 +146,7 @@ export async function POST(request: Request) {
                                 profileId: profile.id,
                             },
                             select: {
+                                id: true,
                                 isCompleted: true,
                             },
                         },

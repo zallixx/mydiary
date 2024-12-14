@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import ScheduleDayPicker from '@/components/diary/schedule/schedule-day-picker';
+import ScheduleDayPicker from '@/components/diary/schedule/day-picker/schedule-day-picker';
 import LessonItem from '@/components/diary/schedule/lesson-item';
 import { fetchSchedule } from '@/lib/fetchSchedule';
 import Image from 'next/image';
@@ -52,17 +52,25 @@ export default function SchedulePageClient() {
                         <LessonItem item={item} index={index} key={item.id} date={selectedDate} />
                     ))}
                     {!loading && scheduleForDay.length === 0 && (
-                        <>
+                        <div>
                             <Image
                                 src={'/no-schedule.png'}
-                                alt={'Ошибка при поиске учебного заведения'}
-                                className='pointer-events-none flex mx-auto'
+                                alt={'Расписание отсутствует'}
+                                className="pointer-events-none flex mx-auto"
                                 width={250}
                                 height={250}
                             />
-                            <p className='text-center'>Уроков и мероприятий нет😀</p>
-                        </>
-
+                            <span className="text-center items-center justify-center flex">
+                                Уроков и мероприятий нет
+                                <Image
+                                    src={'/party-popper.webp'}
+                                    alt={'Ура'}
+                                    className="pointer-events-none"
+                                    width={30}
+                                    height={30}
+                                />
+                            </span>
+                        </div>
                     )}
                 </div>
             </section>
