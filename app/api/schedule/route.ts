@@ -41,6 +41,9 @@ export async function POST(request: Request) {
                 },
             },
             select: {
+                topic: true,
+                place: true,
+                event_type: true,
                 specificAssignment: {
                     where: {
                         profile: {

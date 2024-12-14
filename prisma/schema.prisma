@@ -50,6 +50,9 @@ model Group {
 model WeeklySchedule {
   id             String            @id @default(uuid())
   dayOfWeek      Int
+  topic          String?
+  place          String?
+  event_type     eventType         @default(LESSON)
   absence        Absence[]
   homework       Homework[]
   specificAssignment SpecificAssignment[]
@@ -231,6 +234,13 @@ model Notification {
   profileId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum eventType {
+    OLIMPIAD
+    EXAM
+    LESSON
+    OTHER
 }
 
 enum Role {

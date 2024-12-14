@@ -77,4 +77,34 @@ const countHomeworkWithParam = (homeworkList: Homework[], param: string) => {
     }, 0);
 };
 
-export { validateDate, setPropForItem, setIndexForGrade, currentTimeInItemRange, countHomeworkWithParam, getLessonTime };
+const defineEventType = (item: string): string | undefined => {
+    switch (item) {
+        case 'OLIMPIAD':
+            return 'Олимпиада / Учебное';
+        case 'LESSON':
+            return 'Урок / Учебное';
+        case 'EXAM':
+            return 'Экзамен / Учебное';
+        case 'OTHER':
+            return 'Другое';
+        default:
+            return undefined;
+    }
+};
+
+const defineAbsenceType = (item: string): string | undefined => {
+    switch (item) {
+        case 'UNAUTHORIZED':
+            return 'Отсутствие без уведомления';
+        case 'SICK':
+            return 'Больничный';
+        case 'AUTHORIZED':
+            return 'Отсутствие с уведомлением';
+        case 'EXEMPT':
+            return 'Освобождение';
+        default:
+            return undefined;
+    }
+};
+
+export { validateDate, setPropForItem, setIndexForGrade, currentTimeInItemRange, countHomeworkWithParam, getLessonTime, defineEventType, defineAbsenceType };
