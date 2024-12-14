@@ -6,11 +6,18 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet';
 import { itemProps } from '@/components/diary/schedule/lesson-item';
-import {validateDate, getLessonTime, setPropForItem, setIndexForGrade} from '@/components/diary/schedule/functions';
+import {
+    validateDate,
+    getLessonTime,
+    setPropForItem,
+    setIndexForGrade,
+    defineEventType, defineAbsenceType
+} from '@/components/diary/schedule/functions';
 import { ReactElement } from 'react';
 import { Checkbox } from "@/components/ui/checkbox"
 import { ScrollArea } from '@/components/ui/scroll-area';
 import * as React from "react";
+import {absenceType} from "@prisma/client";
 
 interface homeworkProps {
     id: string;
@@ -39,15 +46,19 @@ interface assessmentProps {
     grade: number;
 }
 
+interface absenceProps {
+    type: absenceType;
+}
+
 export default function LessonSheet({ open, onOpenChange, item, date }: { open: boolean; onOpenChange: () => void; item: itemProps; date: Date }) {
-    const lessonComponents: { title: string; children: { sub_title?: string; svg?: ReactElement; description?: string; homeworkList?: homeworkProps[]; specificAssignments?: specificAssignmentsProps[]; assessment?: assessmentProps[] }[] }[] = [
+    const lessonComponents: { title: string; children: { sub_title?: string; svg?: ReactElement; description?: string; homeworkList?: homeworkProps[]; specificAssignments?: specificAssignmentsProps[]; assessment?: assessmentProps[]; absence?: absenceProps[]; }[] }[] = [
         {
             title: item.event_type === 'LESSON' ? "Об уроке" : "О мероприятии",
             children: [
                 {
                     sub_title: "Тип мероприятия",
                     svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-info mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
-                    description: item.event_type + '',
+                    description: defineEventType(item.event_type),
                 },
                 {
                     sub_title: "Место проведения",
@@ -88,6 +99,14 @@ export default function LessonSheet({ open, onOpenChange, item, date }: { open: 
                 },
             ]
         },
+        {
+            title: "Пропуск",
+            children: [
+                {
+                    absence: item.absence,
+                }
+            ]
+        }
     ];
 
     return (
@@ -105,13 +124,16 @@ export default function LessonSheet({ open, onOpenChange, item, date }: { open: 
                     <ScrollArea className="h-[calc(100vh-82px)] overflow-y-auto">
                         <SheetDescription className="space-y-3.5 m-[16px]">
                             {lessonComponents.map((component, index) => {
-                                if (component.title === "Домашние задания:" && (!component.children[0].homeworkList || component.children[0].homeworkList.length === 0)) {
+                                if (component.title === "Домашние задания" && (!component.children[0].homeworkList || component.children[0].homeworkList.length === 0)) {
                                     return null;
                                 }
-                                if (component.title === "Личные задания:" && (!component.children[0].specificAssignments || component.children[0].specificAssignments.length === 0)) {
+                                if (component.title === "Личные задания" && (!component.children[0].specificAssignments || component.children[0].specificAssignments.length === 0)) {
                                     return null;
                                 }
                                 if (component.title === "Результаты урока" && (!component.children[0].assessment || component.children[0].assessment.length === 0)) {
+                                    return null;
+                                }
+                                if (component.title === "Пропуск" && (!component.children[0].absence || component.children[0].absence.length === 0)) {
                                     return null;
                                 }
                                 return (
@@ -119,7 +141,7 @@ export default function LessonSheet({ open, onOpenChange, item, date }: { open: 
                                         <span className="font-semibold text-lg text-black">{component.title}</span>
                                         {component.children.map((child, childIndex) => (
                                             <span key={childIndex}
-                                                  className={`text-base w-full ${component.title === 'Преподаватель' || component.title === 'Домашние задания' || component.title === 'Личные задания' || component.title === 'Результаты урока'  ? '' : 'pl-1'} flex flex-col`}>
+                                                  className={`text-base w-full ${component.title === 'Преподаватель' || component.title === 'Домашние задания' || component.title === 'Личные задания' || component.title === 'Результаты урока' || component.title === 'Пропуск'  ? '' : 'pl-1'} flex flex-col`}>
                                                 <span className="flex flex-row items-center">
                                                     {child.svg}
                                                     {child.sub_title}
@@ -157,7 +179,7 @@ export default function LessonSheet({ open, onOpenChange, item, date }: { open: 
                                                 <div className="space-y-2">
                                                     {child.assessment && child.assessment.map((assessment, assessmentIndex) => (
                                                         <div
-                                                            className="flex flex-row items-center justify-start">
+                                                            className="flex flex-row items-center justify-start text-black">
                                                             <div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(assessment.gradeType)}`} key={assessmentIndex}>
                                                                 <span>
                                                                     {assessment.grade}
@@ -170,6 +192,18 @@ export default function LessonSheet({ open, onOpenChange, item, date }: { open: 
                                                         </div>
                                                     ))}
                                                 </div>
+                                                {child.absence && child.absence.map((absence, absenceIndex) => (
+                                                    <div className="flex flex-row items-center justify-start text-black">
+                                                        <div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(absence.type)}`}>
+                                                            <span>
+                                                                Н
+                                                            </span>
+                                                        </div>
+                                                        <span>
+                                                            { defineAbsenceType(absence.type) }
+                                                        </span>
+                                                    </div>
+                                                ))}
                                             </span>
                                         ))}
                                     </span>

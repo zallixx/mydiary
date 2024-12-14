@@ -9,7 +9,14 @@ import {
 } from '@/components/ui/drawer';
 import { ChevronLeft } from 'lucide-react';
 import * as React from 'react';
-import {getLessonTime, setIndexForGrade, setPropForItem, validateDate} from '@/components/diary/schedule/functions';
+import {
+    defineAbsenceType,
+    defineEventType,
+    getLessonTime,
+    setIndexForGrade,
+    setPropForItem,
+    validateDate
+} from '@/components/diary/schedule/functions';
 import {
     Tabs,
     TabsList,
@@ -22,6 +29,7 @@ import {
 } from '@/components/ui/carousel';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { absenceType } from '@prisma/client';
 
 interface homeworkProps {
     id: string;
@@ -48,6 +56,10 @@ interface assessmentProps {
     category: string;
     gradeType: string;
     grade: number;
+}
+
+interface absenceProps {
+    type: absenceType;
 }
 
 export default function LessonDrawer({ open, onOpenChange, item, date }: { open: boolean; onOpenChange: () => void; item: itemProps; date: Date }) {
@@ -95,14 +107,14 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
         }
     }, [api])
 
-    const lessonComponents: { title: string; children: { sub_title?: string; svg?: React.ReactElement; description?: string; homeworkList?: homeworkProps[]; specificAssignments?: specificAssignmentsProps[]; assessment?: assessmentProps[] }[] }[] = [
+    const lessonComponents: { title: string; children: { sub_title?: string; svg?: React.ReactElement; description?: string; homeworkList?: homeworkProps[]; specificAssignments?: specificAssignmentsProps[]; assessment?: assessmentProps[]; absence?: absenceProps[]; }[] }[] = [
         {
             title: item.event_type === 'LESSON' ? "Об уроке:" : "О мероприятии",
             children: [
                 {
                     sub_title: "Тип мероприятия",
                     svg: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-info mr-1"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>,
-                    description: item.event_type + '',
+                    description: defineEventType(item.event_type),
                 },
                 {
                     sub_title: "Место проведения",
@@ -143,6 +155,14 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
                 },
             ]
         },
+        {
+            title: "Пропуск",
+            children: [
+                {
+                    absence: item.absence,
+                }
+            ]
+        }
     ];
 
     return (
@@ -198,6 +218,9 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
                                                 if (component.title === "Результаты урока" && (!component.children[0].assessment || component.children[0].assessment.length === 0)) {
                                                     return null;
                                                 }
+                                                if (component.title === "Пропуск" && (!component.children[0].absence || component.children[0].absence.length === 0)) {
+                                                    return null;
+                                                }
                                                 return (
                                                     <>
                                                         <h2 className="px-4 text-sm font-medium uppercase tracking-wide text-muted-foreground">
@@ -231,6 +254,18 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
                                                                                         </div>
                                                                                     ))}
                                                                                 </div>
+                                                                                {child.absence && child.absence.map((absence, absenceIndex) => (
+                                                                                    <div className="flex flex-row items-center justify-start text-black">
+                                                                                        <div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(absence.type)}`}>
+                                                                                            <span>
+                                                                                                Н
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <span>
+                                                                                            {defineAbsenceType(absence.type)}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                ))}
                                                                             </div>
                                                                         </div>
                                                                     ))}
