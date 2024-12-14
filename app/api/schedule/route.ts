@@ -58,12 +58,14 @@ export async function POST(request: Request) {
                         },
                     },
                     select: {
+                        id: true,
                         description: true,
                         homeworkCompletion: {
                             where: {
                                 profileId: profile.id,
                             },
                             select: {
+                                id: true,
                                 isCompleted: true,
                             },
                         },
@@ -125,6 +127,7 @@ export async function POST(request: Request) {
                         },
                     },
                     select: {
+                        id: true,
                         description: true,
                         fileAtachments: {
                             select: {
@@ -143,6 +146,7 @@ export async function POST(request: Request) {
                                 profileId: profile.id,
                             },
                             select: {
+                                id: true,
                                 isCompleted: true,
                             },
                         },

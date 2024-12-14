@@ -1,6 +1,13 @@
 import { Homework, studyResourcesType } from '@prisma/client';
 import * as React from 'react';
-import { itemProps, lessonComponentsProps, weekOptionsProps, weekProps } from '@/components/diary/schedule/interfaces';
+import {
+    homeworkProps,
+    itemProps,
+    lessonComponentsProps,
+    specificAssignmentsProps,
+    weekOptionsProps,
+    weekProps
+} from '@/components/diary/schedule/interfaces';
 
 const today = new Date();
 const timezoneOffset = today.getTimezoneOffset() * 60000;
@@ -230,4 +237,30 @@ const generateWeekOptions = (weeks: weekProps[][]): weekOptionsProps[] => {
     });
 };
 
-export { validateDate, setPropForItem, setIndexForGrade, currentTimeInItemRange, countHomeworkWithParam, getLessonTime, defineEventType, defineAbsenceType, createLessonComponents, getTodayString, generateWeeks, generateWeekOptions };
+async function updateTaskStatus(assignment: specificAssignmentsProps | null, homework: homeworkProps | null) {
+    try {
+        const response = await fetch('/api/updateTaskStatus/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ assignment, homework }),
+        });
+        if (response.ok) {
+            const data = await response.json();
+            if (assignment) {
+                assignment.homeworkCompletion[0] = data;
+                return assignment;
+            }
+            if (homework) {
+                homework.completions[0] = data;
+                return homework;
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    return null;
+}
+
+export { validateDate, setPropForItem, setIndexForGrade, currentTimeInItemRange, countHomeworkWithParam, getLessonTime, defineEventType, defineAbsenceType, createLessonComponents, getTodayString, generateWeeks, generateWeekOptions, updateTaskStatus };
