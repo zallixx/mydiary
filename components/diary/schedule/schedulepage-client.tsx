@@ -46,7 +46,21 @@ export default function SchedulePageClient() {
             <section className="static left-1/2 right-1/2 lg:w-[1400px] max-lg:w-[90%] max-[520px]:w-[95%] flex flex-col transition-hwp duration-500 ease-in-out">
                 <ScheduleDayPicker onDateChange={handleDateChange}/>
                 <div className="min-h-96 h-auto pt-2 space-y-2">
-                    {loading && <p className="text-center">Загружаем...</p>}
+                    {loading && (
+                        <div>
+                            <Image
+                                src={`/loading.webp`}
+                                alt={'Загрузка'}
+                                className="pointer-events-none flex mx-auto"
+                                width={250}
+                                height={250}
+                                priority
+                                unoptimized
+                                loading="eager"
+                            />
+                            <span className="flex justify-center">Загружаем...</span>
+                        </div>
+                    )}
                     {!loading && scheduleForDay.map((item, index) => (
                         // @ts-ignore
                         <LessonItem item={item} index={index} key={item.id} date={selectedDate} />
@@ -59,6 +73,8 @@ export default function SchedulePageClient() {
                                 className="pointer-events-none flex mx-auto"
                                 width={250}
                                 height={250}
+                                priority
+                                loading="eager"
                             />
                             <span className="text-center items-center justify-center flex">
                                 Уроков и мероприятий нет
