@@ -5,6 +5,7 @@ import ScheduleDayPicker from '@/components/diary/schedule/day-picker/schedule-d
 import LessonItem from '@/components/diary/schedule/lesson-item';
 import { fetchSchedule } from '@/lib/fetchSchedule';
 import Image from 'next/image';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function SchedulePageClient() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -48,17 +49,23 @@ export default function SchedulePageClient() {
                 <div className="min-h-96 h-auto pt-2 space-y-2">
                     {loading && (
                         <div>
-                            <Image
-                                src={`/loading.webp`}
-                                alt={'Загрузка'}
-                                className="pointer-events-none flex mx-auto"
-                                width={250}
-                                height={250}
-                                priority
-                                unoptimized
-                                loading="eager"
-                            />
-                            <span className="flex justify-center">Загружаем...</span>
+                            {[...Array(3)].map((_) => ( /* TODO: Refactor */
+                                <div className="flex flex-col border-b rounded-2xl h-[98px] bg-white py-2 px-4 mb-2">
+                                    <div className="flex justify-between items-start">
+                                        <div className="space-y-2">
+                                            <div className="flex items-center gap-2">
+                                                <Skeleton className="h-6 w-24 bg-gray-200"/> {/* Название предмета */}
+                                                <Skeleton className="h-6 w-8 bg-gray-200"/> {/* Номер урока */}
+                                            </div>
+                                            <Skeleton className="h-4 w-24 bg-gray-200"/> {/* Время */}
+                                            <div className="flex items-center gap-2">
+                                                <Skeleton className="h-5 w-48 bg-gray-200"/> {/* Домашка */}
+                                            </div>
+                                        </div>
+                                        <Skeleton className="h-8 w-8 rounded-lg bg-gray-200"/> {/* Оценка */}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     )}
                     {!loading && scheduleForDay.map((item, index) => (
@@ -66,27 +73,16 @@ export default function SchedulePageClient() {
                         <LessonItem item={item} index={index} key={item.id} date={selectedDate} />
                     ))}
                     {!loading && scheduleForDay.length === 0 && (
-                        <div>
+                        <span className="text-center items-center justify-center flex">
+                            Уроков и мероприятий нет
                             <Image
-                                src={'/no-schedule.png'}
-                                alt={'Расписание отсутствует'}
-                                className="pointer-events-none flex mx-auto"
-                                width={250}
-                                height={250}
-                                priority
-                                loading="eager"
+                                src={'/party-popper.webp'}
+                                alt={'Уроков и мероприятий нет'}
+                                className="pointer-events-none"
+                                width={30}
+                                height={30}
                             />
-                            <span className="text-center items-center justify-center flex">
-                                Уроков и мероприятий нет
-                                <Image
-                                    src={'/party-popper.webp'}
-                                    alt={'Ура'}
-                                    className="pointer-events-none"
-                                    width={30}
-                                    height={30}
-                                />
-                            </span>
-                        </div>
+                        </span>
                     )}
                 </div>
             </section>

@@ -201,6 +201,13 @@ const getTodayString = (): string => {
 };
 
 const generateWeeks = (): weekProps[][] => {
+    if (typeof window !== 'undefined') {
+        const cachedWeeks = localStorage.getItem(`weeks_${currentYear}`);
+        if (cachedWeeks) {
+            return JSON.parse(cachedWeeks);
+        }
+    }
+
     const weeks = [];
     let currentDate = new Date(startDateDayPicker);
     const day = currentDate.getDay();
@@ -222,11 +229,23 @@ const generateWeeks = (): weekProps[][] => {
         }
         weeks.push(week);
     }
+
+    if (typeof window !== 'undefined') {
+        localStorage.setItem(`weeks_${currentYear}`, JSON.stringify(weeks));
+    }
+
     return weeks;
 };
 
 const generateWeekOptions = (weeks: weekProps[][]): weekOptionsProps[] => {
-    return weeks.map((week, index) => {
+    if (typeof window !== 'undefined') {
+        const cachedOptions = localStorage.getItem(`weekOptions_${currentYear}`);
+        if (cachedOptions) {
+            return JSON.parse(cachedOptions);
+        }
+    }
+
+    const weekOptions = weeks.map((week, index) => {
         const startDay = week[0];
         const endDay = week[6];
         const optionValue = index.toString();
@@ -235,6 +254,12 @@ const generateWeekOptions = (weeks: weekProps[][]): weekOptionsProps[] => {
             : `${startDay.num} ${monthNames[startDay.month]} - ${endDay.num} ${monthNames[endDay.month]}`;
         return {value: optionValue, label: optionLabel};
     });
+
+    if (typeof window !== 'undefined') {
+        localStorage.setItem(`weekOptions_${currentYear}`, JSON.stringify(weekOptions));
+    }
+
+    return weekOptions;
 };
 
 async function updateTaskStatus(assignment: specificAssignmentsProps | null, homework: homeworkProps | null) {
