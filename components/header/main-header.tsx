@@ -32,7 +32,7 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 								<UserButtonPc profile={profile} profileComponents={profileComponents}  />
 							)}
 							{isClient && window.innerWidth <= 1024 && (
-								<UserButtonMb profile={profile} profileComponents={profileComponents}  />
+								<UserButtonMb profile={profile} />
 							)}
 						</div>
 					</div>
