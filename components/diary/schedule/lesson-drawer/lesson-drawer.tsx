@@ -80,7 +80,7 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
             <Tabs defaultValue="lesson" value={activeTab} onValueChange={handleTabChange}>
                 <DrawerContent className="h-full">
                     <DrawerHeader className="bg-[#7851f1] b-0">
-                        <LessonDrawerTitle onOpenChange={onOpenChange} />
+                        <LessonDrawerTitle />
                         <DrawerDescription className="text-white flex flex-col items-center justify-center w-full">
                             <span>
                                 {validateDate(date) + ' ' + getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)}
