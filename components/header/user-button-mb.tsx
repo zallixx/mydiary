@@ -51,6 +51,7 @@ export default function UserButtonMb({ profile }: { profile: Profile; }) {
                             <Button
                                 variant="ghost"
                                 className="w-full justify-between h-14"
+                                onClick={item.onClick}
                             >
                                 <DrawerClose asChild>
                                     <Link className="flex items-center w-full" href={item.href}>
