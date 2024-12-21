@@ -20,6 +20,7 @@ import TodayButton from '@/components/diary/schedule/day-picker/today-button';
 import ActionButtons from '@/components/diary/schedule/day-picker/action-buttons';
 import { Separator } from '@/components/ui/separator';
 import DayButton from '@/components/diary/schedule/day-picker/day-button';
+import { weekOptionsProps, weekProps } from '@/components/diary/schedule/interfaces';
 
 interface ScheduleDayPickerProps {
     onDateChange?: (date: Date) => void;
