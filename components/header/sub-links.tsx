@@ -9,7 +9,7 @@ export default function SubLinks({ mainComponents, currentPage }: { mainComponen
         <div className="border-t border-gray-200 mx-auto sm:px-2 lg:px-4 max-lg:hidden justify-between">
             <div className="flex h-12 lg:h-14">
                 <div className="flex content-center items-center">
-                    <span className="text-xl font-bold">{getCurrentPageName(currentPage)}</span>
+                    <span className="text-xl font-bold mr-3">{getCurrentPageName(currentPage)}</span>
                     <nav className="lg:flex px-2.5 lg:space-x-7">
                         {mainComponents.map((item) => (
                             (currentPage.startsWith('/' + item.href.split('/')[1])) ? (

@@ -29,19 +29,6 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
     const [currentWeek, setCurrentWeek] = React.useState("");
     const [selectedDay, setSelectedDay] = React.useState("");
     const [api, setApi] = React.useState<CarouselApi>();
-    const [current, setCurrent] = React.useState(0);
-
-    React.useEffect(() => {
-        if (!api) {
-            return;
-        }
-
-        setCurrent(api.selectedScrollSnap());
-
-        api.on("select", () => {
-            setCurrent(api.selectedScrollSnap());
-        })
-    }, [api]);
 
     const weeks = generateWeeks();
     const weekOptions = generateWeekOptions(weeks);
@@ -58,6 +45,26 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
             api?.scrollTo(currentWeekIndex);
         }
     }, [api]);
+
+    const logEvent = React.useCallback((api: CarouselApi) => {
+        if (api) {
+            const newIndex = api.selectedScrollSnap();
+            setCurrentWeek(newIndex.toString());
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (api) {
+            api.on('pointerDown', logEvent);
+            api.on('pointerUp', logEvent);
+        }
+        return () => {
+            if (api) {
+                api.off('pointerDown', logEvent);
+                api.off('pointerUp', logEvent);
+            }
+        };
+    }, [api, logEvent]);
 
     const scrollToWeek = (weekIndex: number) => {
         api?.scrollTo(weekIndex);
@@ -88,7 +95,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
                     <div className="flex items-center justify-between max-lg:hidden">
                         <div className="flex items-center gap-2">
                             <Select value={currentWeek} onValueChange={(value) => scrollToWeek(parseInt(value))}>
-                                <SelectTrigger className="w-[200px] bg-white">
+                                <SelectTrigger className="w-[220px] bg-white">
                                     <SelectValue>{weekOptions[parseInt(currentWeek)]?.label}</SelectValue>
                                 </SelectTrigger>
                                 <SelectContent>
@@ -101,7 +108,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
                             </Select>
                             <TodayButton handleTodayClick={handleTodayClick} />
                         </div>
-                        <ActionButtons />
+                        <ActionButtons dateString={selectedDay} />
                     </div>
 
                     <Separator className="max-lg:hidden" />
