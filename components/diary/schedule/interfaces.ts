@@ -9,6 +9,7 @@ interface itemProps {
     baseSchedule: {
         date: Date;
         duration: number;
+        room: string;
         teacher: {
             name: string;
         };

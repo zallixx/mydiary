@@ -101,7 +101,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
                             </Select>
                             <TodayButton handleTodayClick={handleTodayClick} />
                         </div>
-                        <ActionButtons />
+                        <ActionButtons dateString={selectedDay} />
                     </div>
 
                     <Separator className="max-lg:hidden" />
