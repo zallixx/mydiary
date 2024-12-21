@@ -1,11 +1,13 @@
 import { ChevronLeft } from 'lucide-react';
 import * as React from 'react';
-import { DrawerTitle } from '@/components/ui/drawer';
+import { DrawerClose, DrawerTitle } from '@/components/ui/drawer';
 
-export default function LessonDrawerTitle({ onOpenChange }: { onOpenChange: () => void }) {
+export default function LessonDrawerTitle() {
     return (
         <DrawerTitle className="flex items-center justify-center relative mt-3">
-            <ChevronLeft className="text-white absolute left-0 ml-2 cursor-pointer" onClick={onOpenChange}/>
+            <DrawerClose asChild>
+                <ChevronLeft className="absolute left-0 ml-2 cursor-pointer h-6 w-6 text-white" />
+            </DrawerClose>
             <span className="text-white">Урок</span>
         </DrawerTitle>
     );
