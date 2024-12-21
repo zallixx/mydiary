@@ -63,7 +63,7 @@ export default function ActionButtons({dateString} : {dateString: string}) {
             <Button variant="ghost" size="icon" onClick={() => handleDownload(dateString)}>
                 <Download className="h-4 w-4" />
             </Button>
-            <Button className="bg-[#4c6ef5] hover:bg-[#4c6ef5]/90">
+            <Button className="bg-[#0a3af5] hover:bg-[#0a3af5]/90">
                 <Plus className="h-4 w-4 mr-2 text-white" />
                 Создать
             </Button>

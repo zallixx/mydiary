@@ -20,7 +20,7 @@ export default function LessonItem({ item, index, date }: { item: itemProps, ind
         <>
             <div className="flex flex-col border-b rounded-2xl h-auto bg-white py-2" key={item.id} onClick={handleClick}>
                 <div className="flex flex-row">
-                    <div className={`h-11 w-1.5 rounded-r-full mt-1 mr-2 ${currentTimeInItemRange(new Date(item.baseSchedule.date), date, item.baseSchedule.duration) ? 'bg-[#4c6ef5]' : 'bg-[#e8e8ef]'}`}></div>
+                    <div className={`h-11 w-1.5 rounded-r-full mt-1 mr-2 ${currentTimeInItemRange(new Date(item.baseSchedule.date), date, item.baseSchedule.duration) ? 'bg-[#0a3af5]' : 'bg-[#e8e8ef]'}`}></div>
                     <div className="flex flex-col">
                         <div className="flex flex-row items-center">
                             <span className="text-base font-medium">{item.baseSchedule.subject.name}</span>
