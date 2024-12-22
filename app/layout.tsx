@@ -7,8 +7,6 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { ruRU } from '@clerk/localizations';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from '@vercel/analytics/next';
 
 const nextFont = Inter({ subsets: ['latin'] });
 
@@ -33,8 +31,6 @@ export default function RootLayout({
 							defaultTheme='white'
 						>
 							{children}
-							<Analytics />
-							<SpeedInsights />
 							<Toaster richColors expand />
 						</ThemeProvider>
 					</body>
