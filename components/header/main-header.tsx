@@ -14,11 +14,22 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 	const currentPage = usePathname();
 	const mainComponents = mainInfo();
 	const profileComponents = profileInfo();
-	const [isClient, setIsClient] = React.useState(false)
+	const [isClient, setIsClient] = React.useState(false);
+	const [width, setWidth] = React.useState(0);
 
 	React.useEffect(() => {
 		setIsClient(true)
 	}, [])
+
+	React.useEffect(() => {
+		const handleResize = () => {
+			setWidth(window.innerWidth);
+		};
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, [isClient])
 
 	return (
 		<>
@@ -28,10 +39,10 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 						<MainLinks mainComponents={mainComponents} currentPage={currentPage} />
 						<div className="flex items-center lg:ml-4 lg:flex-row max-lg:flex-row-reverse max-lg:justify-between max-lg:w-full">
 							<NotificationButton />
-							{isClient && window.innerWidth >= 1024 && (
+							{isClient && width >= 1400 && (
 								<UserButtonPc profile={profile} profileComponents={profileComponents}  />
 							)}
-							{isClient && window.innerWidth <= 1024 && (
+							{isClient && width <= 1400 && (
 								<UserButtonMb profile={profile} />
 							)}
 						</div>

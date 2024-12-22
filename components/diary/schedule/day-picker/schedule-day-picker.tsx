@@ -143,7 +143,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
                     </div>
                 </div>
             </div>
-            <div className="flex mt-2 justify-between">
+            <div className="flex mt-2 justify-between lg:hidden">
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button variant="ghost" size="sm" className="bg-white">
