@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Download, Plus, Settings } from 'lucide-react';
+import { CirclePlus, Download, Settings } from 'lucide-react';
 import * as React from 'react';
 import { getFromIndexedDB } from '@/lib/indexedDB';
 import { toast } from 'sonner';
@@ -46,26 +46,27 @@ async function handleDownload(dateString: string) {
                 return `Расписание загружено!`;
             },
             error: 'Что-то пошло не так...',
+            position: 'top-center',
+            duration: 1000,
         });
     }
     else {
-        toast.error("Расписание пустое!");
+        toast.error("Расписание пустое!", {duration: 1000, position: 'top-center'});
     }
 }
 
-export default function ActionButtons({dateString} : {dateString: string}) {
+export default function ActionButtonsMb({dateString} : {dateString: string}) {
     return (
         <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="sm" className="bg-white">
                 <Settings className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => handleDownload(dateString)}>
+            <Button variant="ghost" size="sm" className="bg-white" onClick={() => handleDownload(dateString)}>
                 <Download className="h-4 w-4" />
             </Button>
-            <Button className="bg-[#0a3af5] hover:bg-[#0a3af5]/90">
-                <Plus className="h-4 w-4 mr-2 text-white" />
-                Создать
+            <Button variant="ghost" size="sm" className="bg-white">
+                <CirclePlus className="h-4 w-4" />
             </Button>
         </div>
     );
-};
+}

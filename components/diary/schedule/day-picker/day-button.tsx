@@ -17,7 +17,7 @@ export default function DayButton({ day, handleDayClick, selectedDay }: { day: w
                 {day.num}
             </span>
             {isToday && (
-                <div className="w-6 h-0.5 bg-blue-500 mt-1"/>
+                <div className="w-6 h-0.5 bg-[#0a3af5] mt-1"/>
             )}
         </button>
     );
