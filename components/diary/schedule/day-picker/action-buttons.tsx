@@ -7,7 +7,7 @@ import { itemProps } from '@/components/diary/schedule/interfaces';
 import { getLessonTime } from '@/components/diary/schedule/functions';
 
 async function prepareSchedule(schedule: itemProps[], dateString: string) {
-    const stringSchedule = schedule.map(item => {
+    const stringSchedule = 'Расписание на ' + dateString + ':\n\n' + schedule.map(item => {
         const schedule = item.baseSchedule;
         const subjectName = schedule.subject.name;
         const lessonDate = getLessonTime(schedule.date, schedule.duration);
@@ -19,11 +19,10 @@ async function prepareSchedule(schedule: itemProps[], dateString: string) {
         const specificAssignments = item.specificAssignment.join(", ") || "Нет";
 
         return `
-            ${subjectName} (Урок)
-            ${lessonDate}
-            Проходит в ${place}. Помещение - ${room}
-            Тема: ${topic}
-            Преподаватель - ${teacher}
+            ${subjectName}  ${lessonDate}:
+            Проходит в ${place}. Помещение - ${room}.
+            Преподаватель - ${teacher}.
+            Тема: ${topic}.
             Домашнее задание: ${homework}
             Личные домашние задания: ${specificAssignments}`.trim(); // Обрезаем пробелы(с концов) дабы расписание выглядело в виде списка(название урока и потом через таб идут данные о уроке)
     }).join("\n");
