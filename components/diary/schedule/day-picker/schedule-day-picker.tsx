@@ -20,6 +20,11 @@ import TodayButton from '@/components/diary/schedule/day-picker/today-button';
 import ActionButtons from '@/components/diary/schedule/day-picker/action-buttons';
 import { Separator } from '@/components/ui/separator';
 import DayButton from '@/components/diary/schedule/day-picker/day-button';
+import ActionButtonsMb from '@/components/diary/schedule/day-picker/action-buttons-mb';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import {Calendar} from '@/components/ui/calendar';
+import { ru } from 'date-fns/locale';
 
 interface ScheduleDayPickerProps {
     onDateChange?: (date: Date) => void;
@@ -88,6 +93,12 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
         onDateChange && onDateChange(new Date(day));
     };
 
+    const handleCalendarClick = (date: Date) => {
+        const dateString = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+        setSelectedDay(dateString);
+        onDateChange && onDateChange(new Date(dateString));
+        api?.scrollTo(weeks.findIndex(week => week.some(day => day.full === date.toISOString().split('T')[0])));
+    }
     return (
         <div>
             <div className="w-full bg-white rounded-lg shadow-sm lg:px-12 max-lg:px-4">
@@ -131,6 +142,27 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
                         </Carousel>
                     </div>
                 </div>
+            </div>
+            <div className="flex mt-2 justify-between">
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="ghost" size="sm" className="bg-white">
+                            Выбрать день
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto">
+                        <Calendar
+                            mode="single"
+                            selected={new Date(selectedDay)}
+                            onSelect={(date) => date && handleCalendarClick(date)}
+                            initialFocus
+                            locale={ru}
+                            weekStartsOn={1}
+                            fixedWeeks
+                        />
+                    </PopoverContent>
+                </Popover>
+                <ActionButtonsMb dateString={selectedDay}/>
             </div>
         </div>
     );
