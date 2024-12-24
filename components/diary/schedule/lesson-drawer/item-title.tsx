@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { lessonComponentsProps } from '@/components/diary/schedule/interfaces';
+import { lessonComponentsProps } from '@/types/schedule';
 
 export default function DrawerItemTitle({ component }: { component: lessonComponentsProps }) {
     return (

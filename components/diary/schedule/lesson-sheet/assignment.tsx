@@ -1,7 +1,7 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import * as React from 'react';
-import { lessonComponentsChild, specificAssignmentsProps } from '@/components/diary/schedule/interfaces';
-import { updateTaskStatus } from '@/components/diary/schedule/functions';
+import { lessonComponentsChild, specificAssignmentsProps } from '@/types/schedule';
+import { updateTaskStatus } from '@/utils/schedule';
 
 export default function LessonSheetAssignment({child} : {child: lessonComponentsChild}) {
     const [assignments, setAssignments] = React.useState(child.specificAssignments);

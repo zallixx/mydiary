@@ -1,4 +1,4 @@
-import { itemProps } from '@/components/diary/schedule/interfaces';
+import { itemProps } from '@/types/schedule';
 
 export default function LessonDrawerTopic({ item }: { item: itemProps }) {
     return (

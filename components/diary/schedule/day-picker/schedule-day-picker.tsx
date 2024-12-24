@@ -15,7 +15,7 @@ import {
     CarouselPrevious,
     CarouselNext
 } from '@/components/ui/carousel';
-import { generateWeekOptions, generateWeeks, getTodayString } from '@/components/diary/schedule/functions';
+import { generateWeekOptions, generateWeeks, getTodayString } from '@/utils/schedule';
 import TodayButton from '@/components/diary/schedule/day-picker/today-button';
 import ActionButtons from '@/components/diary/schedule/day-picker/action-buttons';
 import { Separator } from '@/components/ui/separator';
@@ -96,9 +96,11 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
     const handleCalendarClick = (date: Date) => {
         const dateString = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
         setSelectedDay(dateString);
+
         onDateChange && onDateChange(new Date(dateString));
-        api?.scrollTo(weeks.findIndex(week => week.some(day => day.full === date.toISOString().split('T')[0])));
+        api?.scrollTo(weeks.findIndex(week => week.some(day => day.full === dateString)));
     }
+
     return (
         <div>
             <div className="w-full bg-white rounded-lg shadow-sm lg:px-12 max-lg:px-4">
@@ -131,7 +133,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
                                     <CarouselItem key={weekIndex}>
                                         <div className="flex items-center lg:justify-between max-lg:justify-evenly lg:px-4">
                                             {week.map((day) => (
-                                                <DayButton day={day} handleDayClick={handleDayClick} selectedDay={selectedDay} />
+                                                <DayButton day={day} handleDayClick={handleDayClick} selectedDay={selectedDay} key={day.full} />
                                             ))}
                                         </div>
                                     </CarouselItem>

@@ -1,11 +1,15 @@
 import SupportCard from '@/components/cards/support-card';
 import db from '@/lib/db';
 import { SupportMessage } from '@prisma/client';
-import CurrentProfile from '@/lib/current-profile';
+import { CurrentProfile } from '@/lib/auth/current-profile';
 import { redirect } from 'next/navigation';
 
 export default async function SupportPage() {
-	const profile = await CurrentProfile();
+	const { profile } = await CurrentProfile();
+
+	if (!profile) {
+		return redirect('/sign-in');
+	}
 
 	if (profile.role !== 'ADMIN' && profile.role !== 'DEVELOPER') {
 		return redirect('/');
