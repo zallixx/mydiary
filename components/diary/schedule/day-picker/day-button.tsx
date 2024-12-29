@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { getTodayString } from '@/components/diary/schedule/functions';
-import { weekProps } from '@/components/diary/schedule/interfaces';
+import { getTodayString } from '@/utils/schedule';
+import { weekProps } from '@/types/schedule';
 
 export default function DayButton({ day, handleDayClick, selectedDay }: { day: weekProps, handleDayClick: (day: string) => void, selectedDay: string }) {
     const isToday = day.full === getTodayString();

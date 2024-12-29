@@ -1,8 +1,8 @@
-import CurrentProfile from '@/lib/current-profile';
 import { redirect } from 'next/navigation';
+import { CurrentProfile } from '@/lib/auth/current-profile';
 
 export default async function DiaryPage() {
-	const profile = await CurrentProfile();
+	const { profile } = await CurrentProfile();
 
 	if (!profile) {
 		return redirect('/');

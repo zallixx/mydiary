@@ -49,8 +49,8 @@ export default function SchedulePageClient() {
                 <div className="min-h-96 h-auto pt-2 space-y-2">
                     {loading && (
                         <div>
-                            {[...Array(3)].map((_) => ( /* TODO: Refactor */
-                                <div className="flex flex-col border-b rounded-2xl h-[98px] bg-white py-2 px-4 mb-2">
+                            {[...Array(3)].map((_, index) => ( /* TODO: Refactor */
+                                <div className="flex flex-col border-b rounded-2xl h-[98px] bg-white py-2 px-4 mb-2" key={index}>
                                     <div className="flex justify-between items-start">
                                         <div className="space-y-2">
                                             <div className="flex items-center gap-2">

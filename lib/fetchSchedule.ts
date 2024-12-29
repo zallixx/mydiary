@@ -1,4 +1,4 @@
-import { getFromIndexedDB, saveToIndexedDB } from './indexedDB';
+import { getFromIndexedDB, saveToIndexedDB } from '@/utils/scheduleDB';
 
 const CACHE_EXPIRATION_MS = 5 * 60 * 1000;
 

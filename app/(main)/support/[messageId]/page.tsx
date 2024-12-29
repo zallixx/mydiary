@@ -1,7 +1,7 @@
-import CurrentProfile from '@/lib/current-profile';
 import db from '@/lib/db';
 import { redirect } from 'next/navigation';
 import SupportMessageCard from '@/components/cards/support-message-card';
+import { CurrentProfile } from '@/lib/auth/current-profile';
 
 interface SupportMessagePageProps {
 	params: {
@@ -12,7 +12,7 @@ interface SupportMessagePageProps {
 export default async function SupportMessagePage({
 	params,
 }: Readonly<SupportMessagePageProps>) {
-	const profile = await CurrentProfile();
+	const { profile } = await CurrentProfile();
 	const { messageId } = params;
 
 	if (!profile) {

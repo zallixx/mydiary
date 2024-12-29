@@ -1,7 +1,7 @@
 'use client';
 
-import { countHomeworkWithParam } from '@/components/diary/schedule/functions';
-import { itemProps } from '@/components/diary/schedule/interfaces';
+import { countHomeworkWithParam } from '@/utils/schedule';
+import { itemProps } from '@/types/schedule';
 
 export default function LessonMaterials({item}: {item: itemProps}) {
     return (

@@ -10,7 +10,7 @@ import {
     createLessonComponents,
     getLessonTime,
     validateDate
-} from '@/components/diary/schedule/functions';
+} from '@/utils/schedule';
 import { Tabs } from '@/components/ui/tabs';
 import {
     Carousel,
@@ -18,7 +18,7 @@ import {
     CarouselItem,
 } from '@/components/ui/carousel';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { itemProps } from '@/components/diary/schedule/interfaces';
+import { itemProps } from '@/types/schedule';
 import LessonDrawerTitle from '@/components/diary/schedule/lesson-drawer/title';
 import LessonSheetAbsence from '@/components/diary/schedule/lesson-sheet/absence';
 import LessonSheetAssignment from '@/components/diary/schedule/lesson-sheet/assignment';

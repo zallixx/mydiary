@@ -1,13 +1,13 @@
 'use client';
 
-import { currentTimeInItemRange, getLessonTime } from '@/components/diary/schedule/functions';
+import { currentTimeInItemRange, getLessonTime } from '@/utils/schedule';
 import LessonMarks from '@/components/diary/schedule/lesson-marks';
 import LessonHomework from '@/components/diary/schedule/lesson-homework';
 import LessonMaterials from '@/components/diary/schedule/lesson-materials';
 import LessonSheet from '@/components/diary/schedule/lesson-sheet/lesson-sheet';
 import { useState } from 'react';
 import LessonDrawer from '@/components/diary/schedule/lesson-drawer/lesson-drawer';
-import { itemProps } from '@/components/diary/schedule/interfaces';
+import { itemProps } from '@/types/schedule';
 
 export default function LessonItem({ item, index, date }: { item: itemProps, index: number, date: Date }) {
     const [isOpen, setIsOpen] = useState(false);

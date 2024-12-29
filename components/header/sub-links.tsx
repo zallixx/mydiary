@@ -1,8 +1,8 @@
 import { Tooltip, TooltipContent, TooltipTrigger} from '@/components/ui/tooltip';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
-import { getCurrentPageName } from '@/components/header/functions';
-import { mainComponentProps } from '@/components/header/interfaces';
+import { getCurrentPageName } from '@/utils/header';
+import { mainComponentProps } from '@/types/header';
 
 export default function SubLinks({ mainComponents, currentPage }: { mainComponents: mainComponentProps[]; currentPage: string }) {
     return (
@@ -14,7 +14,7 @@ export default function SubLinks({ mainComponents, currentPage }: { mainComponen
                         {mainComponents.map((item) => (
                             (currentPage.startsWith('/' + item.href.split('/')[1])) ? (
                                 item.children?.map((child) => (
-                                    <div className="group">
+                                    <div className="group" key={child.sub_title}>
                                         <Tooltip delayDuration={300}>
                                             <TooltipTrigger>
                                                 <Link href={child.sub_href} key={child.sub_title} className={`inline-flex items-center rounded-md py-1 text-base ${currentPage.startsWith('/diary/' + child.sub_href.split('/')[2]) ? 'font-semibold' : ''}`}>

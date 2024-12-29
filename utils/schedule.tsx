@@ -7,7 +7,7 @@ import {
     specificAssignmentsProps,
     weekOptionsProps,
     weekProps
-} from '@/components/diary/schedule/interfaces';
+} from '@/types/schedule';
 
 const today = new Date();
 const timezoneOffset = today.getTimezoneOffset() * 60000;
@@ -88,7 +88,7 @@ const countHomeworkWithParam = (homeworkList: Homework[], param: string): number
                 return count + homework.attachments.filter(att => att.type === studyResourcesType.THEORY || att.type === studyResourcesType.PRESENTATION || att.type === studyResourcesType.VIDEO).length;
             case 'File':
                 // @ts-ignore
-                return count + homework.fileAtachments.length;
+                return count + homework.fileAtachments?.length;
             default:
                 return count;
         }
