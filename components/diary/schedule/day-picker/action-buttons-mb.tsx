@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { CirclePlus, Download, Settings } from 'lucide-react';
 import * as React from 'react';
-import { getFromIndexedDB } from '@/lib/indexedDB';
+import { getFromIndexedDB } from '@/utils/scheduleDB';
 import { toast } from 'sonner';
-import { itemProps } from '@/components/diary/schedule/interfaces';
-import { getLessonTime } from '@/components/diary/schedule/functions';
+import { itemProps } from '@/types/schedule';
+import { getLessonTime } from '@/utils/schedule';
 
 async function prepareSchedule(schedule: itemProps[], dateString: string) {
     const stringSchedule = 'Расписание на ' + dateString + ':\n\n' + schedule.map(item => {

@@ -4,10 +4,10 @@ import {
     SheetDescription,
     SheetHeader,
 } from '@/components/ui/sheet';
-import { createLessonComponents } from '@/components/diary/schedule/functions';
+import { createLessonComponents } from '@/utils/schedule';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import * as React from 'react';
-import { itemProps } from '@/components/diary/schedule/interfaces';
+import { itemProps } from '@/types/schedule';
 import LessonSheetTitle from '@/components/diary/schedule/lesson-sheet/title';
 import LessonSheetHomework from '@/components/diary/schedule/lesson-sheet/homework';
 import LessonSheetAssignment from '@/components/diary/schedule/lesson-sheet/assignment';

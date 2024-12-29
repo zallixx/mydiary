@@ -1,23 +1,23 @@
-import CurrentProfile from '@/lib/current-profile';
-import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import db from '@/lib/db';
+import { redirect } from 'next/navigation';
+import { CurrentProfile } from '@/lib/auth/current-profile';
 
 export async function POST(request: Request) {
     if (request.method !== 'POST') {
-        return NextResponse.json('Method not allowed', { status: 405 });
+        return NextResponse.json('Метод не разрешен', { status: 405 });
     }
 
-    const profile = await CurrentProfile();
+    const { profile } = await CurrentProfile();
 
     if (!profile) {
-        return auth().redirectToSignIn();
+        return redirect('/sign-in');
     }
 
     const payload = await request.json();
 
     if (!payload.assignment && !payload.homework) {
-        return NextResponse.json('Missing required fields', { status: 400 });
+        return NextResponse.json('Отсутствуют обязательные поля', { status: 400 });
     }
 
     const assignment = payload.assignment;

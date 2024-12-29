@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { mainComponentProps } from '@/components/header/interfaces';
+import { mainComponentProps } from '@/types/header';
 
 export default function MainLinks({ mainComponents, currentPage }: { mainComponents: mainComponentProps[]; currentPage: string }) {
     return (

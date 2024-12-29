@@ -1,17 +1,17 @@
-import CurrentProfile from '@/lib/current-profile';
 import db from '@/lib/db';
 import { NextResponse } from 'next/server';
-import {auth} from '@clerk/nextjs/server';
+import { CurrentProfile } from '@/lib/auth/current-profile';
+import { redirect } from 'next/navigation';
 
 export async function POST(request: Request) {
     if (request.method !== 'POST') {
-        return NextResponse.json('Method not allowed', { status: 405 });
+        return NextResponse.json('Метод не разрешен', { status: 405 });
     }
 
-    const profile = await CurrentProfile();
+    const { profile } = await CurrentProfile();
 
     if (!profile) {
-        return auth().redirectToSignIn();
+        return redirect('/sign-in');
     }
 
     const payload = await request.json();
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const date = payload.date;
 
     if (!date) {
-        return NextResponse.json('Missing required fields', { status: 400 });
+        return NextResponse.json('Отсутствуют обязательные поля', { status: 400 });
     }
 
     try {
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
                     select: {
                         id: true,
                         description: true,
-                        homeworkCompletion: {
+                        completions: {
                             where: {
                                 profileId: profile.id,
                             },
@@ -129,7 +129,7 @@ export async function POST(request: Request) {
                     select: {
                         id: true,
                         description: true,
-                        fileAtachments: {
+                        fileAttachments: {
                             select: {
                                 url: true,
                             },
@@ -157,6 +157,6 @@ export async function POST(request: Request) {
 
         return NextResponse.json(scheduleForDay, { status: 200 });
     } catch (error) {
-        return NextResponse.json('Something went wrong', { status: 500 });
+        return NextResponse.json('Что-то пошло не так', { status: 500 });
     }
 }

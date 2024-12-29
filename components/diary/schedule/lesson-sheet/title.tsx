@@ -1,7 +1,7 @@
-import { getLessonTime, validateDate } from '@/components/diary/schedule/functions';
+import { getLessonTime, validateDate } from '@/utils/schedule';
 import { SheetTitle } from '@/components/ui/sheet';
 import * as React from 'react';
-import { itemProps } from '@/components/diary/schedule/interfaces';
+import { itemProps } from '@/types/schedule';
 
 export default function LessonSheetTitle({ item, date }: { item: itemProps; date: Date }) {
     return (

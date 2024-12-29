@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Profile } from '@prisma/client';
 import { usePathname } from 'next/navigation';
-import { mainInfo, profileInfo } from '@/components/header/functions';
+import { mainInfo, profileInfo } from '@/utils/header';
 import MainLinks from '@/components/header/main-links';
 import NotificationButton from '@/components/header/notification-btn';
 import UserButtonPc from '@/components/header/user-button-pc';
@@ -14,12 +14,7 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 	const currentPage = usePathname();
 	const mainComponents = mainInfo();
 	const profileComponents = profileInfo();
-	const [isClient, setIsClient] = React.useState(false);
 	const [width, setWidth] = React.useState(0);
-
-	React.useEffect(() => {
-		setIsClient(true)
-	}, [])
 
 	React.useEffect(() => {
 		const handleResize = () => {
@@ -30,7 +25,7 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [isClient])
+	}, [])
 
 	return (
 		<>
@@ -40,10 +35,10 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 						<MainLinks mainComponents={mainComponents} currentPage={currentPage} />
 						<div className="flex items-center lg:ml-4 lg:flex-row max-lg:flex-row-reverse max-lg:justify-between max-lg:w-full">
 							<NotificationButton />
-							{isClient && width >= 1400 && (
+							{width >= 1400 && (
 								<UserButtonPc profile={profile} profileComponents={profileComponents}  />
 							)}
-							{isClient && width <= 1400 && (
+							{width < 1400 && (
 								<UserButtonMb profile={profile} />
 							)}
 						</div>
