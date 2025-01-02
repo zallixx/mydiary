@@ -47,7 +47,7 @@ export async function signUp(values: signUpProps) {
 }
 
 export async function confirmAction(userCode: string) {
-    const session = cookies().get('session')?.value;
+    const session = (await cookies()).get('session')?.value;
 
     if (!session) {
         return {
@@ -124,7 +124,7 @@ export async function SignIn(values: signInProps) {
 }
 
 export async function logout() {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
 
     const cookie = cookieStore.get('session')?.value;
 

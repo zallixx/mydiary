@@ -6,7 +6,7 @@ export default function DayButton({ day, handleDayClick, selectedDay }: { day: w
     const isToday = day.full === getTodayString();
 
     return (
-        <button key={day.full} className={`flex flex-col items-center justify-center w-20 max-lg:w-10 h-14 rounded-lg transition-colors text-black ${
+        <button key={day.full} className={`flex flex-col items-center justify-center w-20 max-sm:w-10 h-14 rounded-lg transition-colors text-black ${
             selectedDay === day.full ? "border-[0.4px]" : "hover:text-accent-foreground hover:bg-[#f1f4ff]"}`}
             onClick={() => handleDayClick(day.full)}
         >

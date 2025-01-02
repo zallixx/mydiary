@@ -25,7 +25,6 @@ export default function UserButtonMb({ profile }: { profile: Profile; }) {
                     <span className="flex items-center rounded-full bg-white group py-1 outline-none">
                         <UserAvatar className="ml-2.5" profile={profile} />
                         <span className="ml-2 text-sm font-medium text-gray-700 transition duration-200 ease-in-out">{profile.name}</span>
-                        <ChevronDown className="ml-1 h-5 w-5 text-gray-400 transition duration-200 ease-in-out max-lg:hidden" aria-hidden="true"/>
                     </span>
                 </DrawerTrigger>
                 <DrawerContent className="h-full">

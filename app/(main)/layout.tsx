@@ -3,6 +3,8 @@ import MainHeader from '@/components/header/main-header';
 import { CurrentProfile } from '@/lib/auth/current-profile';
 import { redirect } from 'next/navigation';
 import MobileFooter from '@/components/footer/mobile-footer';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/sidebar/app-sidebar';
 
 export default async function BaseLayout({
 	children,
@@ -22,9 +24,12 @@ export default async function BaseLayout({
 
 	return (
 		<div>
-			<MainHeader profile={profile} />
-			{children}
-			<MobileFooter />
+			<SidebarProvider className="overflow-hidden">
+				<AppSidebar profile={profile} />
+				<MainHeader profile={profile} />
+				{children}
+				<MobileFooter />
+			</SidebarProvider>
 		</div>
 	);
 }

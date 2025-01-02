@@ -2,7 +2,7 @@ export default function NotificationButton() {
     return (
         <button
             type="button"
-            className="lg:flex-shrink-0 max-lg:flex max-lg:justify-end max-lg:mr-2 transition duration-200 ease-in-out hover:-translate-y-0.5 bg-white p-1 text-black"
+            className="2xm:flex-shrink-0 max-2xm:flex max-2xm:justify-end max-2xm:mr-2 transition duration-200 ease-in-out hover:-translate-y-0.5 bg-white p-1 text-black"
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor"

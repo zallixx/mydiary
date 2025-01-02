@@ -150,8 +150,8 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
                                                                 {component.children.map((child, childIndex) => (
                                                                     <div key={childIndex} className="space-y-1">
                                                                         <div className="flex flex-col">
-                                                                            <LessonSheetHomework child={child} /> {/* TODO: объеденить в общую папку */}
-                                                                            <LessonSheetAssignment child={child} /> {/* TODO: объеденить в общую папку */}
+                                                                            <LessonSheetHomework child={child} date={date} /> {/* TODO: объеденить в общую папку */}
+                                                                            <LessonSheetAssignment child={child} date={date} /> {/* TODO: объеденить в общую папку */}
                                                                         </div>
                                                                     </div>
                                                                 ))}

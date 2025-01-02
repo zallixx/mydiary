@@ -21,8 +21,9 @@ interface itemProps {
         };
     };
     specificAssignment: {
+        id: string;
         description: string;
-        homeworkCompletion: {
+        completions: {
             isCompleted: boolean;
         }[];
     }[];
@@ -78,8 +79,9 @@ interface homeworkProps {
 }
 
 interface specificAssignmentsProps {
+    id: string;
     description: string;
-    homeworkCompletion: {
+    completions: {
         isCompleted: boolean;
     }[];
 }

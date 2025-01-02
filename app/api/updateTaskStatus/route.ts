@@ -28,12 +28,12 @@ export async function POST(request: Request) {
         try {
             result = await db.homeworkCompletion.upsert({
                 where: {
-                    id: assignment.homeworkCompletion[0]?.id + "",
+                    id: assignment.completions[0]?.id + "",
                     specificAssignmentId: assignment.id,
                     profileId: profile.id,
                 },
                 update: {
-                    isCompleted: !assignment.homeworkCompletion[0]?.isCompleted,
+                    isCompleted: !assignment.completions[0]?.isCompleted,
                 },
                 create: {
                     specificAssignmentId: assignment.id,

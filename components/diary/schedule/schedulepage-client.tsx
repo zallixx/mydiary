@@ -6,9 +6,10 @@ import LessonItem from '@/components/diary/schedule/lesson-item';
 import { fetchSchedule } from '@/lib/fetchSchedule';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
+import { validateDate } from '@/utils/schedule';
 
 export default function SchedulePageClient() {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [scheduleForDay, setScheduleForDay] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -43,9 +44,10 @@ export default function SchedulePageClient() {
     }, [selectedDate]);
 
     return (
-        <div className="min-h-screen flex items-start lg:pt-32 max-lg:pt-16 justify-center">
-            <section className="static left-1/2 right-1/2 lg:w-[1400px] max-lg:w-[90%] max-[520px]:w-[95%] flex flex-col transition-hwp duration-500 ease-in-out">
-                <ScheduleDayPicker onDateChange={handleDateChange}/>
+        <div className="min-h-screen flex items-start max-2xm:pt-16 2xm:pt-8 justify-center">
+            <section className="static left-1/2 right-1/2 3xl:w-[1400px] 2xl:w-[1000px] flex flex-col transition-hwp duration-500 max-lg:w-[95%] ease-in-out">
+                <span className="text-2xl font-bold mb-4">Расписание на {validateDate(selectedDate)}</span>
+                <ScheduleDayPicker onDateChange={handleDateChange} />
                 <div className="min-h-96 h-auto pt-2 space-y-2">
                     {loading && (
                         <div>
