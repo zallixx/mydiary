@@ -2,18 +2,10 @@
 
 import * as React from 'react';
 import { Profile } from '@prisma/client';
-import { usePathname } from 'next/navigation';
-import { mainInfo, profileInfo } from '@/utils/header';
-import MainLinks from '@/components/header/main-links';
 import NotificationButton from '@/components/header/notification-btn';
-import UserButtonPc from '@/components/header/user-button-pc';
-import SubLinks from '@/components/header/sub-links';
 import UserButtonMb from '@/components/header/user-button-mb';
 
 export default function MainHeader({ profile }: { profile: Profile }) {
-	const currentPage = usePathname();
-	const mainComponents = mainInfo();
-	const profileComponents = profileInfo();
 	const [width, setWidth] = React.useState(0);
 
 	React.useEffect(() => {
@@ -29,23 +21,14 @@ export default function MainHeader({ profile }: { profile: Profile }) {
 
 	return (
 		<>
-			<header className="fixed top-0 z-10 lg:translate-x-[-50%] lg:left-[50%] max-lg:w-full lg:min-w-[1400px] lg:w-auto rounded-md bg-white lg:px-2 dark:bg-[#17171a] transition-transform duration-500 ease-in-out">
-				<div className="mx-auto px-1 sm:px-2 lg:px-4">
-					<div className="flex h-12 lg:h-14 lg:justify-between max-lg:justify-start">
-						<MainLinks mainComponents={mainComponents} currentPage={currentPage} />
-						<div className="flex items-center lg:ml-4 lg:flex-row max-lg:flex-row-reverse max-lg:justify-between max-lg:w-full">
-							<NotificationButton />
-							{width >= 1400 && (
-								<UserButtonPc profile={profile} profileComponents={profileComponents}  />
-							)}
-							{width < 1400 && (
-								<UserButtonMb profile={profile} />
-							)}
-						</div>
+			{width < 1200 && (
+				<header className="2xm:hidden fixed top-0 z-10 w-full rounded-md bg-white">
+					<div className="flex items-center flex-row-reverse justify-between w-full">
+						<NotificationButton />
+						<UserButtonMb profile={profile} />
 					</div>
-				</div>
-				<SubLinks mainComponents={mainComponents} currentPage={currentPage} />
-			</header>
+				</header>
+			)}
 		</>
 	);
 }

@@ -7,7 +7,7 @@ export default async function DiaryLayout({
 
 }) {
 	return (
-		<div>
+		<div className="w-full">
 			{children}
 		</div>
 	);

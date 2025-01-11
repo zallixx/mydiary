@@ -20,7 +20,7 @@ export default function LessonSheet({ open, onOpenChange, item, date }: { open: 
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
-            <SheetContent className="lg:w-[25%] bg-[#f4f4f8]">
+            <SheetContent className="bg-[#f4f4f8] w-1/2">
                 <SheetHeader>
                     <LessonSheetTitle item={item} date={date} />
                     <ScrollArea className="h-[calc(100vh-82px)] overflow-y-auto">
@@ -40,8 +40,8 @@ export default function LessonSheet({ open, onOpenChange, item, date }: { open: 
                                         {component.children.map((child, childIndex) => (
                                             <span key={childIndex} className="text-base w-full flex flex-col">
                                                 <LessonSheetAttributes child={child} isTeacher={component.title === 'Преподаватель'} />
-                                                <LessonSheetHomework child={child} />
-                                                <LessonSheetAssignment child={child} />
+                                                <LessonSheetHomework child={child} date={date} />
+                                                <LessonSheetAssignment child={child} date={date} />
                                                 <LessonSheetAssessment child={child} />
                                                 <LessonSheetAbsence child={child} />
                                             </span>

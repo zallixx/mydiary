@@ -14,11 +14,11 @@ const timezoneOffset = today.getTimezoneOffset() * 60000;
 
 const todayLocal = new Date(today.getTime() - timezoneOffset);
 todayLocal.setUTCHours(0, 0, 0, 0);
-const dayNamesLong = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+const dayNamesLong = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
 
 const currentYear = todayLocal.getFullYear();
-const startDateDayPicker = new Date(currentYear, 8, 1);
-const endDateDayPicker = new Date(currentYear + 1, 4, 31);
+const startDateDayPicker = new Date(currentYear-1, 8, 1);
+const endDateDayPicker = new Date(currentYear+1, 4, 31);
 const dayNamesShort = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 const monthNames = [
     'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
@@ -274,7 +274,7 @@ async function updateTaskStatus(assignment: specificAssignmentsProps | null, hom
         if (response.ok) {
             const data = await response.json();
             if (assignment) {
-                assignment.homeworkCompletion[0] = data;
+                assignment.completions[0] = data;
                 return assignment;
             }
             if (homework) {

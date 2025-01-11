@@ -1,31 +1,40 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
 import React from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-const nextFont = Inter({ subsets: ['latin'] });
+const geistSans = Geist({
+    variable: "--font-geist-sans",
+    subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-	title: 'MyDiary',
-	description: '',
-	manifest: '/manifest.json',
+    title: 'Мой дневник',
+    description: '',
+    icons: '/default_mai.svg',
+    manifest: '/manifest.json',
 };
 
 export default async function RootLayout({
-	children,
+    children,
 }: {
-	readonly children: Readonly<React.ReactNode>;
+    readonly children: Readonly<React.ReactNode>;
 }) {
-	return (
-		<TooltipProvider>
-			<html lang='en'>
-				<body className={nextFont.className}>
-					{children}
-					<Toaster richColors expand />
-				</body>
-			</html>
-		</TooltipProvider>
-	);
+    return (
+        <TooltipProvider>
+            <html lang='en'>
+                <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+                    {children}
+                    <Toaster richColors expand/>
+                </body>
+            </html>
+        </TooltipProvider>
+    );
 }

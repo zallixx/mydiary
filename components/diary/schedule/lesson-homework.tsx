@@ -23,7 +23,7 @@ export default function LessonHomework({item}: {item: itemProps}) {
                                 <div className="flex flex-row mt-1">
                                     <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
                                          viewBox="0 0 512 512" height="16px" width="16px"
-                                         className={`flex-none ml-2.5 mr-1 ${item.specificAssignment[0].homeworkCompletion[0]?.isCompleted ? 'text-green-600' : 'text-gray-700'}`}
+                                         className={`flex-none ml-2.5 mr-1 ${item.specificAssignment[0].completions[0]?.isCompleted ? 'text-green-600' : 'text-gray-700'}`}
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path fill="none" strokeLinecap="round"
                                               strokeLinejoin="round" strokeWidth="32"
@@ -42,7 +42,7 @@ export default function LessonHomework({item}: {item: itemProps}) {
                     <div className="flex flex-row">
                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0"
                              viewBox="0 0 512 512" height="16px" width="16px"
-                             className={`flex-none ml-2.5 mr-1 ${item.specificAssignment[0].homeworkCompletion[0]?.isCompleted ? 'text-green-600' : 'text-gray-700'}`}
+                             className={`flex-none ml-2.5 mr-1 ${item.specificAssignment[0].completions[0]?.isCompleted ? 'text-green-600' : 'text-gray-700'}`}
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill="none" strokeLinecap="round"
                                   strokeLinejoin="round" strokeWidth="32"

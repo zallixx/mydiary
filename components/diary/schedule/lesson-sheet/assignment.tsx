@@ -2,10 +2,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import * as React from 'react';
 import { lessonComponentsChild, specificAssignmentsProps } from '@/types/schedule';
 import { updateTaskStatus } from '@/utils/schedule';
+import {updateScheduleInIndexedDB} from "@/utils/scheduleDB";
 
-export default function LessonSheetAssignment({child} : {child: lessonComponentsChild}) {
+export default function LessonSheetAssignment({ child, date } : { child: lessonComponentsChild, date: Date }) {
     const [assignments, setAssignments] = React.useState(child.specificAssignments);
     const [loading, setLoading] = React.useState(false);
+    const dateString = date.toISOString().split('T')[0];
 
     const handleUpdateStatus = async (assignment: specificAssignmentsProps) => {
         setLoading(true);
@@ -13,6 +15,7 @@ export default function LessonSheetAssignment({child} : {child: lessonComponents
         if (updatedAssignment) {
             // @ts-ignore
             setAssignments(assignments.map((a) => a.id === updatedAssignment.id ? updatedAssignment : a));
+            await updateScheduleInIndexedDB(dateString, { specificAssignment: assignments });
             setLoading(false);
         }
     };
@@ -25,14 +28,14 @@ export default function LessonSheetAssignment({child} : {child: lessonComponents
                         {assignment.description}
                     </span>
                     <span className={`w-full mt-[16px] h-[48px] p-[16px] rounded-[16px] flex items-center text-black cursor-pointer
-                        ${assignment.homeworkCompletion[0]?.isCompleted ? 'bg-[#e8f7ea]' : 'bg-[#f4f4f8]'} ${loading ? 'cursor-not-allowed opacity-70' : ''}`}
+                        ${assignment.completions[0]?.isCompleted ? 'bg-[#e8f7ea]' : 'bg-[#f4f4f8]'} ${loading ? 'cursor-not-allowed opacity-70' : ''}`}
                         onClick={() => handleUpdateStatus(assignment)}
                     >
                         <Checkbox
-                            className={`h-6 w-6 mr-3 ${assignment.homeworkCompletion[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
-                            checked={assignment.homeworkCompletion[0]?.isCompleted}
+                            className={`h-6 w-6 mr-3 ${assignment.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
+                            checked={assignment.completions[0]?.isCompleted}
                         />
-                        {assignment.homeworkCompletion[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
+                        {assignment.completions[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
                     </span>
                 </span>
             ))}

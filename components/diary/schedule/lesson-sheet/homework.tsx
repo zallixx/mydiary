@@ -2,10 +2,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import * as React from 'react';
 import { homeworkProps, lessonComponentsChild } from '@/types/schedule';
 import { updateTaskStatus } from '@/utils/schedule';
+import {updateScheduleInIndexedDB} from "@/utils/scheduleDB";
 
-export default function LessonSheetHomework({child} : {child: lessonComponentsChild}) {
+export default function LessonSheetHomework({ child, date } : { child: lessonComponentsChild, date: Date }) {
     const [homeworks, setHomeworks] = React.useState(child.homeworkList);
     const [loading, setLoading] = React.useState(false);
+    const dateString = date.toISOString().split('T')[0];
 
     const handleUpdateStatus = async (homework: homeworkProps) => {
         setLoading(true);
@@ -13,6 +15,7 @@ export default function LessonSheetHomework({child} : {child: lessonComponentsCh
         if (updatedHomework) {
             // @ts-ignore
             setHomeworks(homeworks.map((a) => a.id === updatedHomework.id ? updatedHomework : a));
+            await updateScheduleInIndexedDB(dateString, {homework: homeworks});
             setLoading(false);
         }
     };
@@ -28,8 +31,8 @@ export default function LessonSheetHomework({child} : {child: lessonComponentsCh
                           ${homework.completions[0]?.isCompleted ? 'bg-[#e8f7ea]' : 'bg-[#f4f4f8]'} ${loading ? 'cursor-not-allowed opacity-70' : ''}`}
                           onClick={() => handleUpdateStatus(homework)}
                     >
-                        <Checkbox className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
-                                  checked={homework.completions[0]?.isCompleted}/>{homework.completions[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
+                        <Checkbox className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`} checked={homework.completions[0]?.isCompleted}/>
+                        {homework.completions[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
                     </span>
                 </span>
             ))

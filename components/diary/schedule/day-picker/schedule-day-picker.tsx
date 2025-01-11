@@ -102,8 +102,8 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
     }
 
     return (
-        <div>
-            <div className="w-full bg-white rounded-lg shadow-sm lg:px-12 max-lg:px-4">
+        <div className="lg:flex lg:justify-center">
+            <div className="3xl:w-full max-3xl:w-[900px] 2xl:w-[1000px] bg-white rounded-lg shadow-sm lg:px-12 max-lg:px-4 border-[1.5px] max-lg:w-full">
                 <div className="lg:py-4 lg:space-y-4 max-lg:py-2">
                     <div className="flex items-center justify-between max-lg:hidden">
                         <div className="flex items-center gap-2">
