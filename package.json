@@ -1,5 +1,10 @@
 {
   "name": "mydiary",
+  "author": {
+    "email": "almoroz08@gmail.com",
+    "name": "Морозов Алексей",
+    "url": "https://github.com/zallixx"
+  },
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,6 +12,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "packageManager": "npm@10.5.2",
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
