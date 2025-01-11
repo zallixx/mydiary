@@ -4,16 +4,16 @@ import SupportMessageCard from '@/components/cards/support-message-card';
 import { CurrentProfile } from '@/lib/auth/current-profile';
 
 interface SupportMessagePageProps {
-	params: {
+	params: Promise<{
 		messageId: string;
-	};
+	}>;
 }
 
 export default async function SupportMessagePage({
 	params,
 }: Readonly<SupportMessagePageProps>) {
 	const { profile } = await CurrentProfile();
-	const { messageId } = params;
+	const { messageId } = await params;
 
 	if (!profile) {
 		return redirect('/');

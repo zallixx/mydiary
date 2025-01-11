@@ -15,18 +15,19 @@ import { getFromIndexedDB } from '@/utils/scheduleDB';
 import { validateDate } from '@/utils/schedule';
 
 export default function UpcomingHomeworks() {
-    const [homeworks, setHomeworks] = React.useState([]);
+    const [homeworks, setHomeworks] = React.useState<Array<any>>([]);
+
     React.useEffect(
         () => {
             const fetchHomeworks = async () => {
                 const today = new Date();
-                const endDate = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
                 const homeworks = [];
-                for (let date = new Date(today); date <= endDate; date.setDate(date.getDate() + 1)) {
+                for (let i = 0; i < 8; i++) {
+                    const date = new Date(today.getTime() + i * 24 * 60 * 60 * 1000);
                     const dateString = date.toISOString().slice(0, 10);
                     const homework = await getFromIndexedDB(dateString);
                     if (homework) {
-                        homeworks.push({ date: new Date(dateString), items: homework.schedule.map((scheduleItem: { homeworks: any; }) => ({ ...scheduleItem, homework: scheduleItem.homework })) });
+                        homeworks.push({ date: new Date(dateString), items: homework.schedule.map((scheduleItem: { homework: any; }) => ({ ...scheduleItem, homework: scheduleItem.homework })) });
                     }
                 }
                 setHomeworks(homeworks);
@@ -46,7 +47,7 @@ export default function UpcomingHomeworks() {
                             <CardTitle>{validateDate(day.date)}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            {day.items[0].homework.map((homework, index) => (
+                            {day.items[0].homework.map((homework: any, index: number) => (
                                 <div key={index} className="flex items-start space-x-4 p-4 rounded-lg bg-muted">
                                     <Checkbox
                                         className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
@@ -63,7 +64,7 @@ export default function UpcomingHomeworks() {
                                     </Button>
                                 </div>
                             ))}
-                            {day.items[0].specificAssignment.map((specificAssignment) => (
+                            {day.items[0].specificAssignment.map((specificAssignment: any) => (
                                 <div key={specificAssignment.id} className="flex items-start space-x-4 p-4 rounded-lg bg-muted">
                                     <Checkbox
                                         className={`h-6 w-6 mr-3 ${specificAssignment.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}

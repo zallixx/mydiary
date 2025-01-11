@@ -15,8 +15,7 @@ export default function LessonSheetHomework({ child, date } : { child: lessonCom
         if (updatedHomework) {
             // @ts-ignore
             setHomeworks(homeworks.map((a) => a.id === updatedHomework.id ? updatedHomework : a));
-            const homeworksToSend = homeworks?.map(homework => ({ id: homework.id, isCompleted: homework.completions[0]?.isCompleted }));
-            updateScheduleInIndexedDB(dateString, { homework: homeworksToSend });
+            await updateScheduleInIndexedDB(dateString, {homework: homeworks});
             setLoading(false);
         }
     };

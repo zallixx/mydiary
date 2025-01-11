@@ -15,8 +15,7 @@ export default function LessonSheetAssignment({ child, date } : { child: lessonC
         if (updatedAssignment) {
             // @ts-ignore
             setAssignments(assignments.map((a) => a.id === updatedAssignment.id ? updatedAssignment : a));
-            const assignmentsToSend = assignments?.map(assignment => ({ id: assignment.id, isCompleted: assignment.completions[0]?.isCompleted }));
-            updateScheduleInIndexedDB(dateString, { specificAssignment: assignmentsToSend });
+            await updateScheduleInIndexedDB(dateString, { specificAssignment: assignments });
             setLoading(false);
         }
     };

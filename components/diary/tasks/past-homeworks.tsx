@@ -15,18 +15,18 @@ import { getFromIndexedDB } from '@/utils/scheduleDB';
 import { validateDate } from '@/utils/schedule';
 
 export default function PastHomeworks() {
-    const [pastHomeworks, setPastHomeworks] = React.useState([]);
+    const [pastHomeworks, setPastHomeworks] = React.useState<Array<any>>([]);
 
     React.useEffect(() => {
         const fetchPastHomeworks = async () => {
             const today = new Date();
-            const startDate = new Date(today.getTime() - 14 * 24 * 60 * 60 * 1000);
             const pastHomeworks = [];
-            for (let date = new Date(today); date > startDate; date.setDate(date.getDate() - 1)) {
+            const endDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+            for (let date = new Date(today); date > endDate; date.setDate(date.getDate() - 1)) {
                 const dateString = date.toISOString().slice(0, 10);
                 const homework = await getFromIndexedDB(dateString);
                 if (homework) {
-                    pastHomeworks.push({ date: new Date(dateString), items: homework.schedule.map((scheduleItem: { homeworks: any; }) => ({ ...scheduleItem, homework: scheduleItem.homework })) });
+                    pastHomeworks.push({ date: new Date(dateString), items: homework.schedule.map((scheduleItem: { homework: any; }) => ({ ...scheduleItem, homework: scheduleItem.homework })) });
                 }
             }
             setPastHomeworks(pastHomeworks);
@@ -44,7 +44,7 @@ export default function PastHomeworks() {
                             <CardTitle>{validateDate(day.date)}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            {day.items[0].homework.map((homework, index) => (
+                            {day.items[0].homework.map((homework: any, index: number) => (
                                 <div key={index} className="flex items-start space-x-4 p-4 rounded-lg bg-muted">
                                     <Checkbox
                                         className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
@@ -61,7 +61,7 @@ export default function PastHomeworks() {
                                     </Button>
                                 </div>
                             ))}
-                            {day.items[0].specificAssignment.map((specificAssignment) => (
+                            {day.items[0].specificAssignment.map((specificAssignment: any) => (
                                 <div key={specificAssignment.id} className="flex items-start space-x-4 p-4 rounded-lg bg-muted">
                                     <Checkbox
                                         className={`h-6 w-6 mr-3 ${specificAssignment.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
