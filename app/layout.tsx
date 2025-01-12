@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'Мой дневник',
     description: '',
     icons: '/default_mai.svg',
-    manifest: '/manifest.json',
+    manifest: '/manifest.webmanifest',
 };
 
 export default async function RootLayout({
