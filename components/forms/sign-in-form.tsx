@@ -21,8 +21,7 @@ export default function SignInForm({ setIsTransitioning }: { setIsTransitioning:
     const DefinedSigninForm = useForm<z.infer<typeof SigninFormSchema>>({
         resolver: zodResolver(SigninFormSchema),
         defaultValues: {
-            email: '',
-            password: '',
+            email: ''
         },
     });
 
@@ -44,24 +43,6 @@ export default function SignInForm({ setIsTransitioning }: { setIsTransitioning:
                                     <Input
                                         {...field}
                                         placeholder='Введите вашу почту'
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
-                <div>
-                    <FormField
-                        name={'password'}
-                        control={DefinedSigninForm.control}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Пароль</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        placeholder='Введите ваш пароль'
                                     />
                                 </FormControl>
                                 <FormMessage />

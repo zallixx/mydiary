@@ -22,190 +22,127 @@ model Profile {
   password           String
   image              String?
   role               Role                 @default(STUDENT)
-  groups             Group[]
-  teacherGroups      Group[]              @relation(name: "teacherGroups")
-  specialEvent       SpecialEvent[]
-  specificAssignment SpecificAssignment[]
-  homeworkCompletion HomeworkCompletion[]
-  baseScheduleItem   BaseScheduleItem[]   @relation(name: "teacherLessons")
+  groups             Group[]              @relation("StudentGroups")
+  taughtGroups       Group[]              @relation("TeacherGroups")
   assessments        Assessment[]
   absences           Absence[]
-  supportMessages    SupportMessage[]
+  specialAssignments Homework[]           @relation("SpecialAssignments")
+  homeworkStatuses   HomeworkCompletion[]
   notifications      Notification[]
+  supportMessages    SupportMessage[]
+  ScheduleItem       ScheduleItem[]
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
 }
 
 model Group {
-  id             String           @id @default(uuid())
-  name           String
-  filial         Filial?          @relation(fields: [filialId], references: [id])
-  filialId       String?
-  weeklySchedule WeeklySchedule[]
-  specialEvent   SpecialEvent[]
-  teacher        Profile[]        @relation(name: "teacherGroups")
-  students       Profile[]
-  homework       Homework[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id            String         @id @default(uuid())
+  name          String
+  filial        Filial?        @relation(fields: [filialId], references: [id])
+  filialId      String?
+  scheduleItems ScheduleItem[]
+  teachers      Profile[]      @relation("TeacherGroups")
+  students      Profile[]      @relation("StudentGroups")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
-model WeeklySchedule {
-  id                 String               @id @default(uuid())
-  dayOfWeek          Int
-  topic              String?
-  place              String?
-  event_type         eventType            @default(LESSON)
-  absence            Absence[]
-  homework           Homework[]
-  specificAssignment SpecificAssignment[]
-  assessment         Assessment[]
-  baseSchedule       BaseScheduleItem     @relation(fields: [baseScheduleItemId], references: [id])
-  baseScheduleItemId String
-  group              Group                @relation(fields: [groupId], references: [id])
-  groupId            String
-  specialEvents      SpecialEvent[]
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-}
-
-model BaseScheduleItem {
+model ScheduleItem {
   id             String           @id @default(uuid())
-  subject        Subject          @relation(fields: [subjectId], references: [id])
-  subjectId      String
-  teacher        Profile          @relation(fields: [teacherId], references: [id], name: "teacherLessons")
-  teacherId      String
-  date           DateTime
-  duration       Int              @default(45)
-  room           String?
-  type           itemScheduleType @default(BASIC)
-  groupSchedules WeeklySchedule[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-}
-
-model SpecialEvent {
-  id             String           @id @default(uuid())
-  date           DateTime
-  duration       Int
-  topic          String?
-  type           eventType
-  place          String?
-  description    String
-  teacher        Profile          @relation(fields: [teacherId], references: [id])
-  teacherId      String
-  room           String
-  weeklySchedule WeeklySchedule[]
   group          Group            @relation(fields: [groupId], references: [id])
   groupId        String
+  teacher        Profile          @relation(fields: [teacherId], references: [id])
+  teacherId      String
+  subject        Subject?         @relation(fields: [subjectId], references: [id])
+  subjectId      String?
+  type           ScheduleItemType @default(LESSON)
+  topic          String?
+  startTime      DateTime
+  endTime        DateTime
+  room           String?
+  recurring      Boolean          @default(false)
+  recurrenceRule String?
+  homework       Homework[]
+  assessments    Assessment[]
+  absences       Absence[]
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+}
+
+enum ScheduleItemType {
+  LESSON
+  EVENT
 }
 
 model Homework {
-  id              String               @id @default(uuid())
-  description     String
-  date            DateTime
-  attachments     StudyResources[]
-  fileAttachments FileAttachments[]
-  group           Group                @relation(fields: [groupId], references: [id])
-  groupId         String
-  completions     HomeworkCompletion[]
-  scheduleItem    WeeklySchedule       @relation(fields: [scheduleItemId], references: [id])
-  scheduleItemId  String
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
-}
-
-model SpecificAssignment {
   id             String               @id @default(uuid())
-  profile        Profile[]
-  date           DateTime
-  scheduleItem   WeeklySchedule       @relation(fields: [scheduleItemId], references: [id])
+  scheduleItem   ScheduleItem         @relation(fields: [scheduleItemId], references: [id])
   scheduleItemId String
-  completions    HomeworkCompletion[]
+  date           DateTime
   description    String
+  isSpecialized  Boolean              @default(false)
+  assignees      Profile[]            @relation("SpecialAssignments")
+  completions    HomeworkCompletion[]
+  attachments    Attachment[]
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
 }
 
 model HomeworkCompletion {
-  id                   String              @id @default(uuid())
-  profile              Profile             @relation(fields: [profileId], references: [id])
-  isCompleted          Boolean             @default(false)
-  profileId            String
-  homework             Homework?           @relation(fields: [homeworkId], references: [id])
-  homeworkId           String?
-  specificAssignment   SpecificAssignment? @relation(fields: [specificAssignmentId], references: [id])
-  specificAssignmentId String?
-  createdAt            DateTime            @default(now())
-  updatedAt            DateTime            @updatedAt
-}
-
-model Absence {
-  id             String         @id @default(uuid())
-  type           absenceType    @default(UNAUTHORIZED)
-  date           DateTime
-  profile        Profile        @relation(fields: [profileId], references: [id])
-  profileId      String
-  scheduleItem   WeeklySchedule @relation(fields: [scheduleItemId], references: [id])
-  scheduleItemId String
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  id          String   @id @default(uuid())
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  profileId   String
+  homework    Homework @relation(fields: [homeworkId], references: [id])
+  homeworkId  String
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Assessment {
-  id               String         @id @default(uuid())
-  grade            String
-  date             DateTime
-  gradeType        String
-  category         gradeCategory  @default(BASIC)
-  profile          Profile        @relation(fields: [profileId], references: [id])
-  profileId        String
-  weeklySchedule   WeeklySchedule @relation(fields: [weeklyScheduleId], references: [id])
-  weeklyScheduleId String
-  comment          String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  academicYear     Int
+  id             String        @id @default(uuid())
+  grade          String
+  date           DateTime
+  gradeType      String
+  category       GradeCategory @default(BASIC)
+  profile        Profile       @relation(fields: [profileId], references: [id])
+  profileId      String
+  scheduleItem   ScheduleItem  @relation(fields: [scheduleItemId], references: [id])
+  scheduleItemId String
+  comment        String?
+  academicYear   Int
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }
 
-model StudyResources {
-  id         String             @id @default(uuid())
-  type       studyResourcesType @default(THEORY)
-  homework   Homework?          @relation(fields: [homeworkId], references: [id])
-  homeworkId String?
-  url        String
-  name       String
-  createdAt  DateTime           @default(now())
-  updatedAt  DateTime           @updatedAt
+model Absence {
+  id             String       @id @default(uuid())
+  type           AbsenceType  @default(UNAUTHORIZED)
+  date           DateTime
+  profile        Profile      @relation(fields: [profileId], references: [id])
+  profileId      String
+  scheduleItem   ScheduleItem @relation(fields: [scheduleItemId], references: [id])
+  scheduleItemId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
-model FileAttachments {
+model Attachment {
   id         String   @id @default(uuid())
   url        String
+  name       String
   homework   Homework @relation(fields: [homeworkId], references: [id])
   homeworkId String
-  uploadAt   DateTime @default(now())
+  createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
 model Subject {
-  id           String             @id @default(uuid())
-  name         String             @unique
-  baseSchedule BaseScheduleItem[]
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
-}
-
-model Institution {
-  id         String   @id @default(uuid())
-  name       String   @unique
-  city       String
-  phone      String   @unique
-  websiteUrl String   @unique
-  email      String   @unique
-  Filials    Filial[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id            String         @id @default(uuid())
+  name          String         @unique
+  scheduleItems ScheduleItem[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Filial {
@@ -218,6 +155,18 @@ model Filial {
   groups        Group[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+}
+
+model Institution {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  city       String
+  phone      String   @unique
+  websiteUrl String   @unique
+  email      String   @unique
+  filials    Filial[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model SupportMessage {
@@ -242,13 +191,6 @@ model Notification {
   updatedAt DateTime @updatedAt
 }
 
-enum eventType {
-  OLYMPIAD
-  EXAM
-  LESSON
-  OTHER
-}
-
 enum Role {
   STUDENT
   TEACHER
@@ -256,30 +198,15 @@ enum Role {
   DEVELOPER
 }
 
-enum gradeCategory {
+enum GradeCategory {
   BASIC
   ADVANCED
 }
 
-enum absenceType {
+enum AbsenceType {
   NONE
   UNAUTHORIZED
   AUTHORIZED
   SICK
   EXEMPT
-}
-
-enum itemScheduleType {
-  BASIC
-  REPLACEMENT
-  ONLINE
-  CANCELED
-  TEST
-}
-
-enum studyResourcesType {
-  TEST
-  VIDEO
-  THEORY
-  PRESENTATION
 }

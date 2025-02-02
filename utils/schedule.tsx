@@ -53,7 +53,7 @@ const setPropForItem = (item: string): string => {
         case 'Контрольная работа':
             return 'border border-[#dc143c]';
         default:
-            return '';
+            return 'border-0';
     }
 };
 
@@ -68,12 +68,19 @@ const setIndexForGrade = (item: string): string => {
     }
 };
 
-const currentTimeInItemRange = (itemTime: Date, itemDate: Date, duration: number): boolean => {
-    return (todayLocal.getHours() >= itemTime.getHours() && todayLocal.getHours() < (itemTime.getHours() + duration * 60000)) && todayLocal.getDate() === itemDate.getDate();
+const currentTimeInItemRange = (startTime: string, endTime: string, date: Date): boolean => {
+    const now = new Date();
+
+    if (date.getDate() !== now.getDate()) {
+        return false;
+    }
+
+    return now.getHours() * 60 + now.getMinutes() >= (new Date(startTime).getUTCHours() * 60 + new Date(startTime).getUTCMinutes()) && now.getHours() * 60 + now.getMinutes() <= (new Date(endTime).getUTCHours() * 60 + new Date(endTime).getUTCMinutes());
 };
 
-const getLessonTime = (date: Date, duration: number): string => {
-    const itemDate = new Date(date);
+const getLessonTime = (startTime: string, endTime: string): string => {
+    const itemDate = new Date(startTime);
+    const duration = (new Date(endTime).getTime() - itemDate.getTime()) / 60000;
     return itemDate.getUTCHours().toString().padStart(2, '0') + ':' + itemDate.getUTCMinutes().toString().padStart(2, '0') + ' - ' + new Date(itemDate.getTime() + duration * 60000).getUTCHours().toString().padStart(2, '0') + ':' + new Date(itemDate.getTime() + duration * 60000).getUTCMinutes().toString().padStart(2, '0');
 };
 
@@ -126,9 +133,12 @@ const defineAbsenceType = (item: string): string | undefined => {
 };
 
 const createLessonComponents = (item: itemProps): lessonComponentsProps[] => {
+    const specializedHomeworks = item.homework.filter(homework => homework.isSpecialized);
+    const regularHomeworks = item.homework.filter(homework => !homework.isSpecialized);
+
     return [
         {
-            title: item.event_type === 'LESSON' ? "Об уроке:" : "О мероприятии",
+            title: item.type === 'LESSON' ? "Об уроке:" : "О мероприятии",
             children: [
                 {
                     sub_title: "Тип мероприятия",
@@ -139,7 +149,7 @@ const createLessonComponents = (item: itemProps): lessonComponentsProps[] => {
                             <path d="M12 8h.01"/>
                         </svg>
                     ),
-                    description: defineEventType(item.event_type),
+                    description: defineEventType(item.type),
                 },
                 {
                     sub_title: "Место проведения",
@@ -157,7 +167,7 @@ const createLessonComponents = (item: itemProps): lessonComponentsProps[] => {
             title: "Преподаватель",
             children: [
                 {
-                    description: item.baseSchedule.teacher.name,
+                    description: item.teacher.name + ' ' + item.teacher.surname,
                 },
             ],
         },
@@ -165,7 +175,7 @@ const createLessonComponents = (item: itemProps): lessonComponentsProps[] => {
             title: "Домашние задания",
             children: [
                 {
-                    homeworkList: item.homework,
+                    homeworkList: regularHomeworks,
                 },
             ]
         },
@@ -173,7 +183,7 @@ const createLessonComponents = (item: itemProps): lessonComponentsProps[] => {
             title: "Личные задания",
             children: [
                 {
-                    specificAssignments: item.specificAssignment,
+                    specificAssignments: specializedHomeworks,
                 },
             ]
         },
@@ -181,7 +191,7 @@ const createLessonComponents = (item: itemProps): lessonComponentsProps[] => {
             title: "Результаты урока",
             children: [
                 {
-                    assessment: item.assessment,
+                    assessment: item.assessments,
                 },
             ]
         },
@@ -189,7 +199,7 @@ const createLessonComponents = (item: itemProps): lessonComponentsProps[] => {
             title: "Пропуск",
             children: [
                 {
-                    absence: item.absence,
+                    absence: item.absences,
                 }
             ]
         }
@@ -262,21 +272,17 @@ const generateWeekOptions = (weeks: weekProps[][]): weekOptionsProps[] => {
     return weekOptions;
 };
 
-async function updateTaskStatus(assignment: specificAssignmentsProps | null, homework: homeworkProps | null) {
+async function updateTaskStatus(homework: homeworkProps | null) {
     try {
         const response = await fetch('/api/updateTaskStatus/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ assignment, homework }),
+            body: JSON.stringify({ homework }),
         });
         if (response.ok) {
             const data = await response.json();
-            if (assignment) {
-                assignment.completions[0] = data;
-                return assignment;
-            }
             if (homework) {
                 homework.completions[0] = data;
                 return homework;

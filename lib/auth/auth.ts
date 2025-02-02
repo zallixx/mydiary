@@ -27,7 +27,6 @@ export async function signUp(values: signUpProps) {
         };
     }
 
-    const hashedPassword = await hash(values.password, 12);
     const confirmationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6 цифр
 
     const newProfile = await db.profile.create({
@@ -35,7 +34,7 @@ export async function signUp(values: signUpProps) {
             name: values.name,
             surname: values.surname,
             email: values.email,
-            password: hashedPassword,
+            password: '',
         }
     });
 
@@ -97,19 +96,7 @@ export async function SignIn(values: signInProps) {
         return {
             errors: {
                 email: {
-                    message: 'Проверьте правильность введенной почты и пароля',
-                },
-            },
-        };
-    }
-
-    const isPasswordCorrect = await compare(values.password, profile.password);
-
-    if (!isPasswordCorrect) {
-        return {
-            errors: {
-                email: {
-                    message: 'Проверьте правильность введенной почты и пароля',
+                    message: 'Проверьте правильность введенной почты',
                 },
             },
         };

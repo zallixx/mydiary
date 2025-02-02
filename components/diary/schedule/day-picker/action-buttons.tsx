@@ -8,23 +8,19 @@ import { getLessonTime } from '@/utils/schedule';
 
 async function prepareSchedule(schedule: itemProps[], dateString: string) {
     const stringSchedule = 'Расписание на ' + dateString + ':\n\n' + schedule.map(item => {
-        const schedule = item.baseSchedule;
-        const subjectName = schedule.subject.name;
-        const lessonDate = getLessonTime(schedule.date, schedule.duration);
-        const place = item.place;
-        const room = schedule.room;
+        const subjectName = item.subject.name;
+        const lessonDate = getLessonTime(item.startTime, item.endTime);
+        const room = item.room;
         const topic = item.topic;
-        const teacher = schedule.teacher.name;
+        const teacher = item.teacher.name + " " + item.teacher.surname;
         const homework = item.homework.map(homework => homework.description).join(", ") || "Нет";
-        const specificAssignments = item.specificAssignment.join(", ") || "Нет";
 
         return `
             ${subjectName}  ${lessonDate}:
-            Проходит в ${place}. Помещение - ${room}.
+            Помещение - ${room}.
             Преподаватель - ${teacher}.
             Тема: ${topic}.
-            Домашнее задание: ${homework}
-            Личные домашние задания: ${specificAssignments}`.trim(); // Обрезаем пробелы(с концов) дабы расписание выглядело в виде списка(название урока и потом через таб идут данные о уроке)
+            Домашнее задание: ${homework}`.trim(); // Обрезаем пробелы(с концов) дабы расписание выглядело в виде списка(название урока и потом через таб идут данные о уроке)
     }).join("\n");
 
     const blob = new Blob([stringSchedule], { type: 'text/plain' });
@@ -42,9 +38,7 @@ async function handleDownload(dateString: string) {
         const promise = prepareSchedule(schedule.schedule, dateString);
         toast.promise(promise, {
             loading: 'Загружаем расписание...',
-            success: () => {
-                return `Расписание загружено!`;
-            },
+            success: `Расписание загружено!`,
             error: 'Что-то пошло не так...',
         });
     }

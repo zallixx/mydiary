@@ -27,15 +27,15 @@ export default async function TasksPage() {
 			<Tabs defaultValue={'upcoming'}>
 				<div className="min-h-screen flex items-start max-2xm:pt-16 2xm:pt-8 justify-center">
 					<section className="static left-1/2 right-1/2 3xl:w-[1400px] 2xl:w-[1000px] flex flex-col transition-hwp duration-500 max-2xl:w-[95%] ease-in-out">
-						<div className="flex flex-row justify-between items-end mb-4">
-							<span className="max-sm:text-base text-2xl font-bold">Домашние задания</span>
+						<div className="flex flex-row justify-between max-2xm:justify-end items-end mb-2">
+							<span className="max-sm:text-base text-2xl font-bold max-2xm:hidden">Домашние задания</span>
 							<div className="flex space-x-2">
-								<TabsList className="bg-transparent">
+								<TabsList className="bg-transparent space-x-4">
 									<TabsTrigger value={'upcoming'}>
-										<Button variant="default" className="bg-[#0a3af5] hover:bg-[#0a3af5]/80 text-white rounded-lg">Ближайшие</Button>
+										<Button variant="default" className="bg-[#0a3af5] max-sm:hover:bg-[#0a3af5] sm:hover:bg-[#0a3af5]/80 text-white rounded-lg">Ближайшие</Button>
 									</TabsTrigger>
 									<TabsTrigger value={'past'}>
-										<Button variant="outline" className="text-black hover:bg-[#a7a8a9]/30 rounded-lg">Прошедшие</Button>
+										<Button variant="outline" className="text-black sm:hover:bg-[#a7a8a9]/30 rounded-lg">Прошедшие</Button>
 									</TabsTrigger>
 								</TabsList>
 							</div>

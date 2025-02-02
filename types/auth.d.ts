@@ -31,12 +31,10 @@ interface signUpProps {
     name: string;
     surname: string;
     email: string;
-    password: string;
 }
 
 interface signInProps {
     email: string;
-    password: string;
 }
 
 export type { emailProps, decryptedSession, encryptPayload, signUpProps, signInProps, serverSessionProps };

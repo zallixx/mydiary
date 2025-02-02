@@ -20,7 +20,7 @@ export default function LessonSheet({ open, onOpenChange, item, date }: { open: 
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
-            <SheetContent className="bg-[#f4f4f8] w-1/2">
+            <SheetContent className="bg-[#f4f4f8] w-[500px]">
                 <SheetHeader>
                     <LessonSheetTitle item={item} date={date} />
                     <ScrollArea className="h-[calc(100vh-82px)] overflow-y-auto">

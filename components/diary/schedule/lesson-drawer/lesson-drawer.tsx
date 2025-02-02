@@ -79,11 +79,11 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
         <Drawer open={open} onOpenChange={onOpenChange}>
             <Tabs defaultValue="lesson" value={activeTab} onValueChange={handleTabChange}>
                 <DrawerContent className="h-full">
-                    <DrawerHeader className="bg-[#7851f1] b-0">
+                    <DrawerHeader className="bg-[#aaad60] b-0">
                         <LessonDrawerTitle />
                         <DrawerDescription className="text-white flex flex-col items-center justify-center w-full">
-                            <span>
-                                {validateDate(date) + ' ' + getLessonTime(item.baseSchedule.date, item.baseSchedule.duration)}
+                            <span className="text-[#2c2c18]">
+                                {validateDate(date) + ' ' + getLessonTime(item.startTime, item.endTime)}
                             </span>
                             <LessonDrawerTopic item={item} />
                             <DrawerTabsList indicatorRef={indicatorRef} tabsListRef={tabsListRef} />
@@ -100,7 +100,7 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
                         >
                             <CarouselContent>
                                 <CarouselItem className="basis-full">
-                                    <ScrollArea className="h-[calc(100vh-300px)] overflow-y-auto">
+                                    <ScrollArea className="h-[calc(100vh-270px)]">
                                         <div className="space-y-2">
                                             {lessonComponents.map((component, index) => {
                                                 if (component.title === "Домашние задания" || component.title === "Личные задания" ||
