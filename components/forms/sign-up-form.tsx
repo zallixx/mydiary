@@ -27,7 +27,6 @@ export default function SignUpForm({ setIsTransitioning }: { setIsTransitioning:
             name: '',
             surname: '',
             email: '',
-            password: '',
         },
     });
 
@@ -85,24 +84,6 @@ export default function SignUpForm({ setIsTransitioning }: { setIsTransitioning:
                                     <Input
                                         {...field}
                                         placeholder='Введите вашу почту'
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
-                <div>
-                    <FormField
-                        name={'password'}
-                        control={DefinedSignupForm.control}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Пароль</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        placeholder='Введите ваш пароль'
                                     />
                                 </FormControl>
                                 <FormMessage />

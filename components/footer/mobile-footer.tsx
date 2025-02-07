@@ -19,7 +19,7 @@ export default function MobileFooter() {
     return (
         <>
             {width < 1400 && (
-                <footer className="fixed bottom-0 flex h-16 w-full items-center bg-white dark:bg-[#17171a]">
+                <footer className="fixed bottom-0 left-0 flex right-0 border-t mx-auto h-16 w-full items-center bg-white">
                     <MainLinks/>
                 </footer>
             )}

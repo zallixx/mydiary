@@ -2,12 +2,9 @@ import db from '@/lib/db';
 import { NextResponse } from 'next/server';
 import { CurrentProfile } from '@/lib/auth/current-profile';
 import { redirect } from 'next/navigation';
+import { RRule } from 'rrule';
 
 export async function POST(request: Request) {
-    if (request.method !== 'POST') {
-        return NextResponse.json('Метод не разрешен', { status: 405 });
-    }
-
     const { profile } = await CurrentProfile();
 
     if (!profile) {
@@ -23,91 +20,69 @@ export async function POST(request: Request) {
     }
 
     try {
-        const dateObj = new Date(date as string);
-        const startOfDay = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()-1, 23, 59, 59));
-        const endOfDay = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 23, 59, 59));
-        const dayOfWeek = endOfDay.getUTCDay();
+        const targetDate = new Date(date);
+        const nextDay = new Date(targetDate.getTime() + 24 * 60 * 60 * 1000);
         const groupIds = profile.groups.map((group) => group.id);
 
-        const scheduleForDay = await db.weeklySchedule.findMany({
+        const schedule = await db.scheduleItem.findMany({
             where: {
-                dayOfWeek: dayOfWeek,
+                OR: [
+                    {
+                        recurring: false,
+                        startTime: {
+                            gte: targetDate,
+                            lt: nextDay,
+                        },
+                    },
+                    {
+                        recurring: true,
+                        startTime: {
+                            lte: targetDate,
+                        },
+                    },
+                ],
                 groupId: {
                     in: groupIds,
                 },
             },
-            orderBy: {
-                baseSchedule: {
-                    date: 'asc',
-                },
-            },
             select: {
+                teacher: {
+                    select: {
+                        name: true,
+                        surname: true,
+                    },
+                },
+                subject: {
+                    select: {
+                        name: true,
+                    },
+                },
                 topic: true,
-                place: true,
-                event_type: true,
-                specificAssignment: {
-                    where: {
-                        profile: {
-                            some: {
-                                id: profile.id,
-                            },
-                        },
-                        date: {
-                            gt: startOfDay,
-                            lt: endOfDay,
-                        },
-                    },
-                    select: {
-                        id: true,
-                        description: true,
-                        completions: {
-                            where: {
-                                profileId: profile.id,
-                            },
-                            select: {
-                                id: true,
-                                isCompleted: true,
-                            },
-                        },
-                    },
-                },
-                baseSchedule: {
-                    select: {
-                        date: true,
-                        duration: true,
-                        room: true,
-                        type: true,
-                        subject: {
-                            select: {
-                                name: true,
-                            },
-                        },
-                        teacher: {
-                            select: {
-                                name: true,
-                            },
-                        },
-                    },
-                },
-                absence: {
+                type: true,
+                room: true,
+                startTime: true,
+                endTime: true,
+                recurring: true,
+                recurrenceRule: true,
+                absences: {
                     where: {
                         profileId: profile.id,
                         date: {
-                            gt: startOfDay,
-                            lt: endOfDay,
+                            gte: targetDate,
+                            lt: nextDay,
                         },
                     },
                     select: {
                         type: true,
                     },
                 },
-                assessment: {
+                assessments: {
                     where: {
                         profileId: profile.id,
                         date: {
-                            gt: startOfDay,
-                            lt: endOfDay,
-                        },
+                            gte: targetDate,
+                            lt: nextDay,
+                        }
                     },
                     select: {
                         comment: true,
@@ -118,26 +93,31 @@ export async function POST(request: Request) {
                 },
                 homework: {
                     where: {
-                        groupId: {
-                            in: groupIds,
-                        },
+                        OR: [
+                            {
+                                isSpecialized: false,
+                            },
+                            {
+                                isSpecialized: true,
+                                assignees: {
+                                    some: {
+                                        id: profile.id,
+                                    },
+                                },
+                            },
+                        ],
                         date: {
-                            gt: startOfDay,
-                            lt: endOfDay,
+                            gte: targetDate,
+                            lt: nextDay,
                         },
                     },
                     select: {
                         id: true,
                         description: true,
-                        fileAttachments: {
-                            select: {
-                                url: true,
-                            },
-                        },
+                        isSpecialized: true,
                         attachments: {
                             select: {
                                 url: true,
-                                type: true,
                                 name: true,
                             },
                         },
@@ -150,12 +130,36 @@ export async function POST(request: Request) {
                                 isCompleted: true,
                             },
                         },
-                    },
+                    }
                 },
             },
         });
 
-        return NextResponse.json(scheduleForDay, { status: 200 });
+        function isOccurrenceOnDate(scheduleItem: any, date: Date) {
+            const eventDate = new Date(scheduleItem.startTime);
+            if (!scheduleItem.recurring || !scheduleItem.recurrenceRule) {
+                return eventDate >= date && eventDate < nextDay;
+            }
+
+            const rule = RRule.fromString(scheduleItem.recurrenceRule);
+            const ruleWithStart = new RRule({
+                ...rule.options,
+                dtstart: new Date(scheduleItem.startTime),
+            });
+
+            const occurrences = ruleWithStart.between(
+                targetDate,
+                nextDay,
+                true
+            );
+
+            return occurrences.length > 0;
+        }
+
+
+        const filteredSchedule = schedule.filter((scheduleItem) => isOccurrenceOnDate(scheduleItem, targetDate));
+
+        return NextResponse.json(filteredSchedule, { status: 200 });
     } catch (error) {
         return NextResponse.json('Что-то пошло не так', { status: 500 });
     }

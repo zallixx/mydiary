@@ -11,11 +11,11 @@ export default function LessonSheetHomework({ child, date } : { child: lessonCom
 
     const handleUpdateStatus = async (homework: homeworkProps) => {
         setLoading(true);
-        const updatedHomework = await updateTaskStatus(null, homework);
+        const updatedHomework = await updateTaskStatus(homework);
         if (updatedHomework) {
             // @ts-ignore
             setHomeworks(homeworks.map((a) => a.id === updatedHomework.id ? updatedHomework : a));
-            await updateScheduleInIndexedDB(dateString, {homework: homeworks});
+            await updateScheduleInIndexedDB(dateString, updatedHomework);
             setLoading(false);
         }
     };
@@ -35,8 +35,7 @@ export default function LessonSheetHomework({ child, date } : { child: lessonCom
                         {homework.completions[0]?.isCompleted ? 'Задания выполнены' : 'Задания не выполнены'}
                     </span>
                 </span>
-            ))
-            }
+            ))}
         </>
     );
 }
