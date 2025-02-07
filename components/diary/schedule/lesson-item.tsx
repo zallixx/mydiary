@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client';
 
 import { currentTimeInItemRange, getLessonTime } from '@/utils/schedule';

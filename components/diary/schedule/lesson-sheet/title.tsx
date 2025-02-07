@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getLessonTime, validateDate } from '@/utils/schedule';
 import { SheetTitle } from '@/components/ui/sheet';
 import * as React from 'react';

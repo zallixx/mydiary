@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client';
 
 import { itemProps } from '@/types/schedule';

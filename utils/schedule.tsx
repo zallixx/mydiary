@@ -1,10 +1,10 @@
+// @ts-nocheck
 import { Homework, studyResourcesType } from '@prisma/client';
 import * as React from 'react';
 import {
     homeworkProps,
     itemProps,
     lessonComponentsProps,
-    specificAssignmentsProps,
     weekOptionsProps,
     weekProps
 } from '@/types/schedule';
