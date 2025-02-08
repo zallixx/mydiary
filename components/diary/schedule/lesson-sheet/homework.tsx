@@ -2,7 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import * as React from 'react';
 import { homeworkProps, lessonComponentsChild } from '@/types/schedule';
 import { updateTaskStatus } from '@/utils/schedule';
-import {updateScheduleInIndexedDB} from "@/utils/scheduleDB";
+import { updateScheduleInIndexedDB } from '@/utils/scheduleDB';
 
 export default function LessonSheetHomework({ child, date } : { child: lessonComponentsChild, date: Date }) {
     const [homeworks, setHomeworks] = React.useState(child.homeworkList);

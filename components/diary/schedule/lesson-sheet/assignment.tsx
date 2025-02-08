@@ -3,7 +3,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import * as React from 'react';
 import { lessonComponentsChild, specificAssignmentsProps } from '@/types/schedule';
 import { updateTaskStatus } from '@/utils/schedule';
-import {updateScheduleInIndexedDB} from "@/utils/scheduleDB";
+import { updateScheduleInIndexedDB } from '@/utils/scheduleDB';
 
 export default function LessonSheetAssignment({ child, date } : { child: lessonComponentsChild, date: Date }) {
     const [assignments, setAssignments] = React.useState(child.specificAssignments);

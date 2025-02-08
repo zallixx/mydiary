@@ -7,7 +7,7 @@ export const POST = async (req: Request) => {
     const { profile } = await CurrentProfile();
 
     if (!profile) {
-        return redirect('/sign-in');
+        return redirect('/auth');
     }
 
     const payload = await req.json();

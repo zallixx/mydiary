@@ -9,7 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { getFromIndexedDB, updateScheduleInIndexedDB } from '@/utils/scheduleDB';
 import { updateTaskStatus, validateDate } from '@/utils/schedule';
 import { homeworkProps } from '@/types/schedule';
@@ -17,12 +17,12 @@ import LessonDrawer from '@/components/diary/schedule/lesson-drawer/lesson-drawe
 import LessonSheet from '@/components/diary/schedule/lesson-sheet/lesson-sheet';
 
 export default function PastHomeworks() {
-    const [pastHomeworks, setPastHomeworks] = React.useState<Array<any>>([]);
-    const [isOpen, setIsOpen] = React.useState(false);
-    const [date, setDate] = React.useState(new Date());
-    const [item, setItem] = React.useState({});
+    const [pastHomeworks, setPastHomeworks] = useState<Array<any>>([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [item, setItem] = useState({});
 
-    React.useEffect(() => {
+    useEffect(() => {
         const fetchPastHomeworks = async () => {
             const today = new Date();
             const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);

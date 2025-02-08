@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifySession } from '@/lib/auth/current-profile';
 
-const publicRoutes = ['/sign-up', '/sign-in'];
+const publicRoutes = ['/auth'];
 
 export default async function middleware(req: NextRequest) {
     const path = req.nextUrl.pathname;
@@ -12,7 +12,7 @@ export default async function middleware(req: NextRequest) {
         if (isPublicRoute) {
             return NextResponse.next();
         }
-        return NextResponse.redirect(new URL('/sign-in', req.url));
+        return NextResponse.redirect(new URL('/auth', req.url));
     }
 
     if(headers) {

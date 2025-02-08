@@ -1,5 +1,4 @@
-import React from 'react';
-import {TabsList, TabsTrigger} from "@/components/ui/tabs";
+import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function DrawerTabsList({ indicatorRef, tabsListRef }: { indicatorRef: React.RefObject<HTMLDivElement | null> ; tabsListRef: React.RefObject<HTMLDivElement | null> }) {
     return (

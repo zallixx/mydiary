@@ -2,18 +2,17 @@ import {
     Sheet,
     SheetContent,
     SheetDescription,
-    SheetHeader,
+    SheetHeader
 } from '@/components/ui/sheet';
 import { createLessonComponents } from '@/utils/schedule';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import * as React from 'react';
 import { itemProps } from '@/types/schedule';
 import LessonSheetTitle from '@/components/diary/schedule/lesson-sheet/title';
 import LessonSheetHomework from '@/components/diary/schedule/lesson-sheet/homework';
 import LessonSheetAssignment from '@/components/diary/schedule/lesson-sheet/assignment';
 import LessonSheetAssessment from '@/components/diary/schedule/lesson-sheet/assessment';
 import LessonSheetAbsence from '@/components/diary/schedule/lesson-sheet/absence';
-import LessonSheetAttributes from "@/components/diary/schedule/lesson-sheet/attributes";
+import LessonSheetAttributes from '@/components/diary/schedule/lesson-sheet/attributes';
 
 export default function LessonSheet({ open, onOpenChange, item, date }: { open: boolean; onOpenChange: () => void; item: itemProps; date: Date }) {
     const lessonComponents = createLessonComponents(item);

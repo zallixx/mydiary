@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/sidebar';
 import type { LucideIcon } from 'lucide-react';
 
-export function NavProjects({ projects }: { projects: { name: string; url: string; icon: LucideIcon }[] }) {
+export function NavServices({ projects }: { projects: { name: string; url: string; icon: LucideIcon }[] }) {
     return (
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">
             <SidebarGroupLabel>Наши сервисы</SidebarGroupLabel>

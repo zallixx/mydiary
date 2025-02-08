@@ -7,7 +7,7 @@ export default async function SetupPage() {
 	const { activated, profile } = await CurrentProfile();
 
 	if (!activated || !profile) {
-		return redirect('/sign-in');
+		return redirect('/auth');
 	}
 
 	// @ts-ignore
@@ -23,7 +23,7 @@ export default async function SetupPage() {
 				будут обновлены в системе. Если же по прошествии времени
 				ситуация не изменится, рекомендуем вам обратиться в службу
 				поддержки школы для получения более подробной информации и
-				помощи или <SupportModal />
+				помощи или <SupportModal withoutText={false} />
 			</p>
 			<SetUpAvatarModal />
 		</div>

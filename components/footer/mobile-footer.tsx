@@ -1,11 +1,11 @@
 'use client';
 
 import MainLinks from '@/components/footer/main-links';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 export default function MobileFooter() {
-    const [width, setWidth] = React.useState(0);
-    React.useEffect(() => {
+    const [width, setWidth] = useState(0);
+    useEffect(() => {
         const handleResize = () => {
             setWidth(window.innerWidth);
         };

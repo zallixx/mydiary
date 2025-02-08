@@ -1,7 +1,6 @@
 "use server";
 
 import db from '@/lib/db';
-import { hash, compare } from 'bcrypt';
 import { createSession, updateSession } from '@/lib/auth/session';
 import { decrypt } from '@/utils/jwtHelpers';
 import { cookies } from 'next/headers';
@@ -33,8 +32,7 @@ export async function signUp(values: signUpProps) {
         data: {
             name: values.name,
             surname: values.surname,
-            email: values.email,
-            password: '',
+            email: values.email
         }
     });
 
@@ -116,12 +114,11 @@ export async function logout() {
     const cookie = cookieStore.get('session')?.value;
 
     if (!cookie) {
-        return redirect('/sign-in');
+        return redirect('/auth');
     }
-    
 
     cookieStore.delete('session');
     await redis.del(cookie);
 
-    return redirect('/sign-in');
+    return redirect('/auth');
 }

@@ -1,5 +1,4 @@
 import { setIndexForGrade, setPropForItem } from '@/utils/schedule';
-import * as React from 'react';
 import { lessonComponentsChild } from '@/types/schedule';
 
 export default function LessonSheetAssessment({child} : {child: lessonComponentsChild}) {

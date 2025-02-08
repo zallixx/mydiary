@@ -6,7 +6,7 @@ import {
     DrawerFooter,
     DrawerHeader,
 } from '@/components/ui/drawer';
-import * as React from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
     createLessonComponents,
     getLessonTime,
@@ -31,10 +31,10 @@ import DrawerItemTitle from '@/components/diary/schedule/lesson-drawer/item-titl
 import DrawerTabsList from '@/components/diary/schedule/lesson-drawer/tabs-list';
 
 export default function LessonDrawer({ open, onOpenChange, item, date }: { open: boolean; onOpenChange: () => void; item: itemProps; date: Date }) {
-    const [activeTab, setActiveTab] = React.useState('lesson');
-    const [api, setApi] = React.useState<any>();
-    const indicatorRef = React.useRef<HTMLDivElement>(null);
-    const tabsListRef = React.useRef<HTMLDivElement>(null);
+    const [activeTab, setActiveTab] = useState('lesson');
+    const [api, setApi] = useState<any>();
+    const indicatorRef = useRef<HTMLDivElement>(null);
+    const tabsListRef = useRef<HTMLDivElement>(null);
     const lessonComponents = createLessonComponents(item);
 
     const handleTabChange = (value: string) => {
@@ -68,7 +68,7 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
         }
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (api) {
             api.on("select", handleSlideChange)
             api.on("scroll", handleScroll)
@@ -81,7 +81,7 @@ export default function LessonDrawer({ open, onOpenChange, item, date }: { open:
             <Tabs defaultValue="lesson" value={activeTab} onValueChange={handleTabChange}>
                 <DrawerContent className="h-full">
                     <DrawerHeader className="bg-[#aaad60] b-0">
-                        <LessonDrawerTitle />
+                        <LessonDrawerTitle item={item} />
                         <DrawerDescription className="text-white flex flex-col items-center justify-center w-full">
                             <span className="text-[#2c2c18]">
                                 {validateDate(date) + ' ' + getLessonTime(item.startTime, item.endTime)}

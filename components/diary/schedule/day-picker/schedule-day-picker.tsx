@@ -1,5 +1,6 @@
 "use client";
-import * as React from 'react';
+
+import { useEffect, useState, useCallback } from 'react';
 import {
     Select,
     SelectContent,
@@ -31,14 +32,14 @@ interface ScheduleDayPickerProps {
 }
 
 export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps) {
-    const [currentWeek, setCurrentWeek] = React.useState("");
-    const [selectedDay, setSelectedDay] = React.useState("");
-    const [api, setApi] = React.useState<CarouselApi>();
+    const [currentWeek, setCurrentWeek] = useState("");
+    const [selectedDay, setSelectedDay] = useState("");
+    const [api, setApi] = useState<CarouselApi>();
 
     const weeks = generateWeeks();
     const weekOptions = generateWeekOptions(weeks);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (weekOptions.length > 0) {
             const today = getTodayString();
             const currentWeekIndex = weeks.findIndex(week =>
@@ -51,14 +52,14 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
         }
     }, [api]);
 
-    const logEvent = React.useCallback((api: CarouselApi) => {
+    const logEvent = useCallback((api: CarouselApi) => {
         if (api) {
             const newIndex = api.selectedScrollSnap();
             setCurrentWeek(newIndex.toString());
         }
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (api) {
             api.on('pointerDown', logEvent);
             api.on('pointerUp', logEvent);

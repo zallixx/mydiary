@@ -15,7 +15,7 @@ export default async function BaseLayout({
 	const { activated, profile } = await CurrentProfile();
 
 	if (!activated || !profile) {
-		return redirect('/sign-in');
+		return redirect('/auth');
 	}
 
 	if (!profile.groups || profile.groups.length === 0) {

@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     const { profile } = await CurrentProfile();
 
     if (!profile) {
-        return redirect('/sign-in');
+        return redirect('/auth');
     }
 
     const payload = await request.json();
@@ -58,6 +58,7 @@ export async function POST(request: Request) {
                     },
                 },
                 topic: true,
+                name: true,
                 type: true,
                 room: true,
                 startTime: true,

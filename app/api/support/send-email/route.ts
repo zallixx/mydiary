@@ -5,14 +5,10 @@ import { CurrentProfile } from '@/lib/auth/current-profile';
 import { redirect } from 'next/navigation';
 
 export async function POST(request: NextRequest) {
-	if (request.method !== 'POST') {
-		return NextResponse.json('Метод не разрешен', { status: 405 });
-	}
-
 	const { profile } = await CurrentProfile();
 
 	if (!profile) {
-		return redirect('/sign-in');
+		return redirect('/auth');
 	}
 
 	if (profile.role !== 'ADMIN' && profile.role !== 'DEVELOPER') {
@@ -25,7 +21,7 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json('Отсутствуют обязательные поля', { status: 400 });
 	}
 
-	await db.supportMessage.update({
+	const result = await db.supportMessage.update({
 		where: {
 			id: payload.supportMessageId,
 		},
@@ -35,12 +31,32 @@ export async function POST(request: NextRequest) {
 	});
 
 	try {
-		const htmlContent = `
-            <div>
-                <h3>Ответ от технической поддержки:</h3>
-                <p>${payload.answer}</p>
-            </div>
-        `;
+		const htmlContent = `<html lang="ru">
+					<body style="font-family: Arial, sans-serif; line-height: 1.6; background-color: #f0f0f0; margin: 0; padding: 0;">
+						<table style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+							<tr>
+								<td style="padding: 20px;">
+									<main style="width: 100%;">
+										<h1 style="color: #333333; margin-bottom: 20px;">Ответ на ваше обращение в поддержку</h1>
+										<p style="margin-bottom: 15px;">Здравствуйте, ${profile.name}</p>
+										<p style="margin-bottom: 15px;">Мы получили ваше обращение и подготовили ответ:</p>
+										<div style="background-color: #f9f9f9; border-left: 4px solid #4CAF50; padding: 15px; margin-bottom: 20px;">
+											<h2 style="color: #4CAF50; margin-top: 0;">Тема обращения: ${result.problemName}</h2>
+											<p style="margin-bottom: 10px;"><strong>Описание проблемы:</strong></p>
+											<p style="margin-bottom: 15px;">${result.problemDescription}</p>
+											<p style="margin-bottom: 10px;"><strong>Наш ответ:</strong></p>
+											<p style="margin-bottom: 0;">${result.answer}</p>
+										</div>
+										<p style="margin-bottom: 15px;">Если у вас остались вопросы или вам нужна дополнительная помощь, пожалуйста, не стесняйтесь обращаться к нам снова.</p>
+										<p style="margin-bottom: 15px;">Мы всегда рады помочь!</p>
+										<p style="margin-bottom: 5px;">С уважением,</p>
+										<p style="margin-top: 0;">Команда поддержки МЭШ</p>
+									</main>
+								</td>
+							</tr>
+						</table>
+					</body>
+				</html>`;
 		await transporter.sendMail({
 			...mailOptions,
 			to: payload.profileEmail,
