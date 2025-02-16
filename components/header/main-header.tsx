@@ -1,14 +1,14 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Profile } from '@prisma/client';
 import NotificationButton from '@/components/header/notification-btn';
 import UserButtonMb from '@/components/header/user-button-mb';
 
 export default function MainHeader({ profile }: { profile: Profile }) {
-	const [width, setWidth] = React.useState(0);
+	const [width, setWidth] = useState(0);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const handleResize = () => {
 			setWidth(window.innerWidth);
 		};

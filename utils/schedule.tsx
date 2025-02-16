@@ -110,7 +110,7 @@ const defineEventType = (item: string): string | undefined => {
             return 'Урок / Учебное';
         case 'EXAM':
             return 'Экзамен / Учебное';
-        case 'OTHER':
+        case 'EVENT':
             return 'Другое';
         default:
             return undefined;
@@ -159,7 +159,7 @@ const createLessonComponents = (item: itemProps): lessonComponentsProps[] => {
                             <circle cx="12" cy="10" r="3"/>
                         </svg>
                     ),
-                    description: item.place + '',
+                    description: item.room + '',
                 },
             ],
         },

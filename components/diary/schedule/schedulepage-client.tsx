@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ScheduleDayPicker from '@/components/diary/schedule/day-picker/schedule-day-picker';
 import LessonItem from '@/components/diary/schedule/lesson-item';
 import { fetchSchedule } from '@/lib/fetchSchedule';
@@ -48,7 +48,7 @@ export default function SchedulePageClient() {
             <section className="static left-1/2 right-1/2 3xl:w-[1400px] 2xl:w-[1000px] flex flex-col transition-hwp duration-500 max-lg:w-[95%] ease-in-out">
                 <span className="text-2xl font-bold mb-4 max-sm:hidden">Расписание на {validateDate(selectedDate)}</span>
                 <ScheduleDayPicker onDateChange={handleDateChange} />
-                <div className="min-h-96 h-auto pt-2 space-y-2">
+                <div className="min-h-96 h-auto pt-2 space-y-2 mb-28">
                     {loading && (
                         <div>
                             {[...Array(3)].map((_, index) => ( /* TODO: Refactor */

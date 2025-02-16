@@ -1,5 +1,4 @@
 import { lessonComponentsChild } from '@/types/schedule';
-import * as React from 'react';
 
 export default function LessonSheetAttributes({ child, isTeacher }: { child: lessonComponentsChild; isTeacher: boolean }) {
     return (

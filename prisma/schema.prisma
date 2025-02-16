@@ -19,7 +19,6 @@ model Profile {
   surname            String
   email              String               @unique
   phone              String?
-  password           String
   image              String?
   role               Role                 @default(STUDENT)
   groups             Group[]              @relation("StudentGroups")
@@ -37,7 +36,7 @@ model Profile {
 
 model Group {
   id            String         @id @default(uuid())
-  name          String
+  name          String         @unique
   filial        Filial?        @relation(fields: [filialId], references: [id])
   filialId      String?
   scheduleItems ScheduleItem[]
@@ -56,6 +55,7 @@ model ScheduleItem {
   subject        Subject?         @relation(fields: [subjectId], references: [id])
   subjectId      String?
   type           ScheduleItemType @default(LESSON)
+  name           String
   topic          String?
   startTime      DateTime
   endTime        DateTime

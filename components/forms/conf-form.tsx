@@ -4,7 +4,6 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage
 } from '@/components/ui/form';
 import {
@@ -34,7 +33,7 @@ export default function ConfForm() {
     }
 
     return (
-        <div>
+        <div className="justify-center items-center flex">
             <Form {...DefinedOTPForm}>
                 <form>
                     <div>
@@ -43,7 +42,6 @@ export default function ConfForm() {
                             control={DefinedOTPForm.control}
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Код</FormLabel>
                                     <FormControl>
                                         <InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS} onChange={(value) => {
                                             handleOtpChange(value)

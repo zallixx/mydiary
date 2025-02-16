@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { lessonComponentsProps } from '@/types/schedule';
 
 export default function DrawerItemTitle({ component }: { component: lessonComponentsProps }) {

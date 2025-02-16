@@ -10,22 +10,27 @@ import {
 import SupportMessageFormComponent from '@/components/forms/support-message-form';
 import { useState } from 'react';
 
-export default function SupportModal() {
-	const [isModalOpened, setIsModalOpened] = useState(false);
+export default function SupportModal({ withoutText, open, setOpen }: { withoutText?: boolean; open?: boolean; setOpen?: Function; }) {
+	const [isModalOpened, setIsModalOpened] = useState(open ?? false);
 
 	const handleChange = () => {
-		setIsModalOpened(!isModalOpened);
+		if (open !== undefined) {
+			if (setOpen) {
+				setOpen(!open);
+			}
+		} else {
+			setIsModalOpened(!isModalOpened);
+		}
 	};
 
 	return (
 		<>
-			<span
-				className='cursor-pointer text-blue-500'
-				onClick={handleChange}
-			>
-				написать в поддержку сайта дневника.
-			</span>
-			<Dialog open={isModalOpened} onOpenChange={handleChange}>
+			{!withoutText && (
+				<span className='cursor-pointer text-blue-500' onClick={handleChange}>
+					написать в поддержку сайта дневника.
+				</span>
+			)}
+			<Dialog open={open ?? isModalOpened} onOpenChange={handleChange}>
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>

@@ -4,7 +4,7 @@ import {
     ChevronsUpDown,
     LogOut,
     Settings,
-    User,
+    User
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -13,15 +13,16 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem
 } from '@/components/ui/sidebar';
 import { Profile } from '@prisma/client';
 import { UserAvatar } from '@/components/user-avatar';
+import { logout } from '@/lib/auth/auth';
 
 export function NavUser({ profile }: { profile: Profile }) {
     return (
@@ -68,7 +69,7 @@ export function NavUser({ profile }: { profile: Profile }) {
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer">
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => logout()}>
                             <LogOut />
                             Выйти из аккаунта
                         </DropdownMenuItem>

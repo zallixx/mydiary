@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -11,7 +11,7 @@ import {
     Star
 } from 'lucide-react';
 
-function NavItem({ icon, label, href, active = false }: { icon: React.ReactNode; label: string; href:string; active?: boolean }) {
+function NavItem({ icon, label, href, active = false }: { icon: ReactNode; label: string; href:string; active?: boolean }) {
     return (
         <Link href={href} key={href}>
             <button className="flex flex-col items-center">
@@ -21,7 +21,6 @@ function NavItem({ icon, label, href, active = false }: { icon: React.ReactNode;
         </Link>
     )
 }
-
 
 export default function MainLinks() {
     const pathname = usePathname();

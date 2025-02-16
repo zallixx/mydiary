@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { getTodayString } from '@/utils/schedule';
 import { weekProps } from '@/types/schedule';
 

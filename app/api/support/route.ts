@@ -4,14 +4,10 @@ import { CurrentProfile } from '@/lib/auth/current-profile';
 import { redirect } from 'next/navigation';
 
 export async function POST(request: Request) {
-	if (request.method !== 'POST') {
-		return NextResponse.json('Метод не разрешен', { status: 405 });
-	}
-
 	const { profile } = await CurrentProfile();
 
 	if (!profile) {
-		return redirect('/sign-in');
+		return redirect('/auth');
 	}
 
 	const payload = await request.json();
