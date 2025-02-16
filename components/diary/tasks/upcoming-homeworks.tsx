@@ -3,9 +3,7 @@
 
 import {
     Card,
-    CardContent,
-    CardHeader,
-    CardTitle
+    CardContent
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
@@ -63,30 +61,34 @@ export default function UpcomingHomeworks() {
                 {homeworks.map((day, dayIndex) => {
                     if (!day.items || day.items.length === 0) return null;
                     return (
-                        <Card key={dayIndex} className="mb-4">
-                            <CardHeader>
-                                <CardTitle>{validateDate(day.date)}</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                {day.items.flatMap((item) => item.homework.map((homework: any, index: number) => (
-                                    <div key={index} className="flex items-start space-x-4 p-4 rounded-lg bg-muted">
-                                        <Checkbox
-                                            className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
-                                            checked={homework.completions[0]?.isCompleted} onClick={() => handleUpdateStatus(homework, day.date)}/>
-                                        <div className="flex-1 space-y-1">
-                                            <div className="flex items-center justify-between">
-                                                <label
-                                                    className="font-medium">{item.subject.name}</label>
+                        <div key={dayIndex}>
+                            <div className="mb-2">
+                                <div className="text-lg font-medium text-gray-500">{validateDate(day.date)}</div>
+                            </div>
+                            <div className="space-y-3">
+                                {day.items.flatMap((item) => item.homework.map((homework: any, subindex: number) => (
+                                    <Card key={subindex} className="hover:shadow-md transition-shadow">
+                                        <CardContent className="p-4 flex items-center" onClick={() => prepareOpen(day.date, item)}>
+                                            <div className="flex items-start rounded-lg flex-1 cursor-pointer">
+                                                <Checkbox
+                                                    className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
+                                                    checked={homework.completions[0]?.isCompleted}
+                                                    onClick={(event) => (handleUpdateStatus(homework, day.date) && event.stopPropagation())}/>
+                                                <div className="flex-1 space-y-1">
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="font-medium">{item.subject?.name || item.name}</label>
+                                                    </div>
+                                                    <p className="text-sm text-muted-foreground">{homework.description}</p>
+                                                </div>
                                             </div>
-                                            <p className="text-sm text-muted-foreground">{homework.description}</p>
-                                        </div>
-                                        <Button variant="ghost" size="icon" onClick={() => prepareOpen(day.date, item)}>
-                                            <ChevronRight className="h-4 w-4" />
-                                        </Button>
-                                    </div>
+                                            <Button variant="ghost" size="icon">
+                                                <ChevronRight className="h-4 w-4"/>
+                                            </Button>
+                                        </CardContent>
+                                    </Card>
                                 )))}
-                            </CardContent>
-                        </Card>
+                            </div>
+                        </div>
                     );
                 })}
                 {(homeworks.length === 0) || homeworks.every((day) => !day.items || day.items.length === 0) && (

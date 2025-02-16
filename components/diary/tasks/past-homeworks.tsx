@@ -29,10 +29,10 @@ export default function PastHomeworks() {
             const pastHomeworks = [];
             const endDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
             for (let date = yesterday; date > endDate; date.setDate(date.getDate() - 1)) {
-                const dateString = date.toISOString().slice(0, 10);
+                const dateString = date.toISOString().split('T')[0];
                 const homework = await getFromIndexedDB(dateString);
                 if (homework) {
-                    pastHomeworks.push({ date: new Date(dateString), items: homework.schedule.map((scheduleItem: { homework: any; }) => ({ ...scheduleItem, homework: scheduleItem.homework })) });
+                    pastHomeworks.push({ date: new Date(dateString), items: homework.schedule.map((scheduleItem: { homework: any; }) => ({ ...scheduleItem, homework: scheduleItem.homework })).filter((item) => item.homework.length > 0) });
                 }
             }
             setPastHomeworks(pastHomeworks);
@@ -71,14 +71,14 @@ export default function PastHomeworks() {
                                     {day.items.flatMap((item) => item.homework.map((homework: any, subindex: number) => (
                                         <Card key={subindex} className="hover:shadow-md transition-shadow">
                                             <CardContent className="p-4 flex items-center" onClick={() => prepareOpen(day.date, item)}>
-                                                <div className="flex items-start rounded-lg flex-1">
+                                                <div className="flex items-start rounded-lg flex-1 cursor-pointer">
                                                     <Checkbox
                                                         className={`h-6 w-6 mr-3 ${homework.completions[0]?.isCompleted ? 'bg-green-600 border-0 text-white' : 'text-[#ededf2]'}`}
                                                         checked={homework.completions[0]?.isCompleted}
                                                         onClick={(event) => (handleUpdateStatus(homework, day.date) && event.stopPropagation())}/>
                                                     <div className="flex-1 space-y-1">
                                                         <div className="flex items-center justify-between">
-                                                            <label className="font-medium">{item.subject.name}</label>
+                                                            <label className="font-medium">{item.subject?.name || item.name}</label>
                                                         </div>
                                                         <p className="text-sm text-muted-foreground">{homework.description}</p>
                                                     </div>
