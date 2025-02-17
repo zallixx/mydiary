@@ -40,8 +40,9 @@ export default function SupportMessageFormComponent({
 				onSubmit={DefinedSupportForm.handleSubmit(
 					SupportMessageFormOnSubmit
 				)}
+				className="w-full"
 			>
-				<div>
+				<div className='mb-2'>
 					<FormField
 						name={'city'}
 						control={DefinedSupportForm.control}
@@ -59,7 +60,7 @@ export default function SupportMessageFormComponent({
 						)}
 					/>
 				</div>
-				<div>
+				<div className='mb-2'>
 					<FormField
 						name={'problemName'}
 						control={DefinedSupportForm.control}
@@ -77,7 +78,7 @@ export default function SupportMessageFormComponent({
 						)}
 					/>
 				</div>
-				<div>
+				<div className='mb-2'>
 					<FormField
 						name={'problemDescription'}
 						control={DefinedSupportForm.control}
@@ -97,7 +98,7 @@ export default function SupportMessageFormComponent({
 					/>
 				</div>
 				<Button
-					className='ml-auto mt-3 flex'
+					className='w-full mt-4'
 					type='submit'
 					disabled={
 						DefinedSupportForm.formState.isSubmitSuccessful ||

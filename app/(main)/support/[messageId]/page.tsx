@@ -34,7 +34,7 @@ export default async function SupportMessagePage({
 
 	return (
 		<div className="min-h-screen flex items-start max-2xm:pt-16 2xm:pt-8 justify-center">
-			<section className="static left-1/2 right-1/2 3xl:w-[1400px] 2xl:w-[1000px] flex flex-col transition-hwp duration-500 max-2xl:w-[95%] ease-in-out">
+			<section className="static left-1/2 right-1/2 3xl:w-[1400px] 2xl:w-[1000px] flex flex-col transition duration-500 max-2xl:w-[95%] ease-in-out">
 				<SupportMessageCard SupportMessage={SupportMessage} />
 			</section>
 		</div>

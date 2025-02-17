@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ComponentPropsWithoutRef } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
 import {
@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/sidebar';
 import SupportModal from '@/components/modals/support-modal';
 
-export function NavSecondary({ items, ...props }: { items: { title: string; url: string; icon: LucideIcon }[] } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+export function NavSecondary({ items, ...props }: { items: { title: string; url: string; icon: LucideIcon }[] } & ComponentPropsWithoutRef<typeof SidebarGroup>) {
     const [open, setOpen] = useState(false);
     return (
         <>

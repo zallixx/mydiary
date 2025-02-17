@@ -11,7 +11,7 @@ import {
     Star
 } from 'lucide-react';
 
-const SidebarData = () => {
+const StudentSidebarData = () => {
     return {
         navMain: [
             {
@@ -76,10 +76,6 @@ const SidebarData = () => {
                         title: "Кружки",
                         url: "/diary/school/circles",
                     },
-                    {
-                        title: "Академ. задолженности",
-                        url: "/diary/study/debts",
-                    },
                 ],
             },
         ],
@@ -115,4 +111,75 @@ const SidebarData = () => {
     };
 }
 
-export { SidebarData };
+const TeacherSidebarData = () => {
+    return {
+        navMain: [
+            {
+                title: "Журнал",
+                url: "/journal",
+                icon: LayoutGrid,
+            },
+            {
+                title: "Учеба",
+                url: "/diary/study",
+                icon: GraduationCapIcon,
+                items: [
+                    {
+                        title: "Предметы",
+                        url: "/diary/study/subjects",
+                    },
+                    {
+                        title: "Экзамены",
+                        url: "/diary/study/exams",
+                    },
+                ],
+            },
+            {
+                title: "Школа",
+                url: "/diary/study",
+                icon: School,
+                items: [
+                    {
+                        title: "Посещаемость",
+                        url: "/diary/school/attendance",
+                    },
+                    {
+                        title: "Кружки",
+                        url: "/diary/school/circles",
+                    }
+                ],
+            },
+        ],
+        ourServices: [
+            {
+                name: "Дневник",
+                url: "/diary/schedule",
+                icon: NotebookPen,
+            },
+            {
+                name: "Библиотека",
+                url: "/library",
+                icon: LibraryBig,
+            },
+            {
+                name: "Портфолио",
+                url: "/portfolio",
+                icon: Briefcase,
+            },
+            {
+                name: "Олимпиады",
+                url: "/olympiads",
+                icon: Medal,
+            },
+        ],
+        navSecondary: [
+            {
+                title: "Поддержка",
+                url: "/support",
+                icon: Send,
+            },
+        ],
+    };
+}
+
+export { StudentSidebarData, TeacherSidebarData };

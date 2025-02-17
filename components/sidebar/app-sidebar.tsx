@@ -12,10 +12,11 @@ import {
     SidebarRail
 } from '@/components/ui/sidebar';
 import { Profile } from '@prisma/client';
-import { SidebarData } from '@/utils/sidebar';
+import { StudentSidebarData, TeacherSidebarData } from '@/utils/sidebar';
+import { useState } from 'react';
 
 export function AppSidebar({profile, ...props}: { profile: Profile; } & React.ComponentProps<typeof Sidebar>) {
-    const data = SidebarData();
+    const [data, setData] = useState(profile.role === 'STUDENT' ? StudentSidebarData : TeacherSidebarData);
 
     return (
         <Sidebar collapsible="icon" {...props}>

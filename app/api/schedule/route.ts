@@ -45,6 +45,9 @@ export async function POST(request: Request) {
                     in: groupIds,
                 },
             },
+            orderBy: {
+                startTime: 'asc',
+            },
             select: {
                 teacher: {
                     select: {
@@ -145,7 +148,7 @@ export async function POST(request: Request) {
             const rule = RRule.fromString(scheduleItem.recurrenceRule);
             const ruleWithStart = new RRule({
                 ...rule.options,
-                dtstart: new Date(scheduleItem.startTime),
+                dtstart: new Date(eventDate),
             });
 
             const occurrences = ruleWithStart.between(
@@ -156,7 +159,6 @@ export async function POST(request: Request) {
 
             return occurrences.length > 0;
         }
-
 
         const filteredSchedule = schedule.filter((scheduleItem) => isOccurrenceOnDate(scheduleItem, targetDate));
 

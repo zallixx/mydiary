@@ -12,7 +12,7 @@ export default async function SetupPage() {
 
 	// @ts-ignore
 	if (profile.groups && profile.groups.length > 0) {
-		redirect(`/diary/schedule/`);
+		redirect(profile.role === 'TEACHER' ? '/journal' : '/diary/schedule');
 	}
 
 	return (
