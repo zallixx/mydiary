@@ -24,7 +24,7 @@ import DayButton from '@/components/diary/schedule/day-picker/day-button';
 import ActionButtonsMb from '@/components/diary/schedule/day-picker/action-buttons-mb';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import {Calendar} from '@/components/ui/calendar';
+import { Calendar } from '@/components/ui/calendar';
 import { ru } from 'date-fns/locale';
 
 interface ScheduleDayPickerProps {
@@ -150,7 +150,7 @@ export default function ScheduleDayPicker({onDateChange}: ScheduleDayPickerProps
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button variant="ghost" size="sm" className="bg-white">
-                            Выбрать день
+                            {selectedDay ? new Date(selectedDay).toLocaleString('ru', { month: 'long' }).charAt(0).toUpperCase() + new Date(selectedDay).toLocaleString('ru', { month: 'long' }).slice(1) : ''}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto">
