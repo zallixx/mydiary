@@ -2,7 +2,20 @@
 'use client';
 
 import { itemProps } from '@/types/schedule';
-import { setIndexForGrade, setPropForItem } from '@/utils/schedule';
+import { setIndexForGrade } from '@/utils/schedule';
+
+const setPropForItem = (item: string): string => {
+    switch (item) {
+        case 'UNAUTHORIZED':
+            return 'text-[#dc143c]';
+        case 'SICK':
+            return 'text-[#15b1d4]';
+        case 'Контрольная работа':
+            return 'border border-[#dc143c]';
+        default:
+            return '';
+    }
+};
 
 export default function LessonMarks({item}: {item: itemProps}) {
     return (
@@ -26,7 +39,7 @@ export default function LessonMarks({item}: {item: itemProps}) {
                                     </span>
                                 )}
                             </div>
-                            <div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px]  font-semibold ${setPropForItem(item.absences[0]?.type)}`}>
+                            <div className={`flex items-center justify-center bg-[#f4f4f8] mr-2 rounded-md w-[43px] h-[43px] font-semibold ${setPropForItem(item.absences[0]?.type)}`}>
                                 <span>
                                     Н
                                 </span>
