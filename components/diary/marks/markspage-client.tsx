@@ -18,9 +18,9 @@ export default function MarksPageClient() {
     React.useEffect(() => {
         const fetchAssessments = async () => {
             const today = new Date();
-            const yesterday = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+            const yesterday = new Date(today.getTime() + 60 * 24 * 60 * 60 * 1000);
             const assessments = [];
-            const endDate = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+            const endDate = new Date(today.getTime() - 60 * 24 * 60 * 60 * 1000);
             for (let date = yesterday; date > endDate; date.setDate(date.getDate() - 1)) {
                 const dateString = date.toISOString().split('T')[0];
                 const assessment = await getFromIndexedDB(dateString);
